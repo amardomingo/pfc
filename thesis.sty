@@ -1,0 +1,130 @@
+% Provides 11 math symbols that were originally defined in 
+% LaTeX2.09 but are no longer defined in the New Font Selection
+\usepackage{latexsym}
+
+% Array and tabular environments
+\usepackage{array}
+
+% New column type to center the text and choose the size of the column
+\newcolumntype{x}[1]{>{\centering\hspace{0pt}}m{#1}}
+
+% New command for talularnewline
+\newcommand{\tn}{\tabularnewline}
+
+% Try uncommenting the following line if fonts don't
+% display correctly in the PDF file.
+%\usepackage{pslatex} 
+
+% To use palatino font, uncomment the following line.
+%\usepackage{mathpazo}
+
+% To use times roman font, uncomment the following line.
+%\usepackage{mathptmx}
+% For other fonts, see http://www.tug.org/fonts/
+
+\oddsidemargin = 0.28in
+\evensidemargin = 0in
+\textwidth = 6in
+
+\headheight = 14pt
+%\headsep = 0in
+\topmargin = 0in
+\textheight = 9in
+
+\floatsep = .29in
+%\textfloatsep = \floatsep
+%\intextsep = \floatsep
+
+% To have the references sorted in the order they are cited,
+% (instead of alphabetically), use 'unsrt' instead of 'abbrv'.
+
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+% Space between lines.
+\newcommand{\spacing}{1.3}
+\renewcommand{\baselinestretch}{\spacing}
+
+% Footnotes are to be single spaced.
+\newcommand{\munfootnote}[1]{%
+	\renewcommand{\baselinestretch}{\spacing}%
+	\normalsize
+	\footnote{#1}%
+	\renewcommand{\baselinestretch}{\spacing}%
+	\normalsize
+}
+
+% Lengthy quotes must also be single spaced.
+% We provide a parameter for the citation label too.
+\newenvironment{munquote}[1][]{%
+	\renewcommand{\baselinestretch}{1.0}%
+	\normalsize
+	\def\muncite{#1}
+	\vspace{1.5mm}
+	\begin{quote}\sl``}{''\muncite
+	\end{quote}
+	\renewcommand{\baselinestretch}{\spacing}%
+	\normalsize
+}
+
+% Inserts a JPG file from the figures folder.
+% 
+% Sample usage:
+% \figjpg[scale=0.7]{Name}{Caption}
+\newcommand{\figjpg}[3][scale=1.0]{%
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[#1]{figures/#2.jpg}
+		\caption{#3}
+		\label{fig:#2}
+	\end{figure}
+}
+
+% The 'muntxtfig' environment is used to insert 'textual' figures
+% into our document, such as brief source code snippets.  Usage is:
+%
+%	\begin{muntxtfig}[spacing]{label}{caption}{width}
+%	  text for 'figure'
+%	\end{muntxtfig}
+%
+% where:
+%	- 'spacing' is a number representing the baselinestretch
+%	  (line-spacing) to use for the text figure.  Default is
+%          single-spacing.
+%	- 'label' is the label to be used for referencing.
+%	   The figure can be referenced as Figure~\ref{fig:label}.
+%	- 'caption' is the caption to display below the figure.
+%	- 'width' is the width of the minipage in which the text figure
+%	  is formatted.
+%
+% Sample usage:
+% \begin{muntxtfig}[1.0]{code}{Hello World}{0.5\textwidth}
+%   Some text
+% \end{muntxtfig}
+%
+\newenvironment{muntxtfig}[4][\spacing]{%
+	\begin{figure}[!htbp]
+		\centering
+		\def\muncaption{#3}%
+		\def\munlabel{#2}%
+		\renewcommand{\baselinestretch}{#1}%
+		\normalsize%
+		\begin{minipage}{#4}
+		\hrule \hrule
+		\bigskip
+}{%
+		\hrule \hrule
+		\end{minipage}
+		\renewcommand{\baselinestretch}{\spacing}%
+		\normalsize%
+		\caption{\muncaption}
+		\label{fig:\munlabel}
+	\end{figure}
+}
+
+%
+% For theorems and corollaries.
+%
+\newtheorem{cor}{Corollary}
+\newtheorem{thm}{Theorem}
