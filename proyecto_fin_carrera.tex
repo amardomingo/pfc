@@ -1,0 +1,264 @@
+\synctex=1
+\documentclass[a4paper,11pt,svgnames]{book}
+
+\usepackage[utf8x]{inputenc}
+\usepackage{mathtools}
+\usepackage{thesis}
+\usepackage{calc}
+\setlength{\marginparwidth}{2cm}
+\setlength{\voffset}{-0.25in}
+\setlength{\parskip}{0.1in}
+
+%\includeonly{5-architecture}
+%\includeonly{6-use-case}
+
+%\usepackage{draftwatermark}
+%\SetWatermarkScale{4}
+\usepackage{subfig}
+ \usepackage{listings}
+  \usepackage{courier}
+ \lstset{
+ 		 basicstyle=\footnotesize\ttfamily,
+         numbers=none,               % Ort der Zeilennummern
+         numberstyle=\tiny,          % Stil der Zeilennummern
+         %stepnumber=2,               % Abstand zwischen den Zeilennummern
+         numbersep=5pt,              % Abstand der Nummern zum Text
+         tabsize=2,                  % Groesse von Tabs
+         extendedchars=true,         %
+         breaklines=true,            % Zeilen werden Umgebrochen
+         keywordstyle=\color{red},
+    	 frame=single,         
+ %        keywordstyle=[1]\textbf,    % Stil der Keywords
+ %        keywordstyle=[2]\textbf,    %
+ %        keywordstyle=[3]\textbf,    %
+ %        keywordstyle=[4]\textbf,   \sqrt{\sqrt{}} %
+         stringstyle=\color{white}\ttfamily, % Farbe der String
+         showspaces=false,           % Leerzeichen anzeigen ?
+         showtabs=false,             % Tabs anzeigen ?
+         belowcaptionskip=5pt, 
+         xleftmargin=2em, 
+         xrightmargin=0.8em,
+         %backgroundcolor=\color{lightgray},
+         showstringspaces=false      % Leerzeichen in Strings anzeigen ?        
+ }
+ \lstloadlanguages{% Check Dokumentation for further languages ...
+         %[Visual]Basic
+         %Pascal
+         %C
+         %C++
+         %XML
+         %HP
+         Java
+ }
+    %\DeclareCaptionFont{blue}{\color{blue}} 
+
+  %\captionsetup[lstlisting]{singlelinecheck=false, labelfont={blue}, textfont={blue}}
+  \usepackage{caption}
+%\DeclareCaptionFont{white}{\color{white}}
+%\DeclareCaptionFormat{listing}{\colorbox[HTML]{6DBAFF}{\parbox{\textwidth}{\hspace{5pt}#1#2#3}}}
+
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth-20pt}{#1#2#3}}\vspace{0.01cm}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white}
+
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white, singlelinecheck=false, margin=0pt, font={bf,footnotesize}}
+
+
+\usepackage{url}
+
+%\usepackage[spanish]{babel}
+%\usepackage[T1]{fontenc}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage[usenames,dvipsnames,table]{xcolor}
+\usepackage{verbatim}
+\usepackage[section]{placeins}
+\usepackage{listings}
+%\bibliographystyle{unsrt}
+
+
+\usepackage[pdftex,
+    pdfauthor={Alberto Mardomingo Mardomingo},
+            pdftitle={Design of a personal agent integrated with a Linked Data System},
+            pdfsubject={Master Thesis},
+            pdfkeywords={Semantic, Linked data, RDF, Scrapping, natural language},
+            pdfproducer={PDFTex},
+            colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black,hypertexnames=false]{hyperref}
+
+%\usepackage{longtable}
+\setcounter{secnumdepth}{3}
+
+\usepackage{framed}
+
+%lstlisting
+\usepackage{listings}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+
+\lstdefinestyle{listXML}{language=XML, basicstyle=\ttfamily\diny, extendedchars=true,  belowcaptionskip=5pt,xleftmargin=0.4em, xrightmargin=0.3em, numbers=none, frame=single, breaklines=true, breakatwhitespace=true, breakindent=0pt, emph={}, emphstyle=\color{red}, basicstyle=\small\ttfamily, columns=fullflexible, showstringspaces=false, commentstyle=\color{gray}\upshape,
+morestring=[b]",
+morecomment=[s]{<?}{?>},
+morecomment=[s][\color{orange}]{<!--}{-->},
+keywordstyle=\color{cyan},
+stringstyle=\color{black},
+tagstyle=\color{darkblue},
+morekeywords={xmlns,version,type}
+}
+
+
+
+\lstdefinestyle{mono}{
+   framesep=8px,
+   extendedchars=true,
+   basicstyle=\ttfamily,
+   showstringspaces=false,
+   showspaces=false,
+   tabsize=2,
+   breaklines=true,
+   showtabs=false,
+   xleftmargin=8pt,
+   xrightmargin=8pt
+}
+
+
+\lstdefinestyle{commands}{
+   framesep=8px,
+   extendedchars=true,
+   basicstyle=\ttfamily,
+   showstringspaces=false,
+   showspaces=false,
+   tabsize=2,
+   breaklines=true,
+   showtabs=false,
+   xleftmargin=8pt,
+   xrightmargin=8pt
+}
+
+\lstdefinestyle{consola}
+   {basicstyle=\scriptsize\ttfamily,
+    backgroundcolor=\color{white},
+    frame=lrtb,
+    numbers=none,
+    xleftmargin=4pt,
+    xrightmargin=4pt
+   }
+
+
+\definecolor{chapterdetails}{HTML}{6DBAFF}
+
+% \usepackage[sf,bf]{titlesec}
+% \titleformat{\chapter}[display]
+%   {\normalfont\Large\sffamily\raggedleft}
+%   {\vspace{5cm}\MakeUppercase{\chaptertitlename}%
+%     \rlap{ \resizebox{!}{1.5cm}{\thechapter} \color{chapterdetails}\rule{5cm}{1.5cm}}}
+%   {10pt}{\Huge}[{\color{chapterdetails}\titlerule[0.8mm] }]
+% \titlespacing*{\chapter}{0pt}{30pt}{20pt}
+
+\usepackage[sf,bf]{titlesec}
+\titleformat{\chapter}[display]
+  {\normalfont\Large\sffamily\raggedleft}
+  {\vspace{5cm}\MakeUppercase{\chaptertitlename}%
+    \rlap{ \resizebox{!}{1.5cm}{\thechapter} \color{chapterdetails}\rule{5cm}{1.5cm}}}
+  {10pt}{\Huge}[{\color{chapterdetails}\titlerule[0.8mm] }]
+\titlespacing*{\chapter}{0pt}{30pt}{20pt}
+
+%\titleformat{\section}{\large\sffamily\bfseries}{\thesection}{1em}{}
+
+
+\newenvironment{chapterintro}
+{% This is the begin code
+\large\it
+}
+{% This is the end code
+}
+
+
+% Tick symbols
+\newcommand{\tickYes}{\checkmark}
+\newcommand{\tickNo}{\hspace{1pt}\ding{55}}
+% Fancy header
+\usepackage{fancyhdr}
+%Fancy chapter cover style
+
+
+% Fancy box
+\usepackage{fancybox} 
+\setlength{\fboxrule}{1 pt} \setlength{\fboxsep}{10pt} \setlength{\shadowsize}{3pt}
+
+%Sky color definition
+
+
+\begin{document}
+\newcommand\litem[1]{\item{\bfseries #1 }}
+\renewcommand{\arraystretch}{1.5} %Makes tables less crammed
+
+\newcommand\headcell[1]{%
+  \multicolumn{1}{|c|}{\cellcolor{DodgerBlue}\bfseries\sffamily\textcolor{white}{#1}}
+}
+
+
+%Cuadros por tablas
+%\renewcommand{\listtablename}{Tables Index}
+%\renewcommand{\tablename}{Table} 
+
+% \renewcommand*{\lstlistingname}{List of X}
+
+\pagenumbering{Roman}
+
+\include{0-preamble}
+\include{A-resumen.tex}
+\include{B-abstract.tex}
+\include{C-acknowledgment}
+\include{D-contents}
+
+
+%Header style
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[RO]{\sffamily \slshape \rightmark}
+\fancyhead[LE]{\sffamily \slshape \leftmark}
+%\renewcommand{\footrulewidth}{0.4pt} % grosor de la línea del pie
+\fancyfoot[OR,EL]{\rmfamily \thepage} % texto derecha del pie
+\pagenumbering{arabic}
+
+\include{1-introduction}
+\include{2-stateoftheart}
+\include{3-enablingtechnologies}
+\include{4-requirements}
+\include{5-arquitechture}
+\include{6-prototype}
+\include{7-evaluation}
+\include{8-conclusion}
+
+
+
+\appendix
+\include{Appendix-scrappy}
+\include{Appendix-omr}
+\include{Appendix-omr-admin}
+\include{Appendix-ranking}
+
+\phantomsection
+\addcontentsline{toc}{chapter}{Bibliography}
+\bibliographystyle{ieeetr}
+{
+\small
+\bibliography{biblio/ref}
+}
+\cleardoublepage
+\end{document}
