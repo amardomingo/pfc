@@ -19,43 +19,29 @@
   \usepackage{courier}
  \lstset{
  		 basicstyle=\footnotesize\ttfamily,
-         numbers=none,               % Ort der Zeilennummern
-         numberstyle=\tiny,          % Stil der Zeilennummern
-         %stepnumber=2,               % Abstand zwischen den Zeilennummern
-         numbersep=5pt,              % Abstand der Nummern zum Text
-         tabsize=2,                  % Groesse von Tabs
-         extendedchars=true,         %
-         breaklines=true,            % Zeilen werden Umgebrochen
+         numbers=none,               
+         numberstyle=\tiny,          
+         %stepnumber=2,              
+         numbersep=5pt,              
+         tabsize=2,                  
+         extendedchars=true,         
+         breaklines=true,            
          keywordstyle=\color{red},
-    	 frame=single,         
- %        keywordstyle=[1]\textbf,    % Stil der Keywords
- %        keywordstyle=[2]\textbf,    %
- %        keywordstyle=[3]\textbf,    %
- %        keywordstyle=[4]\textbf,   \sqrt{\sqrt{}} %
-         stringstyle=\color{white}\ttfamily, % Farbe der String
-         showspaces=false,           % Leerzeichen anzeigen ?
-         showtabs=false,             % Tabs anzeigen ?
+      	 frame=single,         
+         stringstyle=\color{white}\ttfamily, 
+         showspaces=false,           
+         showtabs=false,             
          belowcaptionskip=5pt, 
          xleftmargin=2em, 
          xrightmargin=0.8em,
-         %backgroundcolor=\color{lightgray},
-         showstringspaces=false      % Leerzeichen in Strings anzeigen ?        
+         showstringspaces=false 
  }
  \lstloadlanguages{% Check Dokumentation for further languages ...
-         %[Visual]Basic
-         %Pascal
-         %C
-         %C++
-         %XML
-         %HP
+         Python,
          Java
  }
-    %\DeclareCaptionFont{blue}{\color{blue}} 
 
-  %\captionsetup[lstlisting]{singlelinecheck=false, labelfont={blue}, textfont={blue}}
-  \usepackage{caption}
-%\DeclareCaptionFont{white}{\color{white}}
-%\DeclareCaptionFormat{listing}{\colorbox[HTML]{6DBAFF}{\parbox{\textwidth}{\hspace{5pt}#1#2#3}}}
+\usepackage{caption}
 
 \DeclareCaptionFont{white}{\color{white}}
 \DeclareCaptionFormat{listing}{\colorbox{gray}{\parbox{\textwidth-20pt}{#1#2#3}}\vspace{0.01cm}}
@@ -65,32 +51,25 @@
 
 
 \usepackage{url}
-
-%\usepackage[spanish]{babel}
-%\usepackage[T1]{fontenc}
 \usepackage{tabularx}
 \usepackage{graphicx}
 \usepackage[usenames,dvipsnames,table]{xcolor}
 \usepackage{verbatim}
 \usepackage[section]{placeins}
 \usepackage{listings}
-%\bibliographystyle{unsrt}
-
 
 \usepackage[pdftex,
-    pdfauthor={Alberto Mardomingo Mardomingo},
-            pdftitle={Design of a personal agent integrated with a Linked Data System},
+            pdfauthor={Alberto Mardomingo Mardomingo},
+            pdftitle={Design of a personal agent integrated with a Linked Data Indexing System},
             pdfsubject={Master Thesis},
-            pdfkeywords={Semantic, Linked data, RDF, Scrapping, natural language},
+            pdfkeywords={Semantic, Linked Data, RDF, Scrapping, natural language},
             pdfproducer={PDFTex},
             colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black,hypertexnames=false]{hyperref}
 
-%\usepackage{longtable}
 \setcounter{secnumdepth}{3}
 
 \usepackage{framed}
 
-%lstlisting
 \usepackage{listings}
 
 \lstdefinelanguage{JavaScript}{
@@ -161,14 +140,6 @@ morekeywords={xmlns,version,type}
 
 \definecolor{chapterdetails}{HTML}{6DBAFF}
 
-% \usepackage[sf,bf]{titlesec}
-% \titleformat{\chapter}[display]
-%   {\normalfont\Large\sffamily\raggedleft}
-%   {\vspace{5cm}\MakeUppercase{\chaptertitlename}%
-%     \rlap{ \resizebox{!}{1.5cm}{\thechapter} \color{chapterdetails}\rule{5cm}{1.5cm}}}
-%   {10pt}{\Huge}[{\color{chapterdetails}\titlerule[0.8mm] }]
-% \titlespacing*{\chapter}{0pt}{30pt}{20pt}
-
 \usepackage[sf,bf]{titlesec}
 \titleformat{\chapter}[display]
   {\normalfont\Large\sffamily\raggedleft}
@@ -176,9 +147,6 @@ morekeywords={xmlns,version,type}
     \rlap{ \resizebox{!}{1.5cm}{\thechapter} \color{chapterdetails}\rule{5cm}{1.5cm}}}
   {10pt}{\Huge}[{\color{chapterdetails}\titlerule[0.8mm] }]
 \titlespacing*{\chapter}{0pt}{30pt}{20pt}
-
-%\titleformat{\section}{\large\sffamily\bfseries}{\thesection}{1em}{}
-
 
 \newenvironment{chapterintro}
 {% This is the begin code
@@ -210,13 +178,6 @@ morekeywords={xmlns,version,type}
 \newcommand\headcell[1]{%
   \multicolumn{1}{|c|}{\cellcolor{DodgerBlue}\bfseries\sffamily\textcolor{white}{#1}}
 }
-
-
-%Cuadros por tablas
-%\renewcommand{\listtablename}{Tables Index}
-%\renewcommand{\tablename}{Table} 
-
-% \renewcommand*{\lstlistingname}{List of X}
 
 \pagenumbering{Roman}
 

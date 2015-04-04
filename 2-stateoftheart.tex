@@ -3,6 +3,7 @@
 
 \begin{chapterintro}
 
+In this chapter, a brief introduction of the state of the art for conversational agents and Question Answering is presented. Likewise, we will take a short look at some Linked Open Data systems, and the ways to recover data for them.
 
 
 \end{chapterintro}
@@ -11,11 +12,29 @@
 
 \section{Overview}
 
+
+Conversational agents, pressented in section \ref{sec:conv_agents} are systems that allow an user to interact with using natural language, the same way they will interact will another humar being. This is achieved by using engines that analyse the user input, process it, and provide the best possible answer given the knowledge of the system.
+
+Question answering systems work in a similar way, but rather than provide a response in natural language, the present the user the resource where the answer to their question is located, usually by translating the question to a specialised query for a given database.
+
+The aforementioned database is usually a Linked Open Data System. This systems allow the publication of Semantic data, connecting it to the world and making therefore easily accesible and linkable.
+
+Finally, we will study the way of populating the system, using web scrapping techniques in order to recover the information when it is not presented as Linked Open Data.
+
 \section{Conversational Agents}
 \label{sec:conv_agents}
+
+One of the starting points when studying conversational agents is A.L.I.C.E. an free natural language artificial intelligence chat robot that utilizes AIML for creating responses based on the user input to the system. ALICE won the 2000, 2001, and 2004 Loebner prizes, becoming a starting point while developing conversational agents. It makes use of the pattern-matching ability of AIML, with 120.000 patterns that can either trigger a response o redirect the input to another pattern. ALICE was inspired by Eliza, on the first examples of natural language processing using simple patterns, written at MIT by Joseph Weizenbaum between 1964 and 1966.
+
+AIML, or Artificial Intelligence Markup Language, is a widely use XML dialect for creating conversational language. It was developed between 1995 and 2002 by Richard S. Wallace and the free sofware community, and has remained relevant to this date, including the draft for a major upgrade, AIML 2.0, released in the early 2013, and currently being working on.
+
+Along with ALICE, a number of other AIML conversational agents have been presented to the Loebner contest, by different authors, usually getting good results, like Mitsuku, by Steve Worswick, who won the 2013 edition of the contest, and was among the 4 finalists in 2014, three of them using AIML. Another example of an AIML bot is Izar, by Brian Rigsby, who achieved second place in the 2014 contest
+
+The winner of the 2010, 2011 and 2014 contests was Bruce WillCox, using different chatbots, all of them written in ChatScript. Chatscript was pressented in 2010, written in C++, and later released as Open Source. Whilst AIML aims to pattern-match words, ChatScript claims to match in a general meaning basis, focusing on detecting equivalence and paying heavy attention to sets of words and canonical representation, and providing a simple way of storing user data, in a machine readable format.
+
+\section{Question Answering Systems}
+\label{sec:qa_sys}
 
 \section{Linked Data Systems}
 \label{sec:linkd_sys}
 
-\section{Question Answering Systems}
-\label{sec:qa_sys}
