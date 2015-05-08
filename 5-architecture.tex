@@ -21,7 +21,7 @@ As already stated, in this section we will describe the architecture of our syst
  \item Follow up the learning process, and use it to improve the learning experience. 
 \end{enumerate}
 
-In figure \ref{fig:arch1} we show the global architecture of the system, identifying four main modules: Conversational Agent, Teaching Agent, Question Answering and Information Extraction Agent. In the rest of this chapter we will discuss the function of reach module.
+In figure \ref{fig:arch1} we show the global architecture of the system, identifying four main modules: Conversational Agent, Teaching Agent, Question Answering and Information Extraction Agent. In the rest of this section we will discuss the function of reach module.
 
 \color{red}\emph{Añadir info sobre el clasificador?}\color{black}
 
@@ -97,8 +97,8 @@ The classifier will differentiate between the different types of input, and trig
 Our system is ready to handle social chat, which aims to provide a richer experience to the user, encouraging him to keep chatting and having a better learning experience. In this case, a \ac{KB} lookup is not required, and therefore, the process is as stated:
 
 \begin{enumerate}
- \item The user inputs the sentence into the system
- \item The classifier tags the input as chit-chat
+ \item The user inputs the sentence into the system.
+ \item The classifier tags the input as chit-chat.
  \item The input analyzer decides which type of social interaction we are facing, such as a greeting, a identifying question (``Are you the teacher? `` ) or an insult, among others.
  \item The answer generator provides an appropriate response and returns it to the user.
 \end{enumerate}
@@ -114,8 +114,24 @@ This process is shown graphically in Figure \ref{fig:arch2}
 
 \subsection{Question with \ac{KB} lookup}
 
+In this process, the question input into the system does require a lookup in the \ac{KB}, via the \ac{QA} system. The process followed to produce the output will be the following:
 
+\begin{enumerate}
+ \item The user inputs the question into the system.
+ \item The classifier tags the input as an actual question.
+ \item The QA Analyzer process the question and performs a search in the \ac{KB}.
+ \item The QA Analyzer returns the response for the question to the Answer generator.
+ \item The answer generator process the response and returns a natural question, as well as the required \ac{OoB} command with the data.
+\end{enumerate}
 
+Figure \ref{fig:arch3} shows the process graphically.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=\textwidth]{img/arch/FullQuestion.png}
+    \caption{Question with \ac{KB} lookup process}
+    \label{fig:arch3}
+\end{figure}
 
 % 
 % Several things should go here:
