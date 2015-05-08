@@ -86,10 +86,39 @@ An \ac{ITS} is usually implemented as a \ac{MAS} of \ac{BDI} agents. In that cas
 %
 \section{Work process} % Revise this title
 
-In this section we will describe the process a question introduced into the system will follow. % Add UML figure?
+In this section we will describe the process a question introduced into the system will follow. Depending on the user input, the aforementioned process may differ. Here, we will consider two types of user input, the first one being a simple chit chat sentence, that won't require a look up in the \ac{KB}. The other type of input to be considered is an actual question, requiring a lookup in the \ac{KB}.
+
+% Add UML figure?
+
+The classifier will differentiate between the different types of input, and trigger the appropriate processes.
+
+\subsection{Simple sentence}
+
+Our system is ready to handle social chat, which aims to provide a richer experience to the user, encouraging him to keep chatting and having a better learning experience. In this case, a \ac{KB} lookup is not required, and therefore, the process is as stated:
+
+\begin{enumerate}
+ \item The user inputs the sentence into the system
+ \item The classifier tags the input as chit-chat
+ \item The input analyzer decides which type of social interaction we are facing, such as a greeting, a identifying question (``Are you the teacher? `` ) or an insult, among others.
+ \item The answer generator provides an appropriate response and returns it to the user.
+\end{enumerate}
+
+This process is shown graphically in Figure \ref{fig:arch2}
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=\textwidth]{img/arch/SimpleSentence.png}
+    \caption{Simple sentence process}
+    \label{fig:arch2}
+\end{figure}
+
+\subsection{Question with \ac{KB} lookup}
+
+
+
 
 % 
 % Several things should go here:
 %  * A description of how the system will behave when a question is received
-%  * An UML (or several) describing that behaviouor
+%  * An UML (or several) describing that behaviour
 %  * Something about PoS ?
