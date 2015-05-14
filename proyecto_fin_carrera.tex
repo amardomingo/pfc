@@ -58,7 +58,7 @@
 \usepackage{verbatim}
 \usepackage[section]{placeins}
 
-% Define the adronyms
+% Define the acronyms
 \usepackage{acronym}
 
 %acronym
@@ -98,6 +98,7 @@
 \usepackage{framed}
 
 \usepackage{listings}
+\lstset{escapeinside=||}
 
 \lstdefinelanguage{JavaScript}{
   keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
@@ -208,11 +209,11 @@ morekeywords={xmlns,version,type}
 
 \pagenumbering{Roman}
 
-\include{0-preamble}
-\include{A-resumen.tex}
-\include{B-abstract.tex}
-\include{C-acknowledgment}
-\include{D-contents}
+%\include{0-preamble}
+%\include{A-resumen.tex}
+%\include{B-abstract.tex}
+%\include{C-acknowledgment}
+%\include{D-contents}
 
 
 %Header style
@@ -225,11 +226,11 @@ morekeywords={xmlns,version,type}
 \pagenumbering{arabic}
 
 \include{1-introduction}
-\include{2-stateoftheart}
+%\include{2-stateoftheart}
 \include{3-enablingtechnologies}
 \include{4-requirements}
 \include{5-architecture}
-\include{6-prototype} % Split in two part, the first one for architecture, the second in evaluation
+\include{6-prototype} % Split in two part, the first one for architecture, the second in evaluation ? Or not...
 \include{7-evaluation}
 \include{8-conclusion}
 
