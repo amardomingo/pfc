@@ -50,13 +50,13 @@ The function of this module is returning the answer to the user, formed as JSON,
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.6\textwidth]{img/prot/activityDiagram.png} % TODO: change this image for an actual UML diagram
+    \includegraphics[width=0.6\textwidth]{img/prot/activityDiagram.png} 
     \caption{UML diagram of the process followed by the controller.}
     \label{fig:fe-model1}
 \end{figure}
 
 \begin{itemize}
- \item \textbf{Request parsing:} The client sends the query as JSON using a HTTP request to the fron-end controller. This JSON is recovered and processed into a python dictionary.
+ \item \textbf{Request parsing:} The client sends the query as JSON using a HTTP request to the front-end controller. This JSON is recovered and processed into a python dictionary.
  \item \textbf{Send to ChatBot:} The user query is sent to the ChatBot so it's processes and a response, either \ac{NL} or \ac{OoB}, is generated.
  \item \textbf{Split \ac{NL} response and \ac{OoB} commands} The response in the previous step is split in \ac{NL} and {OoB} commands, to process each one appropriately.
  \item \textbf{\ac{OoB} command processing:} Read the \ac{OoB} commands and take the appropriate steps for each one of them.
@@ -68,13 +68,66 @@ The function of this module is returning the answer to the user, formed as JSON,
 
 \subsubsection{Structural Model}
 
-% Add functions in the askbot.py file and explain how they work
+In this section we will describe the structure followed designing the front end controller. In figure \ref{fig:fe-methods1} we show the method structure of the controller.
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.4\textwidth]{img/prot/controllerStructure.png}
+    \caption{Front end controller structure}
+    \label{fig:fe-methods1}
+\end{figure}
+
+Now we will proceed to describe each of the methods shown in the figure.
+
+\begin{itemize}
+  \item \textbf{rootURL()} will be triggered whenever the base URL for the controller is requested. It will act in the same way than the qa() method.
+  \item \textbf{qa()} this function will recover the request parameters, shown in table \ref{tab:fe-qparams}, and start the process to understand the user query, in order to return the appropriate response, whose parameters are shown on table \ref{tab:fe-rparams}.
+  \item \textbf{runQuestion()} in this function, we will simply run the question once throught ChatScript, and then start the main command processing.
+  \item \textbf{runCommands()} Given the \ac{NL} response from ChatScript, it will split the \ac{OoB} commands and start processing each one of them, as well as their responses, adding commands to the queue as needed.
+  \item \textbf{processSolr()} For the solr command, this method will construct the solr query, and keep sending it to Solr increasing its fuzziness level, until an answer is found, or a maximum fuzziness is reached, in which case it will return the empty solr response.
+  \item \textbf{splitCommands()} Taking a \ac{NL} sentence as a parameter, this method will return both a list with all the \ac{OoB} commands in the sentence, as well as the \ac{NL} part of the sentence, or an empty string if the sentence was made only of \ac{OoB} commands. 
+  \item \textbf{processGambit()} when a direct search does not return any answer, the system will perform a broader search in Solr. This is further explained in section \ref{sec:solr}.
+  \item \textbf{sendChatScript()} This function will process the interaction with ChatScript, both sending the questions and handling the responses. For more details, see section \ref{sec:chatbot}.
+  \item \textbf{sendSolrDefault()} Given a question and no other parameters or information, this function will send said question to Solr, so it will go through the default processing. This is mainly unused.
+  \item \textbf{sendSolrEDisMax()} When a gambit is needed, send the question to Solr using an eDisMax query, which will search in different fields, valuing each field using a given weight. 
+  \item \textbf{sendSolr()} Used by the rest of the Solr related methods, this function will handle sending the payload given as parameter to Solr, and returning the JSON response.
+\end{itemize}
+
+% TODO: change for tables
+\begin{center}
+  \begin{table}
+    \begin{tabular*}{0.7\textwidth}{@{\extracolsep{\fill}} | c | c | p{0.5\textwidth} |}
+      \hhline{|-|-|-|}
+      \textbf{Parameter} & \textbf{Name} & \textbf{Description} \\ \hhline{|=|=|=|}
+      question & User's question & The question submitted by the user. \\ \hhline{|-|-|-|}
+      bot & Bot & The bot the query will be send to. \\ \hhline{|-|-|-|}
+      username & The user & A random identifier for the user communicating with the bot. \\ \hhline{|-|-|-|}
+      \end{tabular*}
+    \caption{Parameters in the query received by the front end controller.}
+    \label{tab:fe-qparams}
+  \end{table}
+\end{center}
+
+\begin{center}
+  \begin{table}
+    \begin{tabular*}{0.7\textwidth}{@{\extracolsep{\fill}} | c | c | p{0.5\textwidth} |}
+      \hhline{|-|-|-|}
+      \textbf{Parameter} & \textbf{Name} & \textbf{Description} \\ \hhline{|=|=|=|}
+      Answer & The Bot's response & The \ac{NL} response generated by the bot. \\ \hhline{|-|-|-|}
+      Resource & An URL & The url of the relevant document where the information is, if existent. \\ \hhline{|-|-|-|}
+      \end{tabular*}
+    \caption{Parameters in the query sent back to the client.}
+    \label{tab:fe-rparams}
+  \end{table}
+\end{center}
+
 
 \subsection{ChatBot}
+\label{sec:chatbot}
 
 % Explain how chatscript works.
 
 \subsection{Solr instance}
+\label{sec:solr}
 
 % Solr - add the relevant schema portions and how they work.
 
