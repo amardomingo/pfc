@@ -129,6 +129,7 @@ Finally, we will describe the \ac{OoB} commands that the system will be able to 
  \item \textbf{¬solrLinksResponse} as a response to the solrLinks command, returns a list with the related topics.
  \item \textbf{¬gambit} perform an eDisMax search in Solr, using the full user question.
  \item \textbf{¬gambitResponse} returns the title of the most relevant document found in the eDisMax search.
+ \item \textbf{¬gambitUnknown} issued when no document with a high enough score is found in Solr.
  \item \textbf{¬resource} sets the url to be displayed in the final response returned to the client.
  \item \textbf{¬label} sets the title of the found document as the label for the response.
 \end{itemize}
@@ -137,12 +138,19 @@ The syntaxes of the commands is specified in table \ref{tab:oob-commands}.
 \begin{center}
   \centering
   \begin{table}
-    \begin{tabular*}{0.7\textwidth}{@{\extracolsep{\fill}} | c | c | p{0.5\textwidth} |}
+    \begin{tabular*}{0.7\textwidth}{@{\extracolsep{\fill}} | c | c | p{0.35\textwidth} |}
       \hhline{|-|-|-|}
       \textbf{Command} & \textbf{Syntaxes} & \textbf{Description} \\ \hhline{|=|=|=|}
       ¬sendSolr & ¬sendSolr \textit{reqfield} \textit{doctitle} & Searchs in solr for the \textit{doctitle} and returns the \textit{reqfield} field.  \\ \hhline{|-|-|-|}
       \multirow{2}{*}{¬solrResponse} & ¬solrResponse \textit{unknown} & The requested document was not found in Solr. \\ \cline{2-3}
 				     & ¬solrResponse \textit{reqfield} \textit{response} & Returns as \textit{response} the data of the field \textit{reqfield}. \\ \hhline{|-|-|-|}
+      ¬solrLinks & ¬solrLinks \textit{linklist} & Asks for a search in Solr for the name of the topics given as an uri in the linklist \\ \hhline{|-|-|-|}
+      ¬solrLinksResponse & ¬solrLinksResponse \textit{nameslist} & Sets the response for the ¬solrLinks command, returning the first name of the links. \\ \hhline{|-|-|-|}
+      ¬gambit & ¬gambit \textit{topic}& Asks for a eDisMax search on Solr, passing the full question. \\ \hhline{|-|-|-|}
+      ¬gambitResponse & ¬gambitResponse \textit{gambittopic} & After performing an eDisMax search, returns \textit{gambittopic} as the suggested topic. \\ \hhline{|-|-|-|}
+      ¬gambitUnknown & ¬gambitUnknown & After performing an eDisMax search, indicates that no relevant document has been found. \\ \hhline{|-|-|-|}
+      ¬resource & ¬resource \textit{URL} & Sets \textit{URL} as the resource to be displayed in the client \\ \hhline{|-|-|-|}
+      ¬label & ¬label \textit{topic} & Sets \textit{topic} as the concept of the response \\ \hhline{|-|-|-|}
       \end{tabular*}
     \caption{Parameters in the query sent back to the client.}
     \label{tab:oob-commands}
