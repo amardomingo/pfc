@@ -42,7 +42,7 @@ The client is made using web technologies: HTML, CSS and Javascript, and uses Aj
 
 \subsection{Front end controller}
 
-The Front end controller is the main control module in our system. It handles the requests received from the client described in \ref{sec:chatclient}, and proceeds to triggers the required modules, as well as executing the \ac{OoB} commands received from each module. This module is provided as a web service, and therefore we have chosen Flask~\cite{flask0101} and Apache's mod\_wsgi~\cite{modwsgi} to deploy it. In the following subsections we will describe how it works as well as its workflow structure.
+The Front end controller is the main control module in our system. It handles the requests received from the client described in \ref{sec:chatclient}, and proceeds to triggers the required modules, as well as executing the \ac{OoB} commands received from each module. This module is provided as a web service, and therefore we have chosen Flask~\cite{flask0101} and Apache's mod\_wsgi~\cite{modwsgi} to deploy it. In the following subsections we will describe how it works as well as its work-flow structure.
 
 \subsubsection{Functional Model}
 
@@ -159,6 +159,12 @@ The syntaxes of the commands is specified in table \ref{tab:oob-commands}.
 
 \subsection{ChatBot}
 \label{sec:chatbot}
+
+The ChatBot handles the processing of the natural language input from the user, and controls the conversation. To do so, it uses the chat engine ChatScript, described in section \ref{subsec:chatscript}.
+
+\subsubsection{The rules}
+
+\subsubsection{Using spanish dictionaries}
 
 % Explain how chatscript works.
 
