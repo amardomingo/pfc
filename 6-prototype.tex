@@ -38,7 +38,9 @@ The client is made using web technologies: HTML, CSS and Javascript, and uses Aj
 
 \emph{Add example of JSON request}
 
-\lstinputlisting[language=JavaScript, firstline=77, lastline=88]{code/prot/ask.js}
+\begin{center}
+  \lstinputlisting[language=JavaScript, caption=Ajax performing the request to the controller, firstline=77, lastline=88]{code/prot/ask.js}
+\end{center}
 
 \subsection{Front end controller}
 \label{sec:frontendcon}
@@ -174,6 +176,8 @@ Chatscript responds to a series of rules, specified in its topic files. This rul
 
 In this section we will describe how the Solr instance is set up, as well as the schema and the search procedure. We are using Apache Solr 4.10.2 as a document and search engine. The search queries will be send by the controller described in section \ref{sec:frontendcon}. The server will contain the data recovered from the vademecum, structured in documents (one for each topic), and will allow us to perform the required searches. We will first describe the schema for the aforementioned documents, 
 
+% Add the API rest for solr here?
+
 % Add the relevant info from the sorlconfig here?
 
 % Solr - add the relevant schema portions and how they work.
@@ -190,8 +194,9 @@ The scrapped data is stored using a Solr core containing every relevant document
 \end{itemize}
 
 The xml for this fields is as in listing \ref{listing:solr-schema1}
-\lstinputlisting[language=JavaScript, firstline=125, lastline=148]{code/prot/schema.xml}
-\label{listing:solr-schema1}
+\begin{center}
+  \lstinputlisting[language=JavaScript, captionpos=b, caption=fields defined for the java documents in the schema, label=listing:solr-schema1, firstline=125, lastline=148]{code/prot/schema.xml}
+\end{center}
 
 \begin{center}
   \centering
@@ -209,7 +214,7 @@ The xml for this fields is as in listing \ref{listing:solr-schema1}
       links & text\_ws & Related documents to this one. \\ \hhline{|-|-|-|}
       examples & text\_general & The scrapped text of the examples. \\ \hhline{|-|-|-|}
       \end{tabular*}
-    \caption{Fields for the documents stored in the solr schema.}
+    \caption{Fields for the documents stored in the Solr schema.}
     \label{tab:schema-docfields}
     \end{center}
   \end{table}
@@ -220,25 +225,55 @@ As shown in the table, the fields have a ``field type'' associated, that will de
 \begin{itemize}
  \item \textbf{ string } This field is a default Solr field, and stored verbatim using the solr.StrField class.
  \item \textbf{ text\_general } A default Solr field, using the sorl.TextField class.
- \item \textbf{ lowercase } A variation on the default lowercase fieldType by solr, it used the default keyword tokenizer and the lowercase filter, and we have added the ASCIIFolding filter.
- \item \textbf{ text\_search\_es } Based on solr spanish fields, this field will contain general search to perform a search. It uses a standard tokenizer, as well as the following filters:
+ \item \textbf{ lowercase } A variation on the default lowercase fieldType by Solr, it used the default keyword tokenizer and the lowercase filter, and we have added the ASCIIFolding filter.
+ \item \textbf{ text\_search\_es } Based on Solr Spanish fields, this field will contain general search to perform a search. It uses a standard tokenizer, as well as the following filters:
  \begin{itemize}
   \item Lowercase filter: converts all words to lowercase 
-  \item Stopfilter factory using spanish stopwords and the snoball stemming algorithm
-  \item Spanish light stem filter, a default solr stemmer for spanish.
+  \item Stopfilter factory using Spanish stopwords and the snoball stemming algorithm
+  \item Spanish light stem filter, a default solr stemmer for Spanish.
   \item Only for the query processing, a worddelimiter filter to do the QA.
  \end{itemize}
 \end{itemize}
 
 The listing \ref{listing:solr-schema2} shows the description of the text\_search\_es fieldType.
-\lstinputlisting[language=JavaScript, firstline=542, lastline=567]{code/prot/schema.xml}
-\label{listing:solr-schema2}
+
+\begin{center}
+  \lstinputlisting[language=JavaScript, captionpos=b, caption=Definition for the text\_search\_es fieldType, label=listing:solr-schema2, firstline=542, lastline=567]{code/prot/schema.xml}
+\end{center}
+
+With this configuration we will be able to do the queries described in the following sections.
+
+% Add something about the solr config?
 
 \subsubsection{Faceted query}
 % Maybe change the title?
 
+In the event that ChatScript identifies the question and the topic the user is asking for, we will perform a faceted search in Solr, looking for the fields requested in the \ac{OoB} command. The query will be done in json format. An example of a query is shown in listing \ref{listing:solrquery1}, and the meaning of each field is described next:
+
+\begin{center} 
+  \begin{lstlisting}[language=json, caption=Example json query for Solr, label=listing:solrquery1]
+    {
+      "q" : "title:for~0",
+      "wt" : "json",
+      "fl" : "*,score",
+      "rows" : "1"
+    }  
+  \end{lstlisting}
+\end{center}
+
+\begin{itemize}
+ \item \textbf{q} contains the actual query sent to the server, specifying the fields we are looking for, as well as the expected filter for the query and the fuzziness. In the example, we are searching for documents containing the given string in the title, with a fuzziness of 0 (an exact match).
+ \item \textbf{bf} the format the data will be returned in. In the example, we want the data in json format.
+ \item \textbf{fl} the list of fields we want for the documents in the response. In the example, this is set to all the fields in the document, specified in the query as a wild card ``*'', as well as the score for the match.
+ \item \textbf{rows} the number of documents to return.
+\end{itemize}
+
+With this search, we will try to look up the documents when the ChatScript module clearly identifies the topic the user is asking about, and, properly defining the returning fields for the search, the controller will show the relevant data. In case the question is not clearly identified, but ChatScript recognizes the user is talking about some java topic, this query won't be valid, and we will have to perform an eDisMax query, described in the next section.
+
 \subsubsection{Gambit query}
+\label{subsec:solrgambit}
 % Explain the process to run the eDisMax query
+
 
 \section{Use cases}
 

@@ -102,6 +102,11 @@
 \usepackage{listings}
 \lstset{escapeinside=||}
 
+\newcommand\JSONstringvaluestyle{\color{red}}
+
+% switch used as state variable
+\newif\ifcolonfoundonthisline
+
 \lstdefinelanguage{JavaScript}{
   keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
   keywordstyle=\color{blue}\bfseries,
@@ -113,8 +118,23 @@
   morecomment=[s]{/*}{*/},
   commentstyle=\color{purple}\ttfamily,
   stringstyle=\color{red}\ttfamily,
+  captionpos=b,
   morestring=[b]',
   morestring=[b]"
+}
+
+
+\lstdefinelanguage{json}{
+  showstringspaces    = false,
+  keywords            = {false,true,q,rows,wt,fl},
+  alsoletter          = 0123456789.,
+  morestring          = [s]{"}{"},
+  stringstyle         = \ifcolonfoundonthisline\JSONstringvaluestyle\fi,
+  MoreSelectCharTable =%
+    \lst@DefSaveDef{`:}\colon@json{\processColon@json},
+  basicstyle          = \ttfamily,
+  keywordstyle        = \ttfamily\bfseries,
+  captionpos	      = b
 }
 
 \definecolor{darkblue}{rgb}{0.0,0.0,0.6}
