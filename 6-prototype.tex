@@ -41,7 +41,7 @@ The client is made using web technologies: HTML, CSS and Javascript, and uses Aj
 \lstinputlisting[language=JavaScript, firstline=77, lastline=88]{code/prot/ask.js}
 
 \subsection{Front end controller}
-
+\label{sec:frontendcon}
 The Front end controller is the main control module in our system. It handles the requests received from the client described in \ref{sec:chatclient}, and proceeds to triggers the required modules, as well as executing the \ac{OoB} commands received from each module. This module is provided as a web service, and therefore we have chosen Flask~\cite{flask0101} and Apache's mod\_wsgi~\cite{modwsgi} to deploy it. In the following subsections we will describe how it works as well as its work-flow structure.
 
 \subsubsection{Functional Model}
@@ -92,7 +92,6 @@ Now we will proceed to describe each of the methods shown in the figure.
   \item \textbf{sendSolr()} Used by the rest of the Solr related methods, this function will handle sending the payload given as parameter to Solr, and returning the JSON response.
 \end{itemize}
 
-% TODO: change for tables
 \begin{center}
   \begin{table}
     \begin{tabular*}{0.7\textwidth}{@{\extracolsep{\fill}} | c | c | p{0.5\textwidth} |}
@@ -164,14 +163,82 @@ The ChatBot handles the processing of the natural language input from the user, 
 
 \subsubsection{The rules}
 
-\subsubsection{Using spanish dictionaries}
+Chatscript responds to a series of rules, specified in its topic files. This rules will match the user input and produce an appropriate response, or output a rejoinder if no rule is matched.
+
+\subsubsection{Using Spanish dictionaries}
 
 % Explain how chatscript works.
 
 \subsection{Solr instance}
 \label{sec:solr}
 
+In this section we will describe how the Solr instance is set up, as well as the schema and the search procedure. We are using Apache Solr 4.10.2 as a document and search engine. The search queries will be send by the controller described in section \ref{sec:frontendcon}. The server will contain the data recovered from the vademecum, structured in documents (one for each topic), and will allow us to perform the required searches. We will first describe the schema for the aforementioned documents, 
+
+% Add the relevant info from the sorlconfig here?
+
 % Solr - add the relevant schema portions and how they work.
+
+% Add somewhere how we are parsing the documents into json data.
+\subsubsection{Data schema}
+
+The scrapped data is stored using a Solr core containing every relevant document. This is done by describing the structure of said documents in the schema.xml for Solr. In this file, we can consider three main groups of fields:
+
+\begin{itemize}
+ \item \textbf{Stock solr fields: } This fields are internal for solr, and we will not describe them here.
+ \item \textbf{Document fields: } the fields scrapped from the Vademecum, they are described in table \ref{tab:schema-docfields}.
+ \item \textbf{titleDefinition field: } this fields is generated concatenating the definition and title fields, to facilitate general search.
+\end{itemize}
+
+The xml for this fields is as in listing \ref{listing:solr-schema1}
+\lstinputlisting[language=JavaScript, firstline=125, lastline=148]{code/prot/schema.xml}
+\label{listing:solr-schema1}
+
+\begin{center}
+  \centering
+  \begin{table}
+  \begin{center}
+    \begin{tabular*}{0.655\textwidth}{@{\extracolsep{\fill}} | c | c | p{0.3\textwidth} |}
+      \hhline{|-|-|-|}
+      \textbf{Field} & \textbf{Field Type} & \textbf{Description} \\ \hhline{|=|=|=|}
+      title & text\_search\_es & The title of this particular document.  \\ \hhline{|-|-|-|}
+      alternative & lowercase & If exists, the English name for the document. \\ \hhline{|-|-|-|}
+      concept & lowercase & What concept does this document refers to. \\ \hhline{|-|-|-|}
+      resource & string & The link for this document. \\ \hhline{|-|-|-|}
+      definition & text\_search\_es & The first sentence of the document. \\ \hhline{|-|-|-|}
+      description & text\_search\_es & The text of the document. \\ \hhline{|-|-|-|}
+      links & text\_ws & Related documents to this one. \\ \hhline{|-|-|-|}
+      examples & text\_general & The scrapped text of the examples. \\ \hhline{|-|-|-|}
+      \end{tabular*}
+    \caption{Fields for the documents stored in the solr schema.}
+    \label{tab:schema-docfields}
+    \end{center}
+  \end{table}
+\end{center}
+
+As shown in the table, the fields have a ``field type'' associated, that will determine how they are stored and how they are tokenized and processed when performing the indexing and the search. The fieldTypes we are using are as follow:
+
+\begin{itemize}
+ \item \textbf{ string } This field is a default Solr field, and stored verbatim using the solr.StrField class.
+ \item \textbf{ text\_general } A default Solr field, using the sorl.TextField class.
+ \item \textbf{ lowercase } A variation on the default lowercase fieldType by solr, it used the default keyword tokenizer and the lowercase filter, and we have added the ASCIIFolding filter.
+ \item \textbf{ text\_search\_es } Based on solr spanish fields, this field will contain general search to perform a search. It uses a standard tokenizer, as well as the following filters:
+ \begin{itemize}
+  \item Lowercase filter: converts all words to lowercase 
+  \item Stopfilter factory using spanish stopwords and the snoball stemming algorithm
+  \item Spanish light stem filter, a default solr stemmer for spanish.
+  \item Only for the query processing, a worddelimiter filter to do the QA.
+ \end{itemize}
+\end{itemize}
+
+The listing \ref{listing:solr-schema2} shows the description of the text\_search\_es fieldType.
+\lstinputlisting[language=JavaScript, firstline=542, lastline=567]{code/prot/schema.xml}
+\label{listing:solr-schema2}
+
+\subsubsection{Faceted query}
+% Maybe change the title?
+
+\subsubsection{Gambit query}
+% Explain the process to run the eDisMax query
 
 \section{Use cases}
 
