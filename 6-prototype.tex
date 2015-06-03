@@ -34,12 +34,12 @@ In our prototype, the interaction with the system is done via a web client that 
     \label{fig:chat1}
 \end{figure}
 
-The client is made using web technologies: HTML, CSS and Javascript, and uses Ajax to communicate with the server sending the user questions and handling the response.
+The client is made using web technologies: HTML, CSS and Javascript, and uses Ajax to communicate with the server sending the user questions and handling the response, waiting for the user to send a question and then making the request to the server, as shown in listing \ref{listing:formclient}.
 
 \emph{Add example of JSON request}
 
 \begin{center}
-  \lstinputlisting[language=JavaScript, caption=Ajax performing the request to the controller, firstline=77, lastline=88]{code/prot/ask.js}
+  \lstinputlisting[language=JavaScript, caption=Ajax performing the request to the controller, label=listing:formclient, firstline=77, lastline=88]{code/prot/ask.js}
 \end{center}
 
 \subsection{Front end controller}
@@ -52,7 +52,7 @@ The function of this module is returning the answer to the user, formed as JSON,
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.6\textwidth]{img/prot/activityDiagram.png} 
+    \includegraphics[width=0.8\textwidth]{img/prot/activityDiagram.png} 
     \caption{UML diagram of the process followed by the controller.}
     \label{fig:fe-model1}
 \end{figure}
@@ -90,7 +90,7 @@ Now we will proceed to describe each of the methods shown in the figure.
   \item \textbf{processGambit()} when a direct search does not return any answer, the system will perform a broader search in Solr. This is further explained in section \ref{sec:solr}.
   \item \textbf{sendChatScript()} This function will process the interaction with ChatScript, both sending the questions and handling the responses. For more details, see section \ref{sec:chatbot}.
   \item \textbf{sendSolrDefault()} Given a question and no other parameters or information, this function will send said question to Solr, so it will go through the default processing. This is mainly unused.
-  \item \textbf{sendSolrEDisMax()} When a gambit is needed, send the question to Solr using an eDisMax query, which will search in different fields, valuing each field using a given weight. 
+  \item \textbf{sendSolrEDisMax()} When a gambit is needed, send the question to Solr using an \ac{eDisMax} query, which will search in different fields, valuing each field using a given weight. 
   \item \textbf{sendSolr()} Used by the rest of the Solr related methods, this function will handle sending the payload given as parameter to Solr, and returning the JSON response.
 \end{itemize}
 
@@ -128,8 +128,8 @@ Finally, we will describe the \ac{OoB} commands that the system will be able to 
  \item \textbf{¬solrResponse} after a search is performed in Solr, this command is issued to indicate whether or not a response has been found, and returning said response.
  \item \textbf{¬solrLinks} a special Solr search, looking for related topics in Solr.
  \item \textbf{¬solrLinksResponse} as a response to the solrLinks command, returns a list with the related topics.
- \item \textbf{¬gambit} perform an eDisMax search in Solr, using the full user question.
- \item \textbf{¬gambitResponse} returns the title of the most relevant document found in the eDisMax search.
+ \item \textbf{¬gambit} perform an \ac{eDisMax} search in Solr, using the full user question.
+ \item \textbf{¬gambitResponse} returns the title of the most relevant document found in the \ac{eDisMax} search.
  \item \textbf{¬gambitUnknown} issued when no document with a high enough score is found in Solr.
  \item \textbf{¬resource} sets the url to be displayed in the final response returned to the client.
  \item \textbf{¬label} sets the title of the found document as the label for the response.
@@ -147,9 +147,9 @@ The syntaxes of the commands is specified in table \ref{tab:oob-commands}.
 				     & ¬solrResponse \textit{reqfield} \textit{response} & Returns as \textit{response} the data of the field \textit{reqfield}. \\ \hhline{|-|-|-|}
       ¬solrLinks & ¬solrLinks \textit{linklist} & Asks for a search in Solr for the name of the topics given as an uri in the linklist \\ \hhline{|-|-|-|}
       ¬solrLinksResponse & ¬solrLinksResponse \textit{nameslist} & Sets the response for the ¬solrLinks command, returning the first name of the links. \\ \hhline{|-|-|-|}
-      ¬gambit & ¬gambit \textit{topic}& Asks for a eDisMax search on Solr, passing the full question. \\ \hhline{|-|-|-|}
-      ¬gambitResponse & ¬gambitResponse \textit{gambittopic} & After performing an eDisMax search, returns \textit{gambittopic} as the suggested topic. \\ \hhline{|-|-|-|}
-      ¬gambitUnknown & ¬gambitUnknown & After performing an eDisMax search, indicates that no relevant document has been found. \\ \hhline{|-|-|-|}
+      ¬gambit & ¬gambit \textit{topic}& Asks for a \ac{eDisMax} search on Solr, passing the full question. \\ \hhline{|-|-|-|}
+      ¬gambitResponse & ¬gambitResponse \textit{gambittopic} & After performing an \ac{eDisMax} search, returns \textit{gambittopic} as the suggested topic. \\ \hhline{|-|-|-|}
+      ¬gambitUnknown & ¬gambitUnknown & After performing an \ac{eDisMax} search, indicates that no relevant document has been found. \\ \hhline{|-|-|-|}
       ¬resource & ¬resource \textit{URL} & Sets \textit{URL} as the resource to be displayed in the client \\ \hhline{|-|-|-|}
       ¬label & ¬label \textit{topic} & Sets \textit{topic} as the concept of the response \\ \hhline{|-|-|-|}
       \end{tabular*}
@@ -171,6 +171,8 @@ Chatscript responds to a series of rules, specified in its topic files. This rul
 
 % Explain how chatscript works.
 
+\emph{\textcolor{red}{It doesn't look viable to have spanish dicts in a timely manner.}}
+
 \subsection{Solr instance}
 \label{sec:solr}
 
@@ -184,13 +186,15 @@ In this section we will describe how the Solr instance is set up, as well as the
 
 % Add somewhere how we are parsing the documents into json data.
 \subsubsection{Data schema}
+\label{subsec:solrschema}
 
 The scrapped data is stored using a Solr core containing every relevant document. This is done by describing the structure of said documents in the schema.xml for Solr. In this file, we can consider three main groups of fields:
 
 \begin{itemize}
  \item \textbf{Stock solr fields: } This fields are internal for solr, and we will not describe them here.
  \item \textbf{Document fields: } the fields scrapped from the Vademecum, they are described in table \ref{tab:schema-docfields}.
- \item \textbf{titleDefinition field: } this fields is generated concatenating the definition and title fields, to facilitate general search.
+ \item \textbf{titleDefinition field: } this fields is generated concatenating the definition and title fields, to facilitate general search. \emph{\textcolor{red}{Describe the copy process?}}
+
 \end{itemize}
 
 The xml for this fields is as in listing \ref{listing:solr-schema1}
@@ -226,7 +230,7 @@ As shown in the table, the fields have a ``field type'' associated, that will de
  \item \textbf{ string } This field is a default Solr field, and stored verbatim using the solr.StrField class.
  \item \textbf{ text\_general } A default Solr field, using the sorl.TextField class.
  \item \textbf{ lowercase } A variation on the default lowercase fieldType by Solr, it used the default keyword tokenizer and the lowercase filter, and we have added the ASCIIFolding filter.
- \item \textbf{ text\_search\_es } Based on Solr Spanish fields, this field will contain general search to perform a search. It uses a standard tokenizer, as well as the following filters:
+ \item \textbf{ text\_search\_es } Based on Solr's Spanish fields, this field will contain general texr to perform a search. It uses a standard tokenizer, as well as the following filters:
  \begin{itemize}
   \item Lowercase filter: converts all words to lowercase 
   \item Stopfilter factory using Spanish stopwords and the snoball stemming algorithm
@@ -252,12 +256,12 @@ In the event that ChatScript identifies the question and the topic the user is a
 
 \begin{center} 
   \begin{lstlisting}[language=json, caption=Example json query for Solr, label=listing:solrquery1]
-    {
-      "q" : "title:for~0",
-      "wt" : "json",
-      "fl" : "*,score",
-      "rows" : "1"
-    }  
+   {
+     "q" : "title:for~0",
+     "wt" : "json",
+     "fl" : "*,score",
+     "rows" : "1"
+   }  
   \end{lstlisting}
 \end{center}
 
@@ -268,11 +272,47 @@ In the event that ChatScript identifies the question and the topic the user is a
  \item \textbf{rows} the number of documents to return.
 \end{itemize}
 
-With this search, we will try to look up the documents when the ChatScript module clearly identifies the topic the user is asking about, and, properly defining the returning fields for the search, the controller will show the relevant data. In case the question is not clearly identified, but ChatScript recognizes the user is talking about some java topic, this query won't be valid, and we will have to perform an eDisMax query, described in the next section.
+With this search, we will try to look up the documents when the ChatScript module clearly identifies the topic the user is asking about, and, properly defining the returning fields for the search, the controller will show the relevant data. In case the question is not clearly identified, but ChatScript recognizes the user is talking about some java topic, this query won't be valid, and we will have to perform an \ac{eDisMax} query, described in the next section.
 
 \subsubsection{Gambit query}
 \label{subsec:solrgambit}
 % Explain the process to run the eDisMax query
+
+When ChatScript identifies a sentence talking about a java concept, but does not recognize a question, we will perform a search in Solr using the entire question, treating it as a \ac{QA} system. To do so, we will perform an \ac{eDisMax} query, taking advantage of the stemmers and tokenizers we have configured in section~\ref{subsec:solrschema}. This type of query is designed to process user input directly, searching for the keyword across multiple fields, with different boosts based on the significance of each field, and allowing multiple options to influence the score on a case to case basis.
+
+Like the regular Solr query, this query is perform using a json format, and sent to the Solr service as the payload to a GET request. An example of an \ac{eDisMax} query is shown in listing \ref{listing:solrqueryeDisMax}
+
+\begin{center} 
+  \begin{lstlisting}[language=json, caption=Example \ac{eDisMax} query for Solr, label=listing:solrqueryeDisMax]
+   {
+     "q": "hablame de los bucles for",
+     "defType": "edismax",
+     "qf": "title^10.0 description^2.0",
+     "fl": "*,score",
+     "rows": "1",
+     "wt": "json",
+     "lowercaseOperators": "true",
+     "stopwords": "true"
+   }  
+  \end{lstlisting}
+\end{center}
+
+The significance of each in the query is as follows:
+
+\begin{itemize}
+ \item \textbf{q} The question as sent by the user, with no processing.
+ \item \textbf{defType} Explicitly set the query type as \ac{eDisMax}.
+ \item \textbf{qf} Set the weights for each field to consider in the query.
+ \item \textbf{fl} The fields to return.
+ \item \textbf{rows} The number of documents to return.
+ \item \textbf{wt} The format for the response.
+ \item \textbf{lowercaseOperators} Interpret lowercase words as boolean operators, such as ``and'' and ``or''.
+ \item \textbf{stopwords} Use the stopwords defined in the schema.
+\end{itemize}
+
+This search will provide a broader match than the faceted query, finding matches when the topic of the question is not clear, and offering the answer to the user. To prevent completely unrelated topics to be offered to the user, the score is retrieved and only the answers with a minimum score will be returned.
+
+\emph{\textcolor{red}{Add a section describing the scrapped documents, and the rdf data?}}
 
 
 \section{Use cases}
