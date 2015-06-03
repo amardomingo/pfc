@@ -3,7 +3,7 @@
 
 \begin{chapterintro}
 
-In this chapter, we will describe the prototype we developed following the architecture described in the previous chapter.
+In this chapter, we will describe the prototype we developed following the architecture described in the previous chapter. We will start with a short overview of the implemented modules for the system, to then take a detailed look to each one of them, describing how they work, and how they connect to each other.
  
 \end{chapterintro}
 
@@ -36,10 +36,33 @@ In our prototype, the interaction with the system is done via a web client that 
 
 The client is made using web technologies: HTML, CSS and Javascript, and uses Ajax to communicate with the server sending the user questions and handling the response, waiting for the user to send a question and then making the request to the server, as shown in listing \ref{listing:formclient}.
 
-\emph{Add example of JSON request}
+\emph{\textcolor{red}{Add example of JSON request? Add html code?}}
 
 \begin{center}
-  \lstinputlisting[language=JavaScript, caption=Ajax performing the request to the controller, label=listing:formclient, firstline=77, lastline=88]{code/prot/ask.js}
+  \lstinputlisting[language=JavaScript, caption=Ajax performing the request to the controller, label=listing:formclient, firstline=77, lastline=118]{code/prot/ask.js}
+\end{center}
+
+Upon the user submitting a question through the interface, the client will send a GET request to the controller, as described in section~\ref{sec:frontendcon}, and will receive a json response, containing the answer and the page to be shown to the user, if existent. An example response to que question ``¿Qué es un for?'' is shown in listing~\ref{listing:jsonchatresponse}.
+
+\begin{center} 
+  \begin{lstlisting}[language=json, caption=Example response for the chat client, label=listing:jsonchatresponse]
+   {
+     "answer": [
+		"Esto es lo que s\u00e9 sobre for",
+		"Si quieres, creo que bucles for degenerados tienen algo que ver con esto"
+	       ],
+     "definition": "Los bucles for se ejecutan un n\u00famero determinado de veces",
+     "links": [
+                "http://www.dit.upm.es/~pepe/libros/vademecum/topics/3.html",
+                "http://www.dit.upm.es/~pepe/libros/vademecum/topics/139.html",
+                "http://www.dit.upm.es/~pepe/libros/vademecum/topics/140.html",
+                "http://www.dit.upm.es/~pepe/libros/vademecum/topics/141.html",
+                "http://www.dit.upm.es/~pepe/libros/vademecum/topics/142.html",
+                "http://www.dit.upm.es/~pepe/libros/vademecum/topics/143.html"
+                ] ,
+     "resource": "http://www.dit.upm.es/~pepe/libros/vademecum/topics/138.html"
+   }  
+  \end{lstlisting}
 \end{center}
 
 \subsection{Front end controller}
@@ -161,17 +184,69 @@ The syntaxes of the commands is specified in table \ref{tab:oob-commands}.
 \subsection{ChatBot}
 \label{sec:chatbot}
 
-The ChatBot handles the processing of the natural language input from the user, and controls the conversation. To do so, it uses the chat engine ChatScript, described in section \ref{subsec:chatscript}.
+The ChatBot handles the processing of the natural language input from the user, and controls the conversation. To do so, it uses the chat engine ChatScript, described in section \ref{subsec:chatscript}. We will first describe the ChatBot rules, and how they process the user input, and then proceed to describe how to launch and communicate with the ChatScript server.
 
 \subsubsection{The rules}
 
-Chatscript responds to a series of rules, specified in its topic files. This rules will match the user input and produce an appropriate response, or output a rejoinder if no rule is matched.
+Chatscript responds to a series of rules, specified in its topic files. This rules will match the user input and produce an appropriate response, or output a rejoinder if no rule is matched. A more in depth description of how chatscript rules work can be found in section \ref{subsec:chatscript}.
 
-\subsubsection{Using Spanish dictionaries}
+We have separated our topics across several files, each containing related topics, as well as the control script for the bot. We will start describing the control process, shown in listing~\ref{listing:cs-control}
 
+\begin{center}
+  \lstinputlisting[language=C++, captionpos=b, caption=Control process for ChatScript, label=listing:cs-control, firstline=16, lastline=80]{code/prot/control.top}
+\end{center}
+
+In this process, we first check if we are currently in any conversation and have any pending rejoinders ready to match the output. Then proceed to check for rules looking for matches in the JAVA and EJEMPLOS topics. If no answer is provided, we will look for gambits and proper responses in the current topic, and then in the rest of the topics with keywords associated. In the case no match have been found yet, the user input will be test against the keywordless topic, looking for both responses and gambits, and, finally, if there is still no response, a generic answer will be provided, asking the user to modify its question.
+
+As we have just mentioned, there are several topics, both with and without keyword, spread across several files, containing both said topics and the sets of concepts used in the bot. This files and the topics contained in them are:
+
+\begin{itemize}
+ \item \textbf{topic.top} This file has most of the concepts used in the other files, as well as three generic topics:
+ \begin{itemize}
+  \item \emph{TENCUESTA} to answer questions regarding the poll that will be presented to the user.
+  \item \emph{EXAMENES} containing generic responses to questions about the exams.
+  \item \emph{INTRO} with information that will allow the bot to identify himself.
+ \end{itemize}
+ \item \textbf{java.top} This file contains the two main topics for answering the java questions.
+ \begin{itemize}
+  \item \emph{JAVA} will answer the questions related to java concepts, as well as produce gambits and question the user when the bot has the control over the conversation.
+  \item \emph{EJEMPLOS} a slight variation from the previous topic, this will handle example requests from the user.
+ \end{itemize}
+ \item \textbf{javaconcepts.top} contains the list of all the java concepts that the bots knows about. It is automatically generated from the data stored in Solr.
+ \item \textbf{insults.top} with the topic of the same name (INSULTOS), responds to insults and bad words input by the user.
+ \item \textbf{estado.top} a single topic file, responsible of responding when the user enters information about himself, or asks the bot abouts its status.
+\end{itemize}
+
+All this files need to be compiled into binary data to be used by the ChatScript server.
 % Explain how chatscript works.
 
-\emph{\textcolor{red}{It doesn't look viable to have spanish dicts in a timely manner.}}
+\subsubsection{The server}
+
+ChatScript provides two ways of interaction. For debugging purposes, it has a command line interface, and can also be deployed as a service listening in a TCP socket for user input. This server is what we have choose to use to interact with ChatScript. The full deployment instructions can be found in the appendix, and we will proceed to describe here the communication process.
+
+As stated ChatScript listens on a TCP socket, waiting for requests containing three null separated strings, described in table~\ref{tab:cs-reqparams}
+
+\begin{center}
+  \centering
+  \begin{table}
+  \begin{center}
+    \begin{tabular*}{0.6\textwidth}{@{\extracolsep{\fill}} | c | p{0.5\textwidth} |}
+      \hhline{|-|-|}
+      \textbf{Field} & \textbf{Description} \\ \hhline{|=|=|}
+      user & The string identifying the user performing the question.  \\ \hhline{|-|-|}
+      bot & The bot that the question is directed to, in case there are several bot available in the server. \\ \hhline{|-|-|}
+      question & The user question \\ \hhline{|-|-|}
+      \end{tabular*}
+    \caption{Fields for the request to ChatScript}
+    \label{tab:cs-reqparams}
+    \end{center}
+  \end{table}
+\end{center}
+
+The server will then return in the same connecting the response generated using the process previously explained, and close the connection. If a new interaction is needed, a new socket will be opened, following the same process.
+% \subsubsection{Using Spanish dictionaries}
+
+%\emph{\textcolor{red}{It doesn't look viable to have spanish dicts in a timely manner.}}
 
 \subsection{Solr instance}
 \label{sec:solr}

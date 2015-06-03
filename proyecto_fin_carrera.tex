@@ -10,6 +10,8 @@
 \setlength{\voffset}{-0.25in}
 \setlength{\parskip}{0.1in}
 
+\usepackage[notbib,nottoc]{tocbibind}
+
 %\includeonly{5-architecture}
 %\includeonly{6-use-case}
 
@@ -294,10 +296,10 @@ morekeywords={xmlns, version, type, field, copyField, fieldType}
 
 \pagenumbering{Roman}
 
-\include{0-preamble}
-\include{A-resumen.tex}
-\include{B-abstract.tex}
-\include{C-acknowledgment}
+%\include{0-preamble}
+%\include{A-resumen.tex}
+%\include{B-abstract.tex}
+%\include{C-acknowledgment}
 \include{D-contents}
 
 
@@ -310,21 +312,21 @@ morekeywords={xmlns, version, type, field, copyField, fieldType}
 \fancyfoot[OR,EL]{\rmfamily \thepage} % texto derecha del pie
 \pagenumbering{arabic}
 
-\include{1-introduction}
-\include{2-stateoftheart}
-\include{3-enablingtechnologies}
-\include{4-requirements}
+%\include{1-introduction}
+%\include{2-stateoftheart}
+%\include{3-enablingtechnologies}
+%\include{4-requirements}
 \include{5-architecture}
 \include{6-prototype} % Split in two part, the first one for architecture, the second in evaluation ? Or not...
-\include{7-evaluation}
-\include{8-conclusion}
+%\include{7-evaluation}
+%\include{8-conclusion}
 
 
 
-\appendix
-\include{Appendix-scrapy}
-\include{Appendix-solr}
-\include{Appendix-pybossa}
+%\appendix
+%\include{Appendix-scrapy}
+%\include{Appendix-solr}
+%\include{Appendix-pybossa}
 
 \phantomsection
 \addcontentsline{toc}{chapter}{Bibliography}
