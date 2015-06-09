@@ -39,23 +39,36 @@ The winner of the 2010, 2011 and 2014 contests was Bruce WillCox, using differen
 
 \ac{QA} is a discipline concerned with automatically provide answers to questions presented in natural language, using a number of different approaches in order to process the question into a query the system can understand, and, therefore, answer.
 
-In general, we can differentetiate six major general approaches:
+In general, we can differentiate six major general approaches~\cite{unger2014an}:
 
 \begin{itemize}
   \item \textbf{Controlled natural languages:} The system only takes into account a well-defined subset of a given natural language that can be unambiguously interpreted.
-  \item \textbf{Formal grammars processing:} Relaying on linguistics to assign syntactic and sematic representations to lexical units, as well as compositional semantics, this systems compute a representation of the question.
-  \item \textbf{Mapping linguistics to semantic structures: }
-  \item \textbf{Template-based:} Taking two stages, this approache first construct a query based on the liguistic analysis of the input question, and the matchs the expressions in the question with elements from the dataset.
-  \item \textbf{Graph exploration:} This approach 
-  \item \textbf{Machine learning:}
+  \item \textbf{Formal grammars processing:} Relaying on linguistics to assign syntactic and semantic representations to lexical units, as well as compositional semantics, this systems compute a representation of the question.
+  \item \textbf{Mapping linguistics to semantic structures:} Systems designed under this principle rely on a measure of similarity between elements in the query and the predicates, subjects or objects in the knowledge base.
+  \item \textbf{Template-based:} Taking two stages, this approach first construct a query based on the linguistic analysis of the input question, and the matchs the expressions in the question with elements from the dataset.
+  \item \textbf{Graph exploration:} This approach maps elements of the question to entities in the knowledge base, and proceeds navigation from these pivot elements to navigate the graph, seeking to connect the entities to yield a connected query.
+  \item \textbf{Machine learning:} question answering has been considered a machine learning problem, with either models for joint query interpretation and response ranking, aiming at learning semantic parsers given a knowledge base and a set of questions and answers, or systems with an algorithm for matching natural language expressions and ontology concepts, as well as an algorithm for storing matches in a parse lexicon.
 \end{itemize}
 
-\subsection{Question Answering over Linked Data Systems}
-\label{subsec:qa_linked}
+We will now summarize a few systems that use some of the aforementioned approaches
 
+\subsection{Aqualog}
 
+\subsection{Pythia}
+
+\subsection{TBSL}
+
+\subsection{Treo}
+
+\subsection{IBM Watson's DeepQA}
 
 \section{Linked Data Systems}
 \label{sec:linkd_sys}
 
 Linked Data consists in a set of rules about publishing data in the web so it can be interlinked and accessed using semantic queries. The term was first used by Tim Berners-Lee while talking about the Semantic Web project. Aditionally, Linked Open Data is an extension of the Linked Data concept, requiring that the data provided is open content.
+
+
+\subsection{Question Answering over Linked Data Systems}
+\label{subsec:qa_linked}
+
+
