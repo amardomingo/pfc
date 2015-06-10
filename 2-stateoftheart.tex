@@ -44,7 +44,7 @@ In general, we can differentiate six major general approaches~\cite{unger2014an}
 \begin{itemize}
   \item \textbf{Controlled natural languages:} The system only takes into account a well-defined subset of a given natural language that can be unambiguously interpreted.
   \item \textbf{Formal grammars processing:} Relaying on linguistics to assign syntactic and semantic representations to lexical units, as well as compositional semantics, this systems compute a representation of the question.
-  \item \textbf{Mapping linguistics to semantic structures:} Systems designed under this principle rely on a measure of similarity between elements in the query and the predicates, subjects or objects in the knowledge base.
+  \item \textbf{Mapping linguistics to semantic structures:} Systems designed under this principle rely on a measure of similarity between elements in the query and the predicates, subjects or objects in the knowledge base. PowerAqua~\cite{lopez2011poweraqua} and Aqualog~\cite{lopez2007aqualog} are two examples of this approach.
   \item \textbf{Template-based:} Taking two stages, this approach first construct a query based on the linguistic analysis of the input question, and the matchs the expressions in the question with elements from the dataset.
   \item \textbf{Graph exploration:} This approach maps elements of the question to entities in the knowledge base, and proceeds navigation from these pivot elements to navigate the graph, seeking to connect the entities to yield a connected query.
   \item \textbf{Machine learning:} question answering has been considered a machine learning problem, with either models for joint query interpretation and response ranking, aiming at learning semantic parsers given a knowledge base and a set of questions and answers, or systems with an algorithm for matching natural language expressions and ontology concepts, as well as an algorithm for storing matches in a parse lexicon.
@@ -52,7 +52,9 @@ In general, we can differentiate six major general approaches~\cite{unger2014an}
 
 We will now summarize a few systems that use some of the aforementioned approaches
 
-\subsection{Aqualog}
+\subsection{Aqualog and PowerAqua}
+
+Aqualog was one of the first \ac{QA} systems targeting Semantic Web data, that later evolved into PowerAqua, a \ac{QA} system focused on querying multiple datasets on the Semantic Web. PowerAqua first analyses the question using GATE in order to detect the question type into a triple-based representation, so-called query triples. In the second step, it searches for candidates on the terms ocurring in the triples, detecting the ontologies on the Semantic Web that may contain the required information requested in the question, and finding any vocabulary elements that match the terms. This matching includes string similarity matching, WordNet synonums, hypernyms and hyphonens and semantic matching, and generates tables mapping the terms to semantic elements, which in turn generate ontology triples allowing the last step, the relation similarity service, to determine the most likely interpretation of the question.
 
 \subsection{Pythia}
 
