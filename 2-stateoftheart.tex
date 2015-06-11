@@ -24,13 +24,21 @@ Finally, we will study the way of populating the system, using web scrapping tec
 \section{Conversational Agents}
 \label{sec:conv_agents}
 
-One of the starting points when studying conversational agents is A.L.I.C.E. an free natural language artificial intelligence chat robot that utilizes AIML for creating responses based on the user input to the system. ALICE won the 2000, 2001, and 2004 Loebner prizes, becoming a starting point while developing conversational agents. It makes use of the pattern-matching ability of AIML, with 120.000 patterns that can either trigger a response o redirect the input to another pattern. ALICE was inspired by Eliza, on the first examples of natural language processing using simple patterns, written at MIT by Joseph Weizenbaum between 1964 and 1966.
+In this section we will discuss the evolution of conversational engines, and discuss a few of the techniques and technologies utilized implementing them. We will provide a small overview to \ac{AIML} and some engines implemented with it, as well as other engines to finalise with a small description of ChatScript.
 
-AIML, or Artificial Intelligence Markup Language, is a widely use XML dialect for creating conversational language. It was developed between 1995 and 2002 by Richard S. Wallace and the free sofware community, and has remained relevant to this date, including the draft for a major upgrade, AIML 2.0, released in the early 2013, and currently being working on.
+One of the starting points when studying conversational agents is A.L.I.C.E. an free natural language artificial intelligence chat robot that utilizes AIML for creating responses based on the user input to the system. ALICE won the 2000, 2001, and 2004 Loebner prizes, becoming a starting point while developing conversational agents. It makes use of the pattern-matching ability of AIML, with 120.000 patterns that can either trigger a response o redirect the input to another pattern. ALICE was inspired by Eliza, on the first examples of natural language processing using simple patterns, written at MIT by Joseph Weizenbaum between 1964 and 1966.
 
 Along with ALICE, a number of other AIML conversational agents have been presented to the Loebner contest, by different authors, usually getting good results, like Mitsuku, by Steve Worswick, who won the 2013 edition of the contest, and was among the 4 finalists in 2014, three of them using AIML. Another example of an AIML bot is Izar, by Brian Rigsby, who achieved second place in the 2014 contest
 
 The winner of the 2010, 2011 and 2014 contests was Bruce WillCox, using different chatbots, all of them written in ChatScript. Chatscript was pressented in 2010, written in C++, and later released as Open Source. Whilst AIML aims to pattern-match words, ChatScript claims to match in a general meaning basis, focusing on detecting equivalence and paying heavy attention to sets of words and canonical representation, and providing a simple way of storing user data, in a machine readable format.
+
+\subsection{\ac{AIML}}
+
+\ac{AIML} is a widely use XML dialect for creating conversational language. It was developed between 1995 and 2002 by Richard S. Wallace and the free software community, and has remained relevant to this date, including the draft for a major upgrade, AIML 2.0, released in the early 2013, and currently being working on.
+
+\subsection{Façade}
+
+\subsection{ChatScript}
 
 \emph{\textcolor{red}{Cortana? Siri?}}
 
@@ -43,7 +51,7 @@ In general, we can differentiate six major general approaches~\cite{unger2014an}
 
 \begin{itemize}
   \item \textbf{Controlled natural languages:} The system only takes into account a well-defined subset of a given natural language that can be unambiguously interpreted.
-  \item \textbf{Formal grammars processing:} Relaying on linguistics to assign syntactic and semantic representations to lexical units, as well as compositional semantics, this systems compute a representation of the question.
+  \item \textbf{Formal grammars processing:} Relaying on linguistics to assign syntactic and semantic representations to lexical units, as well as compositional semantics, this systems compute a representation of the question. Two examples of this systems could be ORAKEL~\cite{cimiano2008towards} and Pythia~\cite{unger2011pythia}
   \item \textbf{Mapping linguistics to semantic structures:} Systems designed under this principle rely on a measure of similarity between elements in the query and the predicates, subjects or objects in the knowledge base. PowerAqua~\cite{lopez2011poweraqua} and Aqualog~\cite{lopez2007aqualog} are two examples of this approach.
   \item \textbf{Template-based:} Taking two stages, this approach first construct a query based on the linguistic analysis of the input question, and the matchs the expressions in the question with elements from the dataset.
   \item \textbf{Graph exploration:} This approach maps elements of the question to entities in the knowledge base, and proceeds navigation from these pivot elements to navigate the graph, seeking to connect the entities to yield a connected query.
@@ -54,9 +62,17 @@ We will now summarize a few systems that use some of the aforementioned approach
 
 \subsection{Aqualog and PowerAqua}
 
-Aqualog was one of the first \ac{QA} systems targeting Semantic Web data, that later evolved into PowerAqua, a \ac{QA} system focused on querying multiple datasets on the Semantic Web. PowerAqua first analyses the question using GATE in order to detect the question type into a triple-based representation, so-called query triples. In the second step, it searches for candidates on the terms ocurring in the triples, detecting the ontologies on the Semantic Web that may contain the required information requested in the question, and finding any vocabulary elements that match the terms. This matching includes string similarity matching, WordNet synonums, hypernyms and hyphonens and semantic matching, and generates tables mapping the terms to semantic elements, which in turn generate ontology triples allowing the last step, the relation similarity service, to determine the most likely interpretation of the question.
+Aqualog was one of the first \ac{QA} systems targeting Semantic Web data, that later evolved into PowerAqua, a \ac{QA} system focused on querying multiple datasets on the Semantic Web. PowerAqua first analyses the question using GATE in order to detect the question type into a triple-based representation, so-called query triples. In the second step, it searches for candidates on the terms occurring in the triples, detecting the ontologies on the Semantic Web that may contain the required information requested in the question, and finding any vocabulary elements that match the terms. This matching includes string similarity matching, WordNet synonums, hypernyms and hyphonens and semantic matching, and generates tables mapping the terms to semantic elements, which in turn generate ontology triples allowing the next step, the relation similarity service, to determine the most likely interpretation of the question. This leads to finally give a ranked list of triples, containing the answers retrieved from the different data sources. This includes semantically overlapping information in the answers set, to prevent duplicate results and integrating answers from different sources.
+
+This ability to locate and integrate information from heterogeneous resources is considered one of the main strengths of PowerAqua, whereas the fact that it cannot deal with questions involving aggregation (counting, comparisons or superlatives), it is probably its main weakness.
 
 \subsection{Pythia}
+
+Pythia is an ontology-based \ac{QA} system. From drawing inferences to resolve ambiguities or interpret semantically light expressions, ontologies play a central role in this system, interpreting the user's question in respect with the underlying ontology. The question is interpreted constructing meaning representations whose vocabulary is already aligned with the vocubaly on the ontology, relaying on ontology-lexica to make the possible linguitic realizations of concepts in the language explicit. Pythia's process starts by automatically construct principled linguistic representations, which, together with domain-independent representations, constitute de grammar used to interpret and parse the input question. Finally, the resulting meaning representations are transformed into formal queries, such as SPARQL queries.
+
+% TODO: complete this section?
+
+It is worth mentioning than the fact that Pythia is a \ac{QA} system specific for a given ontology, both offers a very precise way of matching natural expressions with ontology concepts, and presents an important limitation, requiring an important effort for building the required lexica for the ontology.
 
 \subsection{TBSL}
 
@@ -67,10 +83,11 @@ Aqualog was one of the first \ac{QA} systems targeting Semantic Web data, that l
 \section{Linked Data Systems}
 \label{sec:linkd_sys}
 
-Linked Data consists in a set of rules about publishing data in the web so it can be interlinked and accessed using semantic queries. The term was first used by Tim Berners-Lee while talking about the Semantic Web project. Aditionally, Linked Open Data is an extension of the Linked Data concept, requiring that the data provided is open content.
+Linked Data consists in a set of rules about publishing data in the web so it can be interlinked and accessed using semantic queries. The term was first used by Tim Berners-Lee while talking about the Semantic Web project. Additionally, Linked Open Data is an extension of the Linked Data concept, requiring that the data provided is open content.
 
 
 \subsection{Question Answering over Linked Data Systems}
 \label{subsec:qa_linked}
 
+\emph{\textcolor{red}{Maybe remove this subsection?}}
 
