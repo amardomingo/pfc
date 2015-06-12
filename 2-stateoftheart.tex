@@ -34,7 +34,26 @@ The winner of the 2010, 2011 and 2014 contests was Bruce WillCox, using differen
 
 \subsection{\ac{AIML}}
 
-\ac{AIML} is a widely use XML dialect for creating conversational language. It was developed between 1995 and 2002 by Richard S. Wallace and the free software community, and has remained relevant to this date, including the draft for a major upgrade, AIML 2.0, released in the early 2013, and currently being working on.
+\ac{AIML}~\cite{aimlprimer} is a widely use XML dialect for creating conversational language. It was developed between 1995 and 2002 by Richard S. Wallace and the free software community, and has remained relevant to this date, including the draft for a major upgrade, AIML 2.0, released in the early 2013, and currently being working on. The original version of AIML had seven design goals, stated in its primer:
+\begin{enumerate}[topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex]
+  \item Shall be easy to learn.
+  \item Shall encode the miniaml concept set necessary to enable a stimulus-response knowledge system modelled on that of the original A.L.I.C.E.
+  \item Shall be compatible with XML.
+  \item It shall be easy to write programs that process AIML documents.
+  \item \ac{AIML} objects should be human-legible and reasonably clear.
+  \item The design of \ac{AIML} shall be formal and concise.
+  \item \ac{AIML} shall not incorporate dependencies upon any other language.
+\end{enumerate}
+
+There are more than twenty tags for the AIML language~\cite{aliceaiml}, but the most important units are \emph{aiml}, the tag that defines a document as \ac{AIML}, \emph{category} marking a ``unit of knowledge'' in the bot's knowledge base, \emph{pattern} contains a simple pattern that will be compared with the user input, and \emph{template} containing the response to a user input.
+
+\emph{\textcolor{red}{Add example aiml code?}}
+
+The free A.L.I.C.E. \ac{AIML}~\footnote{\url{http://www.alicebot.org/downloads/}} includes a knowledge base of 41.000 categories, and can be used as a base for others bots.
+
+\subsubsection{\ac{AIML} implementations}
+
+\subsubsection{\ac{AIML} 2.0}
 
 \subsection{Façade}
 
@@ -59,6 +78,8 @@ In general, we can differentiate six major general approaches~\cite{unger2014an}
 \end{itemize}
 
 We will now summarize a few systems that use some of the aforementioned approaches
+
+\emph{\textcolor{red}{Just leave it as the list?}}
 
 \subsection{Aqualog and PowerAqua}
 
