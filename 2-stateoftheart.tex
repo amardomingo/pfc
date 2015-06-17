@@ -30,7 +30,7 @@ One of the starting points when studying conversational agents is A.L.I.C.E. an 
 
 Along with ALICE, a number of other AIML conversational agents have been presented to the Loebner contest, by different authors, usually getting good results, like Mitsuku, by Steve Worswick, who won the 2013 edition of the contest, and was among the 4 finalists in 2014, three of them using AIML. Another example of an AIML bot is Izar, by Brian Rigsby, who achieved second place in the 2014 contest
 
-The winner of the 2010, 2011 and 2014 contests was Bruce WillCox, using different chatbots, all of them written in ChatScript. Chatscript was pressented in 2010, written in C++, and later released as Open Source. Whilst AIML aims to pattern-match words, ChatScript claims to match in a general meaning basis, focusing on detecting equivalence and paying heavy attention to sets of words and canonical representation, and providing a simple way of storing user data, in a machine readable format.
+The winner of the 2010, 2011 and 2014 contests was Bruce WillCox, using different chatbots, all of them written in ChatScript. Chatscript was presented in 2010, written in C++, and later released as Open Source. Whilst AIML aims to pattern-match words, ChatScript claims to match in a general meaning basis, focusing on detecting equivalence and paying heavy attention to sets of words and canonical representation, and providing a simple way of storing user data, in a machine readable format.
 
 \subsection{\ac{AIML}}
 
@@ -51,13 +51,42 @@ There are more than twenty tags for the AIML language~\cite{aliceaiml}, but the 
 
 The free A.L.I.C.E. \ac{AIML}~\footnote{\url{http://www.alicebot.org/downloads/}} includes a knowledge base of 41.000 categories, and can be used as a base for others bots.
 
-\subsubsection{\ac{AIML} implementations}
-
 \subsubsection{\ac{AIML} 2.0}
 
-\subsection{Façade}
+In January 2013 the ALICE A.I. Foundation released a draft specification for a major update for \ac{AIML}~\footnote{\url{http://alicebot.blogspot.com.es/2013/01/aiml-20-draft-specification-released.html}}, aiming to provide new features while trying to keep \ac{AIML} as simple as possible. \ac{AIML} 2.0 combines Pandorabots extensions to the language, \ac{OoB} tags and a collection of new features. The full list of new features can be found in the Working Draft~\cite{aiml20draft}, some of the more relevant are:
+
+\begin{itemize}[topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex]
+  \item Zero+ wildcards, allowing to match zero or more words
+  \item Setting matching priority for certain words.
+  \item Loops.
+  \item \ac{OoB} tags.
+  \item Local variables.
+\end{itemize}
+
+\subsubsection{\ac{AIML} implementations}
+
+\ac{AIML} has been implemented in multiple languages, including Java, Python, PHP or C++. Some of those implementations are listed in the ALICE downloads page~\footnote{\url{http://www.alicebot.org/downloads/programs.html}}, and we will briefly describe some of them bellow:
+
+\begin{enumerate}
+ \item \textbf{Program D} is a Java implementation \emph{\textcolor{Missing in action? aiml webpage references }} %https://code.google.com/p/ainotebook/wiki/programd_aiml
+ \item \textbf{ChatterBean} is another Java implementation, aiming to be \ac{AIML} 1.0.1 compliant, using a JavaBeans plugin architechture, and released under a GPL license. However, the last version was released on 2006 and the development since then seems to have stopped.
+ \item \textbf{Program O}, written in PHP with MySQL, is an \ac{AIML} engine with a web interface providing a number of remarkable features, including an administration panel, with configuration, teaching an testing interfaces. It stores the \ac{AIML} files in a MySQl database in order to improve its performance, and can assign different personalities to each bot. It is under active development by Ellizabeth Perreau and Dave Morton, with it latest version released in May 2014. 
+ \item \textbf{Program Y} (PyAML) \emph{\textcolor{Abandonned?  sourceforge repo is down, last version 2012}}
+\end{enumerate}
 
 \subsection{ChatScript}
+
+ChatScript, written in C++ by Bruce Willcox, is a chatbot engine aiming to overcome the limitations of \ac{AIML}, by providing pattern matching on general meaning rather than particular words. It was originally created for Avatar Reality, a start-up company that wanted to create a virtual world called Blue Mars~\cite{Wilcox2010suzzete}, and it was eventually released as open source as per the requirements for the Loebner prize.
+
+Since then, ChatScript has been updating and introducing improvements, up to version 5.4~\cite{ChatScriptSourceForge}. Some of the features in ChatScript include:
+\begin{itemize}
+ \item Efficient, easily readable output rules
+ \item Zero-length wildcards
+ \item Concise pattern matching through the use of concepts
+ \item Built-in data covering multiple subjects and topics
+\end{itemize}
+
+By matching in meaning, ChatScript claims to be able to provide a better user experience than \ac{AIML}, with a much smaller rule set, improving maintainability and ease to modify the bot whenever necessary. More details on ChatScript are provided in section ~\ref{subsec:chatscript}.
 
 \emph{\textcolor{red}{Cortana? Siri?}}
 
@@ -77,29 +106,9 @@ In general, we can differentiate six major general approaches~\cite{unger2014an}
   \item \textbf{Machine learning:} question answering has been considered a machine learning problem, with either models for joint query interpretation and response ranking, aiming at learning semantic parsers given a knowledge base and a set of questions and answers, or systems with an algorithm for matching natural language expressions and ontology concepts, as well as an algorithm for storing matches in a parse lexicon.
 \end{itemize}
 
-We will now summarize a few systems that use some of the aforementioned approaches
+\emph{\textcolor{red}{Shortly describe the exampe systems?}}
 
-\emph{\textcolor{red}{Just leave it as the list?}}
-
-\subsection{Aqualog and PowerAqua}
-
-Aqualog was one of the first \ac{QA} systems targeting Semantic Web data, that later evolved into PowerAqua, a \ac{QA} system focused on querying multiple datasets on the Semantic Web. PowerAqua first analyses the question using GATE in order to detect the question type into a triple-based representation, so-called query triples. In the second step, it searches for candidates on the terms occurring in the triples, detecting the ontologies on the Semantic Web that may contain the required information requested in the question, and finding any vocabulary elements that match the terms. This matching includes string similarity matching, WordNet synonums, hypernyms and hyphonens and semantic matching, and generates tables mapping the terms to semantic elements, which in turn generate ontology triples allowing the next step, the relation similarity service, to determine the most likely interpretation of the question. This leads to finally give a ranked list of triples, containing the answers retrieved from the different data sources. This includes semantically overlapping information in the answers set, to prevent duplicate results and integrating answers from different sources.
-
-This ability to locate and integrate information from heterogeneous resources is considered one of the main strengths of PowerAqua, whereas the fact that it cannot deal with questions involving aggregation (counting, comparisons or superlatives), it is probably its main weakness.
-
-\subsection{Pythia}
-
-Pythia is an ontology-based \ac{QA} system. From drawing inferences to resolve ambiguities or interpret semantically light expressions, ontologies play a central role in this system, interpreting the user's question in respect with the underlying ontology. The question is interpreted constructing meaning representations whose vocabulary is already aligned with the vocubaly on the ontology, relaying on ontology-lexica to make the possible linguitic realizations of concepts in the language explicit. Pythia's process starts by automatically construct principled linguistic representations, which, together with domain-independent representations, constitute de grammar used to interpret and parse the input question. Finally, the resulting meaning representations are transformed into formal queries, such as SPARQL queries.
-
-% TODO: complete this section?
-
-It is worth mentioning than the fact that Pythia is a \ac{QA} system specific for a given ontology, both offers a very precise way of matching natural expressions with ontology concepts, and presents an important limitation, requiring an important effort for building the required lexica for the ontology.
-
-\subsection{TBSL}
-
-\subsection{Treo}
-
-\subsection{IBM Watson's DeepQA}
+To the aforementioned systems, we have to add another one: IBM Watson's DeepQA. Designed to be a contestant in the Jeopardy! quiz show, the DeepQA system had multiple information sources, the DeepQA system focused on extracting and scoring evidence from unstructured data, although it also used structured an semantic data sources. It was build as a massively probabilistic evidence-based architecture using more than 100 different techniques for analysing natural language. \emph{\textcolor{red}{Add figure or list with the structure?}} It was build using Apache UIMA~\footnote{\url{http://uima.apache.org/}}, a Unstructured Information Management system.
 
 \section{Linked Data Systems}
 \label{sec:linkd_sys}
