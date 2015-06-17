@@ -36,7 +36,7 @@ In our prototype, the interaction with the system is done via a web client that 
 
 The client is made using web technologies: HTML, CSS and Javascript, and uses Ajax to communicate with the server sending the user questions and handling the response, waiting for the user to send a question and then making the request to the server, as shown in listing \ref{listing:formclient}.
 
-\emph{\textcolor{red}{Add example of JSON request? Add html code?}}
+%\emph{\textcolor{red}{Add example of JSON request? Add html code?}}
 
 \begin{center}
   \lstinputlisting[language=JavaScript, caption=Ajax performing the request to the controller, label=listing:formclient, firstline=77, lastline=118]{code/prot/ask.js}
@@ -243,7 +243,7 @@ As stated ChatScript listens on a TCP socket, waiting for requests containing th
   \end{table}
 \end{center}
 
-The server will then return in the same connecting the response generated using the process previously explained, and close the connection. If a new interaction is needed, a new socket will be opened, following the same process.
+The server will then return in the same connection the response generated using the process previously explained, and close the connection. If a new interaction is needed, a new socket will be opened, following the same process.
 % \subsubsection{Using Spanish dictionaries}
 
 %\emph{\textcolor{red}{It doesn't look viable to have spanish dicts in a timely manner.}}
@@ -268,7 +268,7 @@ The scrapped data is stored using a Solr core containing every relevant document
 \begin{itemize}
  \item \textbf{Stock solr fields: } This fields are internal for solr, and we will not describe them here.
  \item \textbf{Document fields: } the fields scrapped from the Vademecum, they are described in table \ref{tab:schema-docfields}.
- \item \textbf{titleDefinition field: } this fields is generated concatenating the definition and title fields, to facilitate general search. \emph{\textcolor{red}{Describe the copy process?}}
+ \item \textbf{titleDefinition field: } this fields is generated concatenating the definition and title fields, to facilitate general search. %\emph{\textcolor{red}{Describe the copy process?}}
 
 \end{itemize}
 
