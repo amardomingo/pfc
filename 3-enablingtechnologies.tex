@@ -3,11 +3,48 @@
 
 \section{Overview}
 
+In this chapter, we describe the technologies used in this project. We start by describing the web technologies, both client and server, used when building the front end interface. Then we discuss the modules used for the conversational system, as well as ChatScript and its capabilities. Finally, we talk about the techniques used retrieving and indexing the relevant information for our system.
+
 \section{Web technologies}
 
-\section{WSGI Servers}
+% Talk about all-web movement? JavaScript & JQuery? 
+
+% This is mostly bullshit. Rewrite it.
+
+Known simply as ``The web'', the World Wide Web is an information system where hypertext documents are accessed via the internet. First proposed by Tim Berners Lee in 1989~\cite{berners1989information}, it has grown to be used by two in five people around the world~\footnote{url{http://webfoundation.org/about/vision/history-of-the-web/}}.
+
+The technologies used in web services can be divided in Client technologies, executed in the user's computer, and Server technologies, executed in the server side of the service. We will provide a short description of some of the technologies available for each side, focussing on those used in this project.
+\subsection{Client technologies}
+
+At its core, every web page is nothing but HTMl, CSS and JavaScript. On top of this multiple frameworks are built, allowing complex user interaction. 
+
+% JS/jQuery, HTML5, CSS, etc
+
+\subsection{Server technologies}
+
+% HTTP Servers. Apache?
+
+The interactions presented by the web client are the processed in the server side, usually communicating using HTTP. There are multiple applications capable of handling this interaction, known as http servers. Apache, NginX or Microsoft Windows Server\textregistered are some of the most popular servers~\footnote{\url{http://news.netcraft.com/archives/2015/05/19/may-2015-web-server-survey.html}}. 
+
+For our service, we have used Apache~\cite{apacheabout}, an Open Source HTTP-Server. First launched in 1995, it has continued development to this date, with version 2.4.12 being released on January 2015~\footnote{\url{http://httpd.apache.org/}}. It is currently developed and maintained by an open community of developers under the Apache Software Foundation, and made available in a wide variety of operating systems, including GNU/Linux and Microsoft Windows\textregistered. It features a module-based system, allowing the core functionality to be expanded by compiled modules. Some of the most popular modules include:
+
+\begin{itemize}[topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex]
+ \item \textbf{mod_php} Enabling the use php to execute server side code, this module can be found in many Apache installations, allowing the deployment of services like WordPress or Joomla.
+ \item \textbf{mod_auth_basic} Handling basic user authentication, this module allows the server administrator to block sections of the server from being accessed by the general public.
+ \item \textbf{mod_proxy} Allows the use of Apache as a proxy, masking other services behind it.
+\end{itemize}
+
+Over the last few years, multiple other server technologies have appeared, focusing on running code to build network applications. Node.js~\footnote{\url{https://nodejs.org/}} or uWSGI~\footnote{\url{http://uwsgi-docs.readthedocs.org/}} are examples of this philosophy.
+
+\subsubsection{WSGI Servers}
+
+
+
+% Flask, django, bottle, mod_wsgi
 
 \section{ChatBot modules}
+
+% Intro to chatscript.
 
 \subsection{ChatScript}
 \label{subsec:chatscript}
@@ -16,4 +53,8 @@ ChatScript~\cite{wilcox2013} is a Loebner-prize winning chatbot module.
 
 \section{Information retrieval}
 
+% Scrappy and scrapy
+
 \section{Information indexing}
+
+% Apache Solr? 
