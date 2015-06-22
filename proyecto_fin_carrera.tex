@@ -91,7 +91,11 @@
 \acrodef{eDisMax}{Extended Disjunction Max}
 \acrodef{AIML}{Artifcial Intelligence Markup Language}
 \acrodef{LMF}{Linked Media Framework}
+\acrodef{WSGI}{Web Server Gateway Interface}
 
+% Reset the acronyms at the beginning of each chapter
+\usepackage{etoolbox}
+\preto\section\acresetall
 
 \usepackage[pdftex,
             pdfauthor={Alberto Mardomingo Mardomingo},
@@ -287,7 +291,6 @@ morekeywords={xmlns, version, type, field, copyField, fieldType}
 
 %Sky color definition
 
-
 \begin{document}
 \newcommand\litem[1]{\item{\bfseries #1 }}
 \renewcommand{\arraystretch}{1.5} %Makes tables less crammed
@@ -322,8 +325,6 @@ morekeywords={xmlns, version, type, field, copyField, fieldType}
 \include{6-prototype} % Split in two part, the first one for architecture, the second in evaluation ? Or not...
 \include{7-evaluation}
 \include{8-conclusion}
-
-
 
 %\appendix
 \include{Appendix-scrapy}
