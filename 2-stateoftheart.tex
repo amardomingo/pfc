@@ -68,10 +68,9 @@ In January 2013 the ALICE A.I. Foundation released a draft specification for a m
 \ac{AIML} has been implemented in multiple languages, including Java, Python, PHP or C++. Some of those implementations are listed in the ALICE downloads page~\footnote{\url{http://www.alicebot.org/downloads/programs.html}}, and we will briefly describe some of them bellow:
 
 \begin{enumerate}
- \item \textbf{Program D} is a Java implementation \emph{\textcolor{Missing in action? aiml webpage references }} %https://code.google.com/p/ainotebook/wiki/programd_aiml
- \item \textbf{ChatterBean} is another Java implementation, aiming to be \ac{AIML} 1.0.1 compliant, using a JavaBeans plugin architechture, and released under a GPL license. However, the last version was released on 2006 and the development since then seems to have stopped.
+ \item \textbf{Program D} is a Java implementation, open source, implementing the \ac{AIML} specification. It supports multiple bots per instance, and provides multiple ways to interfaces to interact with the service, providing a J2EE release allowing deployment as a webservice. However, the development of this project has been stagnated for years, with its last release in 2006.
+ \item \textbf{ChatterBean} is another Java implementation, aiming to be \ac{AIML} 1.0.1 compliant, using a JavaBeans plugin architecture, and released under a GPL license. However, the last version was released on 2006 and the development since then seems to have stopped.
  \item \textbf{Program O}, written in PHP with MySQL, is an \ac{AIML} engine with a web interface providing a number of remarkable features, including an administration panel, with configuration, teaching an testing interfaces. It stores the \ac{AIML} files in a MySQl database in order to improve its performance, and can assign different personalities to each bot. It is under active development by Ellizabeth Perreau and Dave Morton, with it latest version released in May 2014. 
- \item \textbf{Program Y} (PyAML) \emph{\textcolor{Abandonned?  sourceforge repo is down, last version 2012}}
 \end{enumerate}
 
 \subsection{ChatScript}
@@ -88,7 +87,7 @@ Since then, ChatScript has been updating and introducing improvements, up to ver
 
 By matching in meaning, ChatScript claims to be able to provide a better user experience than \ac{AIML}, with a much smaller rule set, improving maintainability and ease to modify the bot whenever necessary. More details on ChatScript are provided in section ~\ref{subsec:chatscript}.
 
-\emph{\textcolor{red}{Cortana? Siri?}}
+\emph{\textcolor{red}{Cortana? Siri/Sirius?}}
 
 \section{Question Answering Systems}
 \label{sec:qa_sys}
@@ -108,12 +107,51 @@ In general, we can differentiate six major general approaches~\cite{unger2014an}
 
 \emph{\textcolor{red}{Shortly describe the exampe systems?}}
 
-To the aforementioned systems, we have to add another one: IBM Watson's DeepQA. Designed to be a contestant in the Jeopardy! quiz show, the DeepQA system had multiple information sources, the DeepQA system focused on extracting and scoring evidence from unstructured data, although it also used structured an semantic data sources. It was build as a massively probabilistic evidence-based architecture using more than 100 different techniques for analysing natural language. \emph{\textcolor{red}{Add figure or list with the structure?}} It was build using Apache UIMA~\footnote{\url{http://uima.apache.org/}}, a Unstructured Information Management system.
+To the aforementioned systems, we have to add another one: IBM Watson's DeepQA. Designed to be a contestant in the Jeopardy! quiz show, the DeepQA system had multiple information sources, the DeepQA system focused on extracting and scoring evidence from unstructured data, although it also used structured an semantic data sources. It was build as a massively probabilistic evidence-based architecture using more than 100 different techniques for analysing natural language. \emph{\textcolor{red}{Add figure or list with the structure?}} It was build using Apache UIMA~\footnote{\url{http://uima.apache.org/}}, an Unstructured Information Management system.
 
 \section{Linked Data Systems}
 \label{sec:linkd_sys}
 
 Linked Data consists in a set of rules about publishing data in the web so it can be interlinked and accessed using semantic queries. The term was first used by Tim Berners-Lee while talking about the Semantic Web project. Additionally, Linked Open Data is an extension of the Linked Data concept, requiring that the data provided is open content.
+
+\emph{\textcolor{red}{Add the linked data cloud?}}
+
+There are a number of Linked Data Systems publicly available to the public, as long as multiple projects allowing to deploy your own linked data services. Some of them are described in the next sections. 
+
+\subsection{Apache Lucene and Solr}
+
+Not considered Linked Data Systems on its own, Apache Lucene~\footnote{\url{http://lucene.apache.org/}} is a high-performance full-featured text search engine, that can be used as the foundation of many systems. Apache Solr is built on top of Lucene, providing distributed indexing, replication and querying, with multiple features and functionalities~\footnote{\url{http://lucene.apache.org/solr/}}t:
+
+\begin{itemize}[topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex]
+  \item Full-text search, with powerful matching capabilities, powered by Lucene.
+  \item Optimized for High Volume traffic.
+  \item Standards Based Open interfaces, including json, xml and http.
+  \item Comprehensive Administration Interfaces, making it easy to handle Solr instances.
+  \item Easy Monitoring, publishing relevant data via JMX
+  \item Highly scalable and Fault tolerant, using Apache ZooKeeper, is easy to scale and distribute the load.
+\end{itemize}
+
+Apache Solr is used as a base in many other systems, including some of the described in the following sections.
+
+% Add stanbol here?
+
+\subsection{Linked Media Framework and Apache Marmotta}
+
+Started as the Linked Media Framework~\footnote{\url{https://bitbucket.org/srfgkmt/lmf/}}, this project aimed to provide an easy to setup server to offer linked media management, publishing linked data and allowing interactions with it. \ac{LMF} is built in modules, some of them optional, allowing the extension of the functionalities in the Linked Media Server. Some of the implemented modules are:
+
+\begin{itemize}[topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex]
+  \item \ac{LMF} Semantic Search allowing for a search service on top of Apache Solr. 
+  \item \ac{LMF} Stanbol Integration, using Apache Stanbol for content analysis and interlinking.
+  \item \ac{LMF} SKOS editor, to manage SKOS thesauruses imported in the Linked Media Server.
+\end{itemize}
+
+The core functionalities of \ac{LMF} where set aside to incubate Apache Marmotta, an Open Platform for Linked Data within the Apache Software Foundation~\footnote{\url{http://www.apache.org/}} aiming to provide an implementation for Linked Data that can be used to both publish Linked Data and build custom applications for Linked Data.
+
+% Apache Marmotta / LMF
+% DBpedia / virtuoso?
+% Apache UIMA ?
+% Apache Lucene / Solr / Stanbol ? 
+% Terrier ? 
 
 
 \subsection{Question Answering over Linked Data Systems}
