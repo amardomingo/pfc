@@ -52,8 +52,8 @@ There are multiple implementations and frameworks of WSGI for python, some of th
 
 \begin{itemize}
  \item \textbf{Bottle} is a simple lightweight WSGI framework, focusing on simplicity. It is distributed as a single file module, with no other dependencies than the python standard library. However, it has capabilities to handle routing, easy access to web data such as cookies and http headers, and includes a built-in server for development. It also has support for templates, both with a built-in engine, and using external modules such as mako or jinja2.
- \item \textbf{Django} 
- \item \textbf{Flask}
+ \item \textbf{Django} is a full-fledged python web framework, offering fast and scalable services, with multiple built-in options, such as security, administration tools. It is slightly higher level than other frameworks, and emphasizes reusability of components and plugins, as well as rapid development. % complete?
+ \item \textbf{Flask}, a micro web application framework, based on the jinja2 template engine, and the Werkzeug WSGI toolkit. It focuses on providing a simple interface, whilst still providing multiple features such as RESTfull request dispatching, cookies and request handling and unicode support. It also includes native support for unit testing, as well as a development server and debugger. It also supports extensions for extra functionalities.
 \end{itemize}
 
 In our application, we have chose Apache as the gateway server, using mod\_wsgi, and Flask for the application itself.
@@ -67,7 +67,58 @@ As we have discussed in section \ref{sec:conv_agents}, there are several chatbot
 \subsection{ChatScript}
 \label{subsec:chatscript}
 
+\emph{\textcolor{red}{Rewrite this section}}
+
 ChatScript~\cite{wilcox2013} is a Loebner-prize winning chatbot module.
+
+It focuses matching user input in general meaning, allowing simple and very complete bots. The default language is English, and ChatScript provides built-in dictionaries and \ac{PoS} tagging for it. It also have a knowledge system based on fact triples.
+
+\subsubsection{Basic syntax, topics and rules}
+
+In Chatscript, rules are grouped in topics, and stored in ``.top'' files, allowing the designer to map the point of the conversation, therefore making a better response for the user. And example topic file can be found in listing~\ref{listing:exampletop}. In this example, the topic will be triggered when the user writes an input containing the words ``name'', ``here'', ``what'', or any other word specified in the system dictionaries ``emogoodbye'', ``emohello'' or ``emohowzit''. Then, it will attempt to match the user input with the patterns ``what is your name'' and ``what ~be''. If no pattern matches, it will output the gambit ``Have you been here before?''.
+
+\begin{center} 
+  \begin{lstlisting}[language={}, captionpos=b, caption=Example topic file, label=listing:exampletop]   
+    topic: ~INTRODUCTIONS (~emogoodbye ~emohello ~emohowzit name here what )
+    
+    #!x issued only once, then erased
+    t: Have you been here before?
+    
+    #! what is your name 
+    u: ( what is your name ) 
+        My name is Harry.
+        
+    #! what are you ?
+    ?: ( what ~be )
+        I am a bot. Are you also a bot?
+        a: (~no)
+            Oh, a human... How can I help you?
+  \end{lstlisting}
+\end{center}
+
+In this simple example, we find some of ChatScript syntaxes elements. We can see responders, gambits and rejoinders, as well as the use of topics and concepts. These are part of ChatScript rules structure, but there are some more elements not shown here. A slightly more comprehensive list is as follows:
+\begin{itemize}
+ \item \textbf{Input matching:} The pattern can start with either ``s:'', ``?:'' or ``u:'', indicating they are supposed to respond to statements, questions or both. The parenthesis then indicate the pattern itself, which can have multiple elements:
+    \subitem \emph{General words:} A simple word to look for on the sentence. ChatScript handles plurals and verb conjugations.
+    \subitem \emph{Concepts:} Starting with \~ , a concept is a set of words with a common general meaning.
+    \subitem \emph{Wildcards:} Allowing to match any word, or using a cardinal, can specify the number of words to match with the wildcard.
+    \subitem \emph{Start and end of sentence:} Using > and <, its possible to indicate whether the pattern should match the start or the end of the sentence.
+    \subitem \emph{Variables: } Starting the pattern element, whether is a wildcard, a concept or a word, using ``\_'', will store the matched word in a variable for future use, be it in the response or somewhere else.
+  \item \textbf{Gambit:} Lines starting with ``t:'' indicate a gambit, that will be triggered when the bot cannot find an appropriate response.
+  \item \textbf{Bot Response:} Immediately after the pattern, the following lines until the next chatscript syntax element indicate how the bot response is formed.
+  \item \textbf{Variables:} Not shown in the previous example, any word starting with ``\$'' is a global variable, and can be assigned a value that will be remembered for the user. If the variable starts with ``\$\$'', the variable will be local, only lasting until the end of the current answer.
+  \item \textbf{Rejoinders} Starting with single letters from ``a:'' through ``q:'' to indicate nesting depth, this indicate patterns that will trigger when the user responds to a specific bot output.
+  \item \textbf{Concepts:} Sets of word with a specific meaning, when referring to a concept in a pattern, it will match if any word in the set matches the input. ChatScript includes a large set of concepts by default, but the user can define its own sets.
+  \item \textbf{Topics:} rules are grouped in topics. Rules inside the topic will only be tested against the input when the input itself contains any of the words specified while defining the topic.
+\end{itemize}
+
+A more detailed approach to ChatScript rules, matching and functions can be found in its documentation\footnote{\url{http://sourceforge.net/projects/chatscript/files/?source=navbar}}.
+
+\subsubsection{Deploying a bot with ChatScript}
+
+By default, ChatScript can be run in local or server mode. Local mode allows for direct interaction from the command line, using the standard input and output to communicate with the user. This mode is specially usefull for debugging the rules when developing bots, since it gives access to debugging commands build with the system.
+
+For production environments, ChatScript can be run in server mode, where it listens it offers a TCP interface. This interface will receive messages containting the bot name, the user name and the user input, and return the bot response for the given input.
 
 \section{Information retrieval}
 
