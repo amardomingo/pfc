@@ -1,9 +1,15 @@
 \chapter{Enabling technologies}
 \label{chap:enabling}
 
-\section{Overview}
+\begin{chapterintro}
 
 In this chapter, we describe the technologies used in this project. We start by describing the web technologies, both client and server, used when building the front end interface. Then we discuss the modules used for the conversational system, as well as ChatScript and its capabilities. Finally, we talk about the techniques used retrieving and indexing the relevant information for our system.
+
+\end{chapterintro}
+
+\cleardoublepage
+
+\section{Overview}
 
 \section{Web technologies}
 
@@ -42,16 +48,15 @@ Over the last few years, multiple other server technologies have appeared, focus
 
 \emph{\textcolor{red}{Read the pep3333 and complete this.}}
 
-There are multiple implementations of WSGI for python, some of the most used are:
+There are multiple implementations and frameworks of WSGI for python, some of the most popular are:
 
 \begin{itemize}
  \item \textbf{Bottle}
  \item \textbf{Django}
  \item \textbf{Flask}
- \item \textbf{mod\_wsgi}
 \end{itemize}
 
-In our application, we have chose mod\_wsgi as the gateway server, on top of Apache, and Flask for the application itself.
+In our application, we have chose Apache as the gateway server, using mod\_wsgi, and Flask for the application itself.
 
 % Flask, django, bottle, mod_wsgi
 
