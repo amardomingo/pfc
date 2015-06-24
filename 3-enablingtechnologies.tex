@@ -24,6 +24,8 @@ The technologies used in web services can be divided in Client technologies, exe
 
 At its core, every web page is nothing but HTMl, CSS and JavaScript. On top of this multiple frameworks are built, allowing complex user interaction. 
 
+\emph{\textcolor{red}{Rework this section. Talk about jQuery, the evolution of the web to dynamic pages and data, etc}}
+
 % JS/jQuery, HTML5, CSS, etc
 
 \subsection{Server technologies}
@@ -40,7 +42,7 @@ For our service, we have used Apache\cite{apacheabout}, an Open Source HTTP-Serv
  \item \textbf{mod\_proxy} Allows the use of Apache as a proxy, masking other services behind it.
 \end{itemize}
 
-Over the last few years, multiple other server technologies have appeared, focusing on running code to build network applications. Node.js\footnote{\url{https://nodejs.org/}} or uWSGI\footnote{\url{http://uwsgi-docs.readthedocs.org/}} are examples of this philosophy.
+Over the last few years, multiple other server technologies have appeared, focusing on running code to build network applications. Node.js\footnote{\url{https://nodejs.org/}} or uWSGI\footnote{\url{http://uwsgi-docs.readthedocs.org/}} are examples of this philosophy. \emph{\textcolor{red}{This wording is weird}}
 
 \subsubsection{WSGI Servers in python}
 
@@ -56,7 +58,7 @@ There are multiple implementations and frameworks of WSGI for python, some of th
  \item \textbf{Flask}, a micro web application framework, based on the jinja2 template engine, and the Werkzeug WSGI toolkit. It focuses on providing a simple interface, whilst still providing multiple features such as RESTfull request dispatching, cookies and request handling and unicode support. It also includes native support for unit testing, as well as a development server and debugger. It also supports extensions for extra functionalities.
 \end{itemize}
 
-In our application, we have chose Apache as the gateway server, using mod\_wsgi, and Flask for the application itself.
+In our application, we have chose Apache as the gateway server, using mod\_wsgi, and Flask for the application itself. \emph{\textcolor{red}{Give ``example'' apache config?}}
 
 % Flask, django, bottle, mod_wsgi
 
@@ -130,52 +132,50 @@ The amount of information available in the web has grown exponentially over the 
 
 Scrappy\cite{villamor13} is a ruby framework with multiple functionalities, including web and REST interface, storing the scrapped data in a RDF repository, and outputing in multiple formats. For our system, we will discuss the web scrapping and RDF output capabilities.
 
-To recover data from a web page, Scrappy utilizes an ontology\footnote{http://www.gsi.dit.upm.es/ontologies/scraping/} to define the mapping between the web data and the semantic web resources. An example extractor can be found in listing \ref{listing:examplescrappy} will take the link to the GSI's staff page and return the relevant information about each member. As seen in the extractor, it matches CSS elements in the page to semantic properties. Although not shown in this particular example, it can also use Xpath and regular expressions as selectors.
+To recover data from a web page, Scrappy utilizes an ontology\footnote{http://www.gsi.dit.upm.es/ontologies/scraping/} to define the mapping between the web data and the semantic web resources. An example extractor can be found in listing \ref{listing:examplescrappy} will take the link to the GSI's staff page and return a foaf object with the name of each member. As seen in the extractor, it matches CSS elements in the page to semantic properties. Although not shown in this particular example, it can also use Xpath and regular expressions as selectors.
 
 \begin{center} 
   \begin{lstlisting}[language={}, captionpos=b, caption=Example extractor, label=listing:examplescrappy]   
 dc: http://purl.org/dc/elements/1.1/
 rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
 sioc: http://rdfs.org/sioc/ns#
-sc: http://lab.gsi.dit.upm.es/scraping.rdf#
+sc: http://www.gsi.dit.upm.es/ontologies/scraping.rdf#
 
-_:gsiperson:
+_:gsipeople:
   rdf:type: sc:Fragment
   sc:type: foaf:Person
   sc:selector:
     *:
       rdf:type: sc:UriPatternSelector
-      rdf:value: "http://www.gsi.dit.upm.es/index.php?option=com_jresearch&view=member&task=show&id=*" 
+      rdf:value: "http://www.gsi.dit.upm.es/index.php?option=com_jresearch&view=staff&layout=positions"
   sc:identifier:
     *:
       rdf:type: sc:BaseUriSelector
   sc:subfragment:
     *:
-      sc:type: rdf:Literal
-      sc:relation: foaf:homepage
+      sc:type: foaf:Person
       sc:selector:
         *:
           rdf:type: sc:CssSelector
-          rdf:value: ".personalpage a"
-    *:
-      sc:type: rdf:Literal
-      sc:relation: foaf:img
-      sc:selector:
+          rdf:value: ".jrperson"
+      sc:identifier:
         *:
           rdf:type: sc:CssSelector
-          rdf:value: ".persimg"
+          rdf:value: "a"
           sc:attribute: "href"
-     *:
-      sc:type: rdf:Literal
-      sc:relation: sioc:Role
-      sc:selector:
+      sc:subfragment:
         *:
-          rdf:type: sc:CssSelector
-          rdf:value: ".jrposition"
+          sc:type: rdf:Literal
+          sc:relation: foaf:givenName
+          sc:selector:
+            *:
+              rdf:type: sc:CssSelector
+              rdf:value: "a"
   \end{lstlisting}
 \end{center}
 
-An example of data generated with that extractor is shown in listing ~\ref{listing:examplerdf}. It can be seen how the elements matched in the extractor have been converted into properties
+An example of data generated with that extractor is shown in listing ~\ref{listing:examplerdf}. It can be seen how the elements matched in the extractor have been converted into properties. We have keep the example simple for clarity and space reasons.
+
 \emph{\textcolor{red}{Complete this section}}
 
 \begin{center}
@@ -184,7 +184,40 @@ An example of data generated with that extractor is shown in listing ~\ref{listi
 
 \subsection{Scrapy}
 
+Scrapy\footnote{\url{http://scrapy.org/}} is a fast high level web crawling framework, used to extract structured data from websites. It is written in python, and by default outputs data to json, although it accepts custom exporters, giving the user the ability to export into any format it requires.
+
+The crawlers are python classes that extend the Spider class in scrapy.
+
+\emph{\textcolor{red}{Add example code for scrapy. Maybe something for the gsi news?}}
 
 \section{Information indexing}
 
+Storing and indexing information \emph{\textcolor{red}{Justify the need to use a DB to index the info?}}
 % Apache Solr? 
+
+\subsection{Apache Solr}
+
+Apache Solr, first described in section \ref{sec:statesolr}, is an open source search platform, written in Java and built on top of Apache Lucene, an indexing an retrieval engine. It provides full text indexing and search capabilities and faceted search, as well as a web interface, and a REST-like api for queries. Figure \ref{fig:solr1} shows the query interface in the solr web administrator.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{img/screens/solr-interface.png}
+    \caption{Web interface for Solr queries.}
+    \label{fig:solr1}
+\end{figure}
+
+\emph{\textcolor{red}{Complete this section}}
+
+% Add reference to taming text
+% example query? Already done in prototype?
+% example core?
+
+\subsection{Fuseki}
+
+% Change this paragraph! Placeholder from ruben's master thesis
+Fuseki30 is a SPARQL server. It provides REST-style SPARQL HTTP Update, SPARQL Query, and SPARQL Update using the SPARQL protocol over HTTP. We will use a Fuseki server installation for storing our own RDF files containing geoSPARQL data.
+
+\emph{\textcolor{red}{Complete this section}}
+
+% Fuseki web interface
+% Example rest query?

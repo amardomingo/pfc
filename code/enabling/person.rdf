@@ -6,9 +6,9 @@
    xmlns:sioc="http://rdfs.org/sioc/ns#">
 
   <foaf:Person rdf:about="http://www.gsi.dit.upm.es/index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=84">
-    <sioc:Role>5&gt; Becario de Grado</sioc:Role>
     <foaf:givenName>Alberto Mardomingo Mardomingo</foaf:givenName>
-    <foaf:homepage>http://gsi.dit.upm.es/~amardomingo/</foaf:homepage>
-    <foaf:img>http://www.gsi.dit.upm.es/uploads/jresearch/assets/members/Foto.jpg</foaf:img>
+  </foaf:Person>
+  <foaf:Person rdf:about="http://www.gsi.dit.upm.es/index.php?option=com_jresearch&amp;view=member&amp;task=show&amp;id=16">
+    <foaf:givenName>Carlos A. Iglesias</foaf:givenName>
   </foaf:Person>
 </rdf:RDF>
