@@ -1,5 +1,5 @@
 \chapter{Use case: Java}
-\label{chap:prototype}
+\label{chap:usecasejava}
 
 \begin{chapterintro}
 
@@ -22,7 +22,7 @@ For this system, we developed a prototype utilising the architecture explained i
 
 In parallel to all this, both a web scraper using scrapy to recover the relevant data, and an uploader to post the data to Solr.
 
-\subsection{Chat client}
+\section{Chat client}
 \label{sec:chatclient}
 
 In our prototype, the interaction with the system is done via a web client that provides a chat box and an iframe where the content is located. When the user first opens the page, it's greeted by the bot, and provided with a   short explanation of how the client works.
@@ -65,11 +65,11 @@ Upon the user submitting a question through the interface, the client will send 
   \end{lstlisting}
 \end{center}
 
-\subsection{Front end controller}
+\section{Front end controller}
 \label{sec:frontendcon}
 The Front end controller is the main control module in our system. It handles the requests received from the client described in \ref{sec:chatclient}, and proceeds to triggers the required modules, as well as executing the \ac{OoB} commands received from each module. This module is provided as a web service, and therefore we have chosen Flask~\cite{flask0101} and Apache's mod\_wsgi~\cite{modwsgi} to deploy it. In the following subsections we will describe how it works as well as its work-flow structure.
 
-\subsubsection{Functional Model}
+\subsection{Functional Model}
 
 The function of this module is returning the answer to the user, formed as JSON, by triggering the appropriate modules and reacting to their responses. To do so, it follows a process explained in the UML diagram shown in Figure \ref{fig:fe-model1}.
 
@@ -91,7 +91,7 @@ The function of this module is returning the answer to the user, formed as JSON,
 
 % Add the workflow of the controller.
 
-\subsubsection{Structural Model}
+\subsection{Structural Model}
 
 In this section we will describe the structure followed designing the front end controller. In figure \ref{fig:fe-methods1} we show the method structure of the controller.
 \begin{figure}[!htbp]
@@ -181,12 +181,12 @@ The syntaxes of the commands is specified in table \ref{tab:oob-commands}.
   \end{table}
 \end{center}
 
-\subsection{ChatBot}
+\section{ChatBot}
 \label{sec:chatbot}
 
 The ChatBot handles the processing of the natural language input from the user, and controls the conversation. To do so, it uses the chat engine ChatScript, described in section \ref{subsec:chatscript}. We will first describe the ChatBot rules, and how they process the user input, and then proceed to describe how to launch and communicate with the ChatScript server.
 
-\subsubsection{The rules}
+\subsection{The rules}
 
 Chatscript responds to a series of rules, specified in its topic files. This rules will match the user input and produce an appropriate response, or output a rejoinder if no rule is matched. A more in depth description of how chatscript rules work can be found in section \ref{subsec:chatscript}.
 
@@ -220,7 +220,7 @@ As we have just mentioned, there are several topics, both with and without keywo
 All this files need to be compiled into binary data to be used by the ChatScript server.
 % Explain how chatscript works.
 
-\subsubsection{The server}
+\subsection{The server}
 
 ChatScript provides two ways of interaction. For debugging purposes, it has a command line interface, and can also be deployed as a service listening in a TCP socket for user input. This server is what we have choose to use to interact with ChatScript. The full deployment instructions can be found in the appendix, and we will proceed to describe here the communication process.
 
@@ -248,7 +248,7 @@ The server will then return in the same connection the response generated using 
 
 %\emph{\textcolor{red}{It doesn't look viable to have spanish dicts in a timely manner.}}
 
-\subsection{Solr instance}
+\section{Solr instance}
 \label{sec:solr}
 
 In this section we will describe how the Solr instance is set up, as well as the schema and the search procedure. We are using Apache Solr 4.10.2 as a document and search engine. The search queries will be send by the controller described in section \ref{sec:frontendcon}. The server will contain the data recovered from the vademecum, structured in documents (one for each topic), and will allow us to perform the required searches. We will first describe the schema for the aforementioned documents, 
@@ -260,7 +260,7 @@ In this section we will describe how the Solr instance is set up, as well as the
 % Solr - add the relevant schema portions and how they work.
 
 % Add somewhere how we are parsing the documents into json data.
-\subsubsection{Data schema}
+\subsection{Data schema}
 \label{subsec:solrschema}
 
 The scrapped data is stored using a Solr core containing every relevant document. This is done by describing the structure of said documents in the schema.xml for Solr. In this file, we can consider three main groups of fields:
@@ -324,7 +324,7 @@ With this configuration we will be able to do the queries described in the follo
 
 % Add something about the solr config?
 
-\subsubsection{Faceted query}
+\subsection{Faceted query}
 % Maybe change the title?
 
 In the event that ChatScript identifies the question and the topic the user is asking for, we will perform a faceted search in Solr, looking for the fields requested in the \ac{OoB} command. The query will be done in json format. An example of a query is shown in listing \ref{listing:solrquery1}, and the meaning of each field is described next:
@@ -349,7 +349,7 @@ In the event that ChatScript identifies the question and the topic the user is a
 
 With this search, we will try to look up the documents when the ChatScript module clearly identifies the topic the user is asking about, and, properly defining the returning fields for the search, the controller will show the relevant data. In case the question is not clearly identified, but ChatScript recognizes the user is talking about some java topic, this query won't be valid, and we will have to perform an \ac{eDisMax} query, described in the next section.
 
-\subsubsection{Gambit query}
+\subsection{Gambit query}
 \label{subsec:solrgambit}
 % Explain the process to run the eDisMax query
 
@@ -388,8 +388,69 @@ The significance of each in the query is as follows:
 This search will provide a broader match than the faceted query, finding matches when the topic of the question is not clear, and offering the answer to the user. To prevent completely unrelated topics to be offered to the user, the score is retrieved and only the answers with a minimum score will be returned.
 
 
-\subsection{Scrapping process}
+\section{Scrapping process}
 % \emph{\textcolor{red}{Add a section describing the scrapped documents, and the rdf data?}}
+
+The data for this prototype comes from Professor Jose A. Mañas' Java Vademcum\footnote{\url{http://dit.upm.es/~pepe/libros/vademecum/}}, converted into RDF and json format using scrapy to be uploaded to a Solr instance. In this process, we will study the structure of a Vademecum document and match it to the schema described in section \ref{subsec:solrschema}. An example of that conversion is shown in figure \ref{fig:vademecum1}.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1.1\textwidth]{img/screens/vademecum-ex.png}
+    \caption{Example mapping for the vademecum.}
+    \label{fig:vademecum1}
+\end{figure}
+
+The process for that document is automated using python, xpath and regular expressions. using jinja2 templates to generate the data. The scrapy spider will go through every entry in the vademecum and create a list of items, which will in turn be exported in the required format. We have considered two formats for the export, json and RDF. Both of them are based on a tauxonomy using SKOS and Dublin Core. However, is worth to note that we are using json rather than json-ld, so we also provide the RDF as Linked Data.
+
+\subsection{RDF for Java}
+
+
+
+\begin{center} 
+  \begin{lstlisting}[language=XML, captionpos=b, caption=Example extractor, label=listing:examplerdfvademecum]   
+    <skos:Concept rdf:about="http://www.dit.upm.es/~pepe/libros/vademecum/topics/26.html">
+        <dcterms:title xml:lang="es">Asignacion</dcterms:title>
+        <dcterms:alternative xml:lang="en">assignment</dcterms:alternative>
+        <skos:definition>Se llaman sentencias de asignacion a las que cargan un nuevo valor en una variable</skos:definition>
+        <dcterms:description>Se llaman sentencias de asignacion a las que cargan un nuevo valor en una variable: El tipo de la variable debe ser igual al de la expresion en tipos primitivos: asignable por promocion (ver \" Promocion\") asignable por reduccion (ver \" Reduccion\") en objetos: asignable por Upcasting (ver \"Casting\") asignable por Downcasting (ver \"Casting\")</dcterms:description>
+        <skos:related>http://www.dit.upm.es/~pepe/libros/vademecum/topics/122.html</skos:related> <skos:related>http://www.dit.upm.es/~pepe/libros/vademecum/topics/242.html</skos:related> <skos:related>http://www.dit.upm.es/~pepe/libros/vademecum/topics/247.html</skos:related> <skos:related>http://www.dit.upm.es/~pepe/libros/vademecum/topics/288.html</skos:related> <skos:related>http://www.dit.upm.es/~pepe/libros/vademecum/topics/47.html</skos:related> <skos:related>http://www.dit.upm.es/~pepe/libros/vademecum/topics/86.html</skos:related> <skos:related>http://www.dit.upm.es/~pepe/libros/vademecum/topics/47.html</skos:related> <skos:related>http://www.dit.upm.es/~pepe/libros/vademecum/topics/3.html</skos:related> <skos:related>http://www.dit.upm.es/~pepe/libros/vademecum/topics/27.html</skos:related> <skos:related>http://www.dit.upm.es/~pepe/libros/vademecum/topics/28.html</skos:related> 
+        <skos:example>variable = expresion ;</skos:example>
+        <skos:broader></skos:broader>
+        
+        <skos:inScheme>VademecumScheme</skos:inScheme>
+    </skos:Concept>
+ \end{lstlisting}
+\end{center}
+
+
+\subsection{JSON data}
+\begin{center} 
+  \begin{lstlisting}[language=JSON, captionpos=b, caption=Example extractor, label=listing:examplerdfvademecum]   
+ "http://www.dit.upm.es/~pepe/libros/vademecum/topics/26.html": {
+        "definition": "Se llaman sentencias de asignacion a las que cargan un nuevo valor en una variable", 
+        "concept": "concepto", 
+        "description": "Se llaman sentencias de asignacion a las que cargan un nuevo valor en una variable: El tipo de la variable debe ser igual al de la expresion en tipos primitivos:  asignable por promocion (ver \"Promocion\")  asignable por reduccion (ver \"Reduccion\")  en objetos:  asignable por Upcasting (ver \"Casting\") asignable por Downcasting (ver \"Casting\")", 
+        "links": [
+            "http://www.dit.upm.es/~pepe/libros/vademecum/topics/122.html", 
+            "http://www.dit.upm.es/~pepe/libros/vademecum/topics/242.html", 
+            "http://www.dit.upm.es/~pepe/libros/vademecum/topics/247.html", 
+            "http://www.dit.upm.es/~pepe/libros/vademecum/topics/288.html", 
+            "http://www.dit.upm.es/~pepe/libros/vademecum/topics/47.html", 
+            "http://www.dit.upm.es/~pepe/libros/vademecum/topics/86.html", 
+            "http://www.dit.upm.es/~pepe/libros/vademecum/topics/47.html", 
+            "http://www.dit.upm.es/~pepe/libros/vademecum/topics/3.html", 
+            "http://www.dit.upm.es/~pepe/libros/vademecum/topics/27.html", 
+            "http://www.dit.upm.es/~pepe/libros/vademecum/topics/28.html"
+        ], 
+        "example": "variable=expresion;"
+        "title": "Asignacion", 
+        "alternative": "assignment", 
+        "id": "26"
+    }, 
+
+  \end{lstlisting}
+\end{center}
+
 
 
 % \section{Use cases}
