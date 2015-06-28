@@ -179,6 +179,7 @@ Upon the user submitting a question through the interface, the client will send 
 The Front end controller is the main control module in our system. It handles the requests received from the client described in \ref{sec:chatclient}, and proceeds to triggers the required modules, as well as executing the \ac{OoB} commands received from each module. This module is provided as a web service, and therefore we have chosen Flask~\cite{flask0101} and Apache's mod\_wsgi~\cite{modwsgi} to deploy it. In the following subsections we will describe how it works as well as its work-flow structure.
 
 \subsection{Functional Model}
+\label{subsec:functmodel}
 
 The function of this module is returning the answer to the user, formed as JSON, by triggering the appropriate modules and reacting to their responses. To do so, it follows a process explained in the UML diagram shown in Figure \ref{fig:fe-model1}.
 
@@ -378,7 +379,6 @@ The scrapped data is stored using a Solr core containing every relevant document
  \item \textbf{Stock solr fields: } This fields are internal for solr, and we will not describe them here.
  \item \textbf{Document fields: } the fields scrapped from the Vademecum, they are described in table \ref{tab:schema-docfields}.
  \item \textbf{titleDefinition field: } this fields is generated concatenating the definition and title fields, to facilitate general search. %\emph{\textcolor{red}{Describe the copy process?}}
-
 \end{itemize}
 
 The xml for this fields is as in listing \ref{listing:solr-schema1}
@@ -450,8 +450,8 @@ In the event that ChatScript identifies the question and the topic the user is a
 \end{center}
 
 \begin{itemize}
- \item \textbf{q} contains the actual query sent to the server, specifying the fields we are looking for, as well as the expected filter for the query and the fuzziness. In the example, we are searching for documents containing the given string in the title, with a fuzziness of 0 (an exact match).
- \item \textbf{bf} the format the data will be returned in. In the example, we want the data in json format.
+ \item \textbf{q} contains the actual query sent to the server, with the filter for the query and the fuzziness. In the example, we are searching for documents containing the given string in the title, with a fuzziness of 0 (an exact match).
+ \item \textbf{wt} the format the data will be returned in. In the example, we want the data in json format.
  \item \textbf{fl} the list of fields we want for the documents in the response. In the example, this is set to all the fields in the document, specified in the query as a wild card ``*'', as well as the score for the match.
  \item \textbf{rows} the number of documents to return.
 \end{itemize}
@@ -495,9 +495,3 @@ The significance of each in the query is as follows:
 \end{itemize}
 
 This search will provide a broader match than the faceted query, finding matches when the topic of the question is not clear, and offering the answer to the user. To prevent completely unrelated topics to be offered to the user, the score is retrieved and only the answers with a minimum score will be returned.
-
-
-
-% \section{Use cases}
-
-% ¿? Something something... or something else?

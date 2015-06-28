@@ -1,0 +1,11 @@
+<bibtex:Conference rdf:about="gsi:serranoTwitter2015">
+    <bibtex:hasTitle>A survey of Twitter Rumor Spreading Simulations</bibtex:hasTitle>
+    <bibtex:hasAuthor>gsi:eserrano</bibtex:hasAuthor>
+    <bibtex:hasAuthor>gsi:ciglesias</bibtex:hasAuthor>
+    <bibtex:hasAuthor>gsi:mgarijo</bibtex:hasAuthor>
+    <dcterms:source>http://www.gsi.dit.upm.es/index.php/es/investigacion/publicaciones.bibtex?controller=publications&amp;task=export&amp;id=364</dcterms:source>
+    <bibtex:hasYear>2015</bibtex:hasYear>
+    <bibtex:hasMonth>September</bibtex:hasMonth>
+    <bibtex:hasBooktitle>7th International Conference on Computational Collective Intelligence Technologies and Applications</bibtex:hasBooktitle>
+</bibtex:Conference>
+
