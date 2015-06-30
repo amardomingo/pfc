@@ -6,6 +6,8 @@ In this chapter we will analyse the behaviour and performance of the system. We 
  
 \end{chapterintro}
 
+\cleardoublepage
+
 \section{Overview}
 
 The systems developed for this project has multiple modules of systems, each one of them with different hardware requirements. Therefore, we will first take a look at the performance for each module, to then focus in measuring the response of the entire system.
@@ -17,39 +19,63 @@ Together with the performance analysis, we have run a experiment to analyse the 
 For our system, we will first analyse the memory and CPU usage under low load for each of the modules. The results can be seen in table \ref{tab:loadmeasures}.
 
 \emph{\textcolor{red}{Update with values from munin, and graphs}}
-\begin{center}
+  
+\begin{table}
   \centering
-  \begin{table}
-    \begin{tabular*}{0.7\textwidth}{| c | c | c |}
-      \hhline{|-|-|-|}
-      \textbf{Module} & \textbf{CPU Usage} & \textbf{Memory} \\ \hhline{|=|=|=|}
-      ChatScript & 0 &  140MB \\ \hhline{|-|-|-|}
-      Solr & 1.9 \% & 533.74MB \\ \hhline{|-|-|-|}
-      Python Controller & 0.2 \% & 12.66MB \\ \hhline{|-|-|-|} 
-      \end{tabular*}
-    \caption{Memory and CPU usage for each system under low load}
-    \label{tab:loadmeasures}
-  \end{table}
-\end{center}
+  \begin{tabular*}{0.7\textwidth}{| c | c | c |}
+    \hhline{|-|-|-|}
+    \textbf{Module} & \textbf{CPU Usage} & \textbf{Memory} \\ \hhline{|=|=|=|}
+    ChatScript & 0.2 \% &  140MB \\ \hhline{|-|-|-|}
+    Solr & 1.9 \% & 533.74MB \\ \hhline{|-|-|-|}
+    Python Controller & 0.2 \% & 12.66MB \\ \hhline{|-|-|-|} 
+    \end{tabular*}
+  \caption{Memory and CPU usage for each system under low load}
+  \label{tab:loadmeasures}
+\end{table}
 
 This measures where performed on a system running Debian Jessie, with the components shown in table \ref{tab:systeminfo}
 
 \emph{\textcolor{red}{Check memory and hard drive vendor}}
-\begin{center}
+\begin{table}
   \centering
-  \begin{table}
-    \begin{tabular*}{0.7\textwidth}{| c | c |}
-      \hhline{|-|-|}
-      Motherboard & Asus V-P7H55E \\ \hhline{|-|-|} 
-      CPU & Intel i5 650 3.20GHz  \\ \hhline{|-|-|} 
-      Memory & Dual Channel 4096MB  \\ \hhline{|-|-|} 
-      \end{tabular*}
-    \caption{Memory and CPU usage for each system under low load}
-    \label{tab:systeminfo}
-  \end{table}
-\end{center}
+  \begin{tabular*}{0.5\textwidth}{| c | c |}
+    \hhline{|-|-|}
+    Motherboard & Asus V-P7H55E \\ \hhline{|-|-|} 
+    CPU & Intel i5 650 3.20GHz  \\ \hhline{|-|-|} 
+    Memory & Dual Channel 4096MB  \\ \hhline{|-|-|} 
+    Hard Drive & \\ \hhline{|-|-|} 
+    \end{tabular*}
+  \caption{Memory and CPU usage for each system under low load}
+  \label{tab:systeminfo}
+\end{table}
 
-We have also attempted to measure the response time for the system for a number of different queries
+
+Figures \ref{fig:cpuuse} and \ref{fig:memuse} show CPU and memory usage for the controller and ChatScript over time.
+
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/test/memory_by_process.png}
+    \caption{Memory consumption from ChatScript and the controller}
+    \label{fig:memuse}
+\end{figure}
+
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/test/cpu_usage.png}
+    \caption{CPU usage for ChatScript and the controller}
+    \label{fig:cpuuse}
+\end{figure}
+
+We have also attempted to measure the response time for the system for a number of different queries for a remote system. Figure \ref{fig:times-demos} shows the measured times.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/test/times.png}
+    \caption{Times for queries}
+    \label{fig:times-demos}
+\end{figure}
 
 \section{Corpus tests}
 
@@ -79,8 +105,28 @@ The participants of the experiment ranged in age from 20 to 30 years old, most o
 
 \subsection{Experiment procedure}
 
+
+We proposed the participants to interact with two different configurations of our prototype. They are presented a \ac{QA} configuration and a Conversational Agent configuration (both with similar interfaces in order to avoid the effect of the possible confounding variable). The \ac{QA} search for the information in the documents available and shows the result. Indeed, with this configuration, the \ac{QA} system is working as a \ac{IR} since it does not extract any information from the document. This is simple but yet valid and useful configuration since the documents we worked with were relatively small. The second configuration consist on a conversational agent, that have access to the same information as the former system (and uses the same \ac{IR} module), with the added features of social dialog and proactive recommendation of related topic and suggesting examples. In both cases, some answers will be served with suggestions of related topics and examples to ask for. Instead of implementing four different configurations of the system, this approach was selected because the influence of the suggestions can still be measured, and otherwise the learning and fatigue effects of within-subjects evaluation with too many interfaces (that are very similar) may falsify the results.
+
+
+We hypothesise that participants will prefer using natural language rather than keywords search to query the system, and that they will mostly follow the suggestions given, specially in the Conversational Agent configuration. Particularly we state the following hypothesis:
+
+\begin{itemize}
+  \item \textbf{Hypothesis 1:} Participants will interact more times with the conversational agent interface than with the QA interface.    
+  \item \textbf{Hypothesis 2a:} Participants will use natural language queries significantly more times than keyword queries to consult the system.
+  \item \textbf{Hypothesis 2b:} In particular, participants will use natural language queries slightly more times with the conversational agent interface than with the QA interface.
+  \item \textbf{Hypothesis 3a:} Participants will prefer to follow suggestions and ask for related topics significantly more times rather than asking for different topics.
+  \item \textbf{Hypothesis 3b:} In particular, participants will prefer to follow suggestions when these are offered so that they have to accept or reject them.
+% \item Hypothesis 3: Participants will interact significantly more times with the Conversational Agent system than with the Question Answering system. 
+%   \item \textbf{Hypothesis 4a:} Participants who engage in social dialogue will interact significantly more times than those who do not.
+  \item \textbf{Hypothesis 4:} Participants who engage in social dialogue will show significantly more satisfaction in the questionnaire.  
+\end{itemize}
+
+
 The 12 participants that volunteered for this evaluation process were randomly assigned to one of two groups, varying the order in which they will evaluate the two interfaces for counterbalancing (50\% of the participants will test the QA configuration first and then the Conversational Agent). Each group receives a evaluation guide and a questionnaire. Each participant is given the task consisting on questioning the system (to add extra motivation we encouraged them to try to trick it or find a relevant topic where to which the system has no answer). They are requested to perform this task with both system configuration.
 The evaluation consist on: first, the participants fill in a demographics questionnaire; second, they are given the general instructions to follow in the whole evaluation process; then they are given the task and the url of the system they will test first (according to the group the belong to); after that, they are requested to fill in a questionnaire of satisfaction about the first system configuration; then they are given the url of the second system to test (and the same task to perform); a second satisfaction questionnaire about the second system configuration is delivered; and finally they are requested to fill in a global satisfaction questionnaire. The average time for performing the whole evaluation process was 9.13 minutes (SD=4.26).
+
+
 
 \subsection{Measurements}
 
