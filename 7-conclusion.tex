@@ -1,4 +1,6 @@
 \chapter{Conclusion and future work}
+\label{chap:conclusion}
+
 
 \begin{chapterintro}
 
@@ -10,6 +12,49 @@ In this chapter we will analyse the behaviour and performance of the system. We 
 
 \section{Conclusion}
 
+For this project, we have developed multiple conversational agents that allowed users to interact with Linked Data Systems in natural language. We will now present the conclusions we have deduced from our work.
+
+We started this document specifying several requirements and goals we aimed to achieve with the architecture and prototypes developed for this Master Thesis. It has been shown that with the technologies available at this point is possible build personal assistants using conversational agents and linked data to help final users find the information they are looking for.Building this systems comes from the appropriate knowledge of this technologies, and how they can communicate with each other is possible to build system. 
+
+The Natural Language processing and understanding capabilities of ChatScript have allowed us to present an interface that users with low technical capabilities can use, effectively lowering the entry barrier for the fields we can adapt the system for. However, it is important to remark that Natural Language processing still needs to improve, as can be shown by the results of the evaluation. This is specially true for languages other than English, since most frameworks for natural language processing are aimed at English speaking users, and adapting them for different languages has proved it can be a daunting task if performed in full.
+
+By developing two different prototypes for the proposed architecture, with different types of documents, we have shown that our system can be adapted to different fields with relatively low effort, although it has been shown than the first prototype was not ready for an environment formed by heterogeneus documents containing the required data.
+
+The tests with the users have allowed us to check the hypotheses formulated at the start of this project, confirming several of them and being unable to support others.
+
+Finally, the offering of our conversational agent as a web application, has proved a fundamental tool to spread the usage of our system, since it permits access form any device with an Internet connection.
+
 \section{Achieved goals}
 
+In chapter \ref{chapter:intro} we discussed the goals we wanted to achieve with this project. This can be summarize as follows:
+
+\begin{enumerate}[label=(\roman*)]
+ \item Develop a system that would be able to take a natural language request and provide an answer using a Linked Data System.
+ \item Evaluate different natural language and linked data systems to use with our own.
+ \item Study the implementation of the system in multiple fields of knowledge.
+ \item Analyse the behaviour of the system, as well as the experience of the users using it.
+\end{enumerate}
+
+For the first goal, we have proposed and architecture that can fulfil that objective, as well as developed two prototypes proving it was possible to successfully follow that architecture while developing a system with a Natural Language Interface.
+
+In order to achieve the first goal, we studied the systems for Natural Language processing available, analysing their capabilities and their weaknesses, focusing on the possibilities to use languages other than English for the processing. We also analysed multiple linked data systems, as well as linked open data systems, finally choosing the one we considered most appropriate for our system. Therefore, we consider the goal (ii) to have been reached.
+
+The first prototype developed for our system was focused on providing assistance for an e-learning platform for the Java programming language, focusing on very simple and structured documents, therefore not presenting significant challenges to index. We then developed a system focused on finding information about a research group, with documents of different structures and formats, dealing with different topics. We achieved this by extending our first system into a new one capable of handling this new requirements. Accordingly, we consider goal (iii) to be achieved.
+
+Finally, we proposed a methodology to test the system, and test whether our hypotheses about user experience and behaviour where correct. We perform an experiment comparing our system with a QA interface, with real users, and gathering data from their usage of the system. We also performed test to check the performance of the system under different loads, showing the final results in chapter \ref{chap:evaluation}. These tests achieved goal (iv).
+
+
 \section{Future work}
+
+Working on the systems developed for this Master Thesis, we have achieved an understanding of the possibilities of Natural Language Processing, as well as the benefits of the Semantic Web and the Linked Open Data initiative. With this knowledge, we can suggest future areas of study that can improve the functionality of the project and extend its goals.
+
+\begin{enumerate}
+ \item \emph{Spanish dictionaries}: Although it is possible to use the chatbot engine chosen for our prototypes, ChatScript, with Spanish, it has a distinct lack of support, nowhere near the capabilities for the English language. To improve this, it would be necessary to build Spanish dictionaries or translate the existing ones from English, as well as analyse the processing ChatScript does for English sentences and mimic it with Spanish, adapting it when necessary.
+ \item \emph{Using SPARQL}: integrating a SPARQL query system would allow to easily adapt our system for multiple knowledge fields, as well as providing support for more complex interactions with the user, given the huge capabilities of the Linked Data.
+ \item \emph{Automating the indexing process}: Although at this point the scrapping process is mostly automated and can be done without requiring human interactions, it is still necessary for a person to gather the scrapped data and indexing it in Solr. In order to make our system work in semi-real time, it would be necessary to fully automate the process, from launching the multiple scrappers to combine the information and adding it to the system, be it Solr or an SPARQL server.
+ \item \emph{Extend the evaluation experiment to the second prototype}: The described experiment with the users was perform with the first prototype. Adapting the methodology to the second one, and gathering the users feedback may be useful for further improving the system.
+ \item \emph{Adding audio interface}: Whilst we consider interacting with our system with natural language an improvement while comparing it with traditional interfaces, it could be improved further by including support for speech recognition and text-to-speech capabilities, simplifying user interactions, and greatly improving accessibility.
+ \item \emph{Administrative interface}: Adding an interface to handle the different modules of the system, as well as checking their status and success rate in real time will allow administrators to easily manage the systems and respond to any possible problem that may appear.
+\end{enumerate}
+
+In conclusion, we have developed a robust and functional system, but it can still be greatly improved with new modules, enhancing the user experience. As new ideas and new developers come forward, they could take this system as a base to develop better and more powerful personal assistants.

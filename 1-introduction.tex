@@ -1,4 +1,5 @@
 \chapter{Introduction}
+\label{chapter:intro}
 
 \begin{chapterintro}
 
@@ -8,8 +9,44 @@ In this chapter we will introduce the objectives of this master's thesis as well
 
 \cleardoublepage
 
-\section{Motivation}
+\section{Context}
 
-\section{Rationale}
+Personal agents are present in many fields, from educative platforms\cite{fonte2012intelligent} to virtual city tours\cite{bogdanovych2012the} and database querying\cite{augello2009semantic}. In this document we present our project, an architecture for conversational systems over linked data, as well as two prototypes, one applied to the educative platforms field, and the other about academic information of a research group. In both cases there has been an increase in the influx of information over the last few years, in a way that made necessary for the end users to have a platform that would allow them to easily access said information.
+
+One alternative for accessing the desired information is using conversational agents, allowing the end user to express their requests and desires in natural language, simplifying the interactions with the system. We will therefore study the technologies available for understanding natural language, as well as information indexing and retrieval technologies, allowing us to build a system that will interact with the users, both answering their questions in natural language, and proposing related topics to look into.
+
+Understanding Natural Language involves using grammars and semantics, statistical methods or templates to identify keywords from the user's input to understand what they are requesting. Maintaining these services whilst reducing the cost and improving their knowledge presents a challenge for researches, specially when considering than including assistance into the system also involves modelling the new actions the system will have to be able to respond to.
+
+In order to be able to suggest new topics, we will study the of linked data systems. According to the W3C, the semantic web is ``\emph{a Web of Data — of dates and titles and part numbers and chemical properties and any other data one might conceive of}'', and Linked Data implies making the data available in a standard format, reachable and manageable by Semantic Web tools, as well as the \emph{relationships among data}, therefore creating a collection of interrelated datasets, that can be referred as Linked Data\footnote{\url{http://www.w3.org/standards/semanticweb/data}}.
+
+Finally, the heterogeneous nature of systems being used by the user, makes it interesting to develop the interface for our system as a web application, allowing access from any platform with access to a web browser.
+
+\section{Goals}
+
+The main goal of this Master Thesis is to develop a system that would allow the user to interact using Natural Language with a Linked Data System, receiving the information he has asked for, as well as suggestions and information about related topics.
+
+We present a web application that can be used both to navigate the information, ask questions and chat with the agent. The system will then be able to find the answer in the Linked Data System, a knowledge base that can be improved using information retrieval techniques.
+
+We will analyse the state of the art systems for Natural Language Processing, in order to chose the most adequate for our system, as well as the systems capable of storing linked data, to be able to select the one that best fit our necessities.
+
+Furthermore, we will study the implementation of our system for two different knowledge fields, the first one with a simple collection of similar documents, and the other with multiple data sources and document structures, but both of them presenting a similar interface for the end user.
+
+Finally, we will evaluate our system, both taking measures regarding its general performance, and designing an experiment with real users to study their responses and experience with our system.
 
 \section{Structure of the document}
+
+In this section we will provide a brief overview of the structure of this Master Thesis. Each chapter is as follows:
+
+\emph{Chapter \ref{chapter:intro}} provides an introduction to the project, explaining the basic concepts, as well as the goals for the project.
+
+\emph{Chapter \ref{chap:state_of_the_art}} list all the technologies used in this project, along with some other systems that are thematically related to the one proposed in this Master Thesis.
+
+\emph{Chapter \ref{chap:architecture}} describes the architecture proposed for our system, justifying and explaining each module and its functions.
+
+\emph{Chapter \ref{chap:usecasejava}} shows the functionality of one of the prototypes developed for the project, a system to facilitate the search of information about the Java programming language, explaining the function of each module as well as the interactions between them.
+
+\emph{Chapter \ref{chap:usecasegsi}} demonstrates a prototype for a different knowledge field, the information about the Intelligent Systems Group, its members, publications and projects. 
+
+\emph{Chapter \ref{chap:evaluation}} discuss the results of the first prototype, showing the performance and analysing the methodology and results of a test with real users.
+
+\emph{Chapter \ref{chap:conclusion}} analyses the overall result of the Master Thesis, summarizing the goals, and considering possible future developments.

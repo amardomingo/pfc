@@ -1,4 +1,5 @@
 \chapter{Evaluation}
+\label{chap:evaluation}
 
 \begin{chapterintro}
 
@@ -18,40 +19,37 @@ Together with the performance analysis, we have run a experiment to analyse the 
 
 For our system, we will first analyse the memory and CPU usage under low load for each of the modules. The results can be seen in table \ref{tab:loadmeasures}.
 
-\emph{\textcolor{red}{Update with values from munin, and graphs}}
-  
 \begin{table}
   \centering
   \begin{tabular*}{0.7\textwidth}{| c | c | c |}
     \hhline{|-|-|-|}
     \textbf{Module} & \textbf{CPU Usage} & \textbf{Memory} \\ \hhline{|=|=|=|}
-    ChatScript & 0.2 \% &  140MB \\ \hhline{|-|-|-|}
+    ChatScript & 0.2 \% &  152MB \\ \hhline{|-|-|-|}
     Solr & 1.9 \% & 533.74MB \\ \hhline{|-|-|-|}
-    Python Controller & 0.2 \% & 12.66MB \\ \hhline{|-|-|-|} 
+    Python Controller & 0.2 \% & 153.91MB \\ \hhline{|-|-|-|} 
     \end{tabular*}
   \caption{Memory and CPU usage for each system under low load}
   \label{tab:loadmeasures}
 \end{table}
 
-This measures where performed on a system running Debian Jessie, with the components shown in table \ref{tab:systeminfo}
+The specifications of the system running the tests are shown in table \ref{tab:systeminfo}
 
-\emph{\textcolor{red}{Check memory and hard drive vendor}}
 \begin{table}
   \centering
-  \begin{tabular*}{0.5\textwidth}{| c | c |}
+  \begin{tabular*}{0.7\textwidth}{| c | c |}
     \hhline{|-|-|}
+    Operating System & Debian Jessie x64, Kernel 3.16.0-4 \\ \hhline{|-|-|} 
     Motherboard & Asus V-P7H55E \\ \hhline{|-|-|} 
     CPU & Intel i5 650 3.20GHz  \\ \hhline{|-|-|} 
-    Memory & Dual Channel 4096MB  \\ \hhline{|-|-|} 
-    Hard Drive & \\ \hhline{|-|-|} 
+    Memory & 2x Kingston DDR3 1333MHz 4096MB  \\ \hhline{|-|-|} 
+    Hard Drive & Western Digital 7200rpm 1TB \\ \hhline{|-|-|} 
     \end{tabular*}
   \caption{Memory and CPU usage for each system under low load}
   \label{tab:systeminfo}
 \end{table}
 
 
-Figures \ref{fig:cpuuse} and \ref{fig:memuse} show CPU and memory usage for the controller and ChatScript over time.
-
+Figures \ref{fig:cpuuse} and \ref{fig:memuse} show CPU and memory usage for the controller and ChatScript over time. Since Solr is deployed under Tomcat, it is not possible to plot its data independently from the rest of the Java processes, and we can only access the figures available in Solr's web interface, that point to a consumption between 381.16MB and 788.50MB.
 
 \begin{figure}[!htbp]
     \centering
@@ -60,7 +58,6 @@ Figures \ref{fig:cpuuse} and \ref{fig:memuse} show CPU and memory usage for the 
     \label{fig:memuse}
 \end{figure}
 
-
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.7\textwidth]{img/test/cpu_usage.png}
@@ -68,7 +65,7 @@ Figures \ref{fig:cpuuse} and \ref{fig:memuse} show CPU and memory usage for the 
     \label{fig:cpuuse}
 \end{figure}
 
-We have also attempted to measure the response time for the system for a number of different queries for a remote system. Figure \ref{fig:times-demos} shows the measured times.
+We have also measured the response time for the system for different queries. Figure \ref{fig:times-demos} shows the measured times. We associate the three peaks shown in the graph, around 10ms, 40ms and 75ms with queries directly answered by ChatScript, such as chitchat and greetings, queries with a simple Solr lookup, and queries requiring a gambit (i.e. multiple Solr lookups)
 
 \begin{figure}[!htbp]
     \centering
@@ -79,7 +76,32 @@ We have also attempted to measure the response time for the system for a number 
 
 \section{Corpus tests}
 
-During the development of the system, we prepared a corpus, to be able to test it in an automated way.
+During the development of the system, we prepared a corpus, to be able to test it in an automated way. The test corpus was made of questions and their expected responder, as well as the answer and resource for the expected topic. A short fragment of the corpus is shown in listing \ref{listing:fragmentcorpus}
+
+\begin{center} 
+  \begin{lstlisting}[language={}, captionpos=b, caption=Fragment of the test corpus built for the system. label=listing:fragmentcorpus]   
+Pregunta,Concepto,CS_RESPONSE,ANSWERER,RESOURCE
+Hola,,"Hola",chatscript
+que es un while?,while,sendSolr definition while,solr,http://www.dit.upm.es/~pepe/libros/vademecum/topics/302.html
+que es un while,while,sendSolr definition while,solr,http://www.dit.upm.es/~pepe/libros/vademecum/topics/302.html
+eres el profesor,,"bot",chatscript
+  \end{lstlisting}
+\end{center}
+
+The results of the tests using the corpus are shown in table \ref{tab:corpusresults}
+
+\begin{table}
+  \centering
+  \begin{tabular*}{0.5\textwidth}{| c | c |}
+    \hhline{|-|-|}
+    \textbf{System} & \textbf{Success rate} \\ \hhline{|=|=|} 
+    Overall System & 78.26\% \\ \hhline{|-|-|} 
+    Solr & 80.43\% \\ \hhline{|-|-|} 
+    ChatScript & 69.57 \% \\ \hhline{|-|-|} 
+    \end{tabular*}
+  \caption{Memory and CPU usage for each system under low load}
+  \label{tab:corpusresults}
+\end{table}
 
 \section{User experience}
 
@@ -89,32 +111,27 @@ The participants of the experiment ranged in age from 20 to 30 years old, most o
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.7\textwidth]{img/test/qa-client2.png}
+    \includegraphics[width=0.9\textwidth]{img/test/qa-client2.png}
     \caption{QA interface after asking about the for loop}
     \label{fig:qa-client-for}
 \end{figure}
-
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.7\textwidth]{img/test/ask-client.png}
+    \includegraphics[width=0.9\textwidth]{img/test/ask-client.png}
     \caption{Interface for our system about the for loop}
     \label{fig:ask-client-for}
 \end{figure}
 
-\emph{\textcolor{red}{Check this sections}}
-
 \subsection{Experiment procedure}
 
-
-We proposed the participants to interact with two different configurations of our prototype. They are presented a \ac{QA} configuration and a Conversational Agent configuration (both with similar interfaces in order to avoid the effect of the possible confounding variable). The \ac{QA} search for the information in the documents available and shows the result. Indeed, with this configuration, the \ac{QA} system is working as a \ac{IR} since it does not extract any information from the document. This is simple but yet valid and useful configuration since the documents we worked with were relatively small. The second configuration consist on a conversational agent, that have access to the same information as the former system (and uses the same \ac{IR} module), with the added features of social dialog and proactive recommendation of related topic and suggesting examples. In both cases, some answers will be served with suggestions of related topics and examples to ask for. Instead of implementing four different configurations of the system, this approach was selected because the influence of the suggestions can still be measured, and otherwise the learning and fatigue effects of within-subjects evaluation with too many interfaces (that are very similar) may falsify the results.
-
+We proposed the participants to interact with two different configurations of our prototype. They are presented a \ac{QA} configuration and a Conversational Agent configuration (both with similar interfaces in order to avoid the effect of the possible confounding variable). The \ac{QA} search for the information in the documents available and shows the result. With this configuration, the \ac{QA} system is working as a \ac{IR} since it does not extract any information from the document. This is simple but yet valid and useful configuration since the documents we worked with were relatively small. The second configuration consist on the conversational agent we developed in chapter \ref{chap:usecasejava}, that have access to the same information as the former system (and uses the same \ac{IR} module), with the added features of social dialogue and proactive recommendation of related topic and suggesting examples. In both cases, some answers will be served with suggestions of related topics and examples to ask for. Instead of implementing four different configurations of the system, this approach was selected because the influence of the suggestions can still be measured, and otherwise the learning and fatigue effects of within-subjects evaluation with too many interfaces (that are very similar) may falsify the results.
 
 We hypothesise that participants will prefer using natural language rather than keywords search to query the system, and that they will mostly follow the suggestions given, specially in the Conversational Agent configuration. Particularly we state the following hypothesis:
 
 \begin{itemize}
-  \item \textbf{Hypothesis 1:} Participants will interact more times with the conversational agent interface than with the QA interface.    
+  \item \textbf{Hypothesis 1:} Participants will interact more times with the conversational agent interface than with the \ac{QA} interface.    
   \item \textbf{Hypothesis 2a:} Participants will use natural language queries significantly more times than keyword queries to consult the system.
-  \item \textbf{Hypothesis 2b:} In particular, participants will use natural language queries slightly more times with the conversational agent interface than with the QA interface.
+  \item \textbf{Hypothesis 2b:} In particular, participants will use natural language queries slightly more times with the conversational agent interface than with the \ac{QA} interface.
   \item \textbf{Hypothesis 3a:} Participants will prefer to follow suggestions and ask for related topics significantly more times rather than asking for different topics.
   \item \textbf{Hypothesis 3b:} In particular, participants will prefer to follow suggestions when these are offered so that they have to accept or reject them.
 % \item Hypothesis 3: Participants will interact significantly more times with the Conversational Agent system than with the Question Answering system. 
@@ -122,11 +139,8 @@ We hypothesise that participants will prefer using natural language rather than 
   \item \textbf{Hypothesis 4:} Participants who engage in social dialogue will show significantly more satisfaction in the questionnaire.  
 \end{itemize}
 
-
-The 12 participants that volunteered for this evaluation process were randomly assigned to one of two groups, varying the order in which they will evaluate the two interfaces for counterbalancing (50\% of the participants will test the QA configuration first and then the Conversational Agent). Each group receives a evaluation guide and a questionnaire. Each participant is given the task consisting on questioning the system (to add extra motivation we encouraged them to try to trick it or find a relevant topic where to which the system has no answer). They are requested to perform this task with both system configuration.
+The 12 participants that volunteered for this evaluation process were randomly assigned to one of two groups, varying the order in which they will evaluate the two interfaces for counterbalancing (50\% of the participants will test the \ac{QA} configuration first and then the Conversational Agent). Each group receives a evaluation guide and a questionnaire. Each participant is given the task consisting on questioning the system (to add extra motivation we encouraged them to try to trick it or find a relevant topic where to which the system has no answer). They are requested to perform this task with both system configuration.
 The evaluation consist on: first, the participants fill in a demographics questionnaire; second, they are given the general instructions to follow in the whole evaluation process; then they are given the task and the url of the system they will test first (according to the group the belong to); after that, they are requested to fill in a questionnaire of satisfaction about the first system configuration; then they are given the url of the second system to test (and the same task to perform); a second satisfaction questionnaire about the second system configuration is delivered; and finally they are requested to fill in a global satisfaction questionnaire. The average time for performing the whole evaluation process was 9.13 minutes (SD=4.26).
-
-
 
 \subsection{Measurements}
 
@@ -134,8 +148,8 @@ During the process, two different measurements were taken: the questionnaires of
 
 \subsubsection{Usage of different type of queries}
 
-We split the user queries into two groups: those formed \ac{NL} and those that basically formed of keywords. Although in different measure 75\% of the participants used a keyword query at least once, and all of them used \ac{NL} queries. The average number of \ac{NL} queries per use was 6.79, 1.26 times greater than the average number of keyword-based queries. It is statistically significant (F\textsubscript{1,11}=9.82, p=0.004~\textless~.005) that prefer \ac{NL} to consult rather than keyword-based queries. This is also verifiable when we split the data of both interfaces. Resulting p values are 0.011 and 0.008 for \ac{QA} and conversational agent configurations respectively. This support out hypothesis 2a.
-% 
+We split the user queries into two groups: those formed of \ac{NL} and those that formed of keywords. Although in different measure 75\% of the participants used a keyword query at least once, and all of them used \ac{NL} queries. The average number of \ac{NL} queries per user was 6.79, 1.26 times greater than the average number of keyword-based queries. It is statistically significant (F\textsubscript{1,11}=9.82, p=0.004~\textless~.005) that prefer \ac{NL} to consult rather than keyword-based queries. This is also verifiable when we split the data of both interfaces. Resulting p values are 0.011 and 0.008 for \ac{QA} and conversational agent configurations respectively. This support out hypothesis 2a.
+
 However, it is not statistically significant that users use more often \ac{NL} than keywords with the Conversational Agent than with the QA configuration, so hypothesis 2b cannot be validated. Figure~\ref{fig:exp_querytype} shows this distribution, and it can be appreciated that the number of interactions increases with the Conversational Agent configuration for both query types.
 We concluded this is because, users in general have their own preferences about use natural language or keywords (or possibly influenced by the nature of the interface used) regardless of the nature of the answers received.
 It is important to point out that only two out of 12 users in the experiment used more often keyword queries than \ac{NL} queries
@@ -151,7 +165,7 @@ Here there exists a subtle group effect, since users from Group B (which interac
 
 \subsubsection{Impact of suggestions}
 
-An average of 57\% of the times a user was given a suggestion he/she followed that suggestion in the next interaction. Besides, users rated the usefulness of suggestions with 3.41 over 4. However, 96\% of the suggestions followed were close-ended questions, e.g. ``Do you want to check for {\em inheritance} too?''. Thus we can conclude that users are interested in suggestions when they only need to accept or reject them (hypothesis 3b), but not that they follow suggestions of any type (hypothesis 3a). In out experiment, we decide to give suggestions in pairs (e.g. ``you may me interested in searching for topic A or topic B'') and it may be not the best approach to persuade the user to follow them.
+An average of 57\% of the times a user was given a suggestion he/she followed that suggestion in the next interaction. Besides, users rated the usefulness of suggestions with 3.41 over 4. However, 96\% of the suggestions followed were close-ended questions, e.g. ``Do you want to check for {\em inheritance} too?''. Thus we can conclude that users are interested in suggestions when they only need to accept or reject them (hypothesis 3b), but not that they follow suggestions of any type (hypothesis 3a). %In our experiment, we decide to give suggestions in pairs (e.g. ``you may me interested in searching for topic A or topic B'') and it may be not the best approach to persuade the user to follow them.
 % Or maybe they did not take the tool seriously, so they simply asked purposeless.
 
 
@@ -168,5 +182,12 @@ According to the results shown in Fig.~\ref{fig:exp_satisfaction}, no correlatio
   \label{fig:exp_satisfaction}
 \end{figure}
 
+\section{Summary}
 
+In this chapter we have analysed the performance of the prototype for the Java programing language.
 
+First, we took a look at the resources the system used, both under low load and for a period of time. We also studied the responses time of the system under a high number of queries, and analyse the results.
+
+Then, we used a corpus with multiple questions and interactions to automatically test for the success rate of the system, in comparison with each of the modules.
+
+Finally, we describe the process followed to test the system with real users, comparing our system with a regular \ac{QA} system, and present the results.

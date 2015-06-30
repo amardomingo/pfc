@@ -35,7 +35,7 @@ The winner of the 2010, 2011 and 2014 contests was Bruce WillCox, using differen
 \subsection{\ac{AIML}}
 
 \ac{AIML}~\cite{aimlprimer} is a widely use XML dialect for creating conversational language. It was developed between 1995 and 2002 by Richard S. Wallace and the free software community, and has remained relevant to this date, including the draft for a major upgrade, AIML 2.0, released in the early 2013, and currently being working on. The original version of AIML had seven design goals, stated in its primer:
-\begin{enumerate}[topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex]
+\begin{enumerate}%[topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex]
   \item Shall be easy to learn.
   \item Shall encode the miniaml concept set necessary to enable a stimulus-response knowledge system modelled on that of the original A.L.I.C.E.
   \item Shall be compatible with XML.
@@ -61,7 +61,7 @@ The free A.L.I.C.E. \ac{AIML}~\footnote{\url{http://www.alicebot.org/downloads/}
 
 In January 2013 the ALICE A.I. Foundation released a draft specification for a major update for \ac{AIML}~\footnote{\url{http://alicebot.blogspot.com.es/2013/01/aiml-20-draft-specification-released.html}}, aiming to provide new features while trying to keep \ac{AIML} as simple as possible. \ac{AIML} 2.0 combines Pandorabots extensions to the language, \ac{OoB} tags and a collection of new features. The full list of new features can be found in the Working Draft~\cite{aiml20draft}, some of the more relevant are:
 
-\begin{itemize}[topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex]
+\begin{itemize}%[topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex]
   \item Zero+ wildcards, allowing to match zero or more words
   \item Setting matching priority for certain words.
   \item Loops.
@@ -78,6 +78,15 @@ In January 2013 the ALICE A.I. Foundation released a draft specification for a m
  \item \textbf{ChatterBean} is another Java implementation, aiming to be \ac{AIML} 1.0.1 compliant, using a JavaBeans plugin architecture, and released under a GPL license. However, the last version was released on 2006 and the development since then seems to have stopped.
  \item \textbf{Program O}, written in PHP with MySQL, is an \ac{AIML} engine with a web interface providing a number of remarkable features, including an administration panel, with configuration, teaching an testing interfaces. It stores the \ac{AIML} files in a MySQl database in order to improve its performance, and can assign different personalities to each bot. It is under active development by Ellizabeth Perreau and Dave Morton, with it latest version released in May 2014. 
 \end{enumerate}
+
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{img/screens/programo.png}
+    \caption{Demo interface for Program-O.}
+    \label{fig:programo1}
+\end{figure}
+
 
 \subsection{ChatScript}
 \label{subsec:chatscript}
@@ -157,25 +166,37 @@ In general, we can differentiate six major general approaches~\cite{unger2014an}
   \item \textbf{Machine learning:} question answering has been considered a machine learning problem, with either models for joint query interpretation and response ranking, aiming at learning semantic parsers given a knowledge base and a set of questions and answers, or systems with an algorithm for matching natural language expressions and ontology concepts, as well as an algorithm for storing matches in a parse lexicon.
 \end{itemize}
 
-\emph{\textcolor{red}{Shortly describe the exampe systems?}}
+%\emph{\textcolor{red}{Shortly describe the exampe systems?}}
 
-To the aforementioned systems, we have to add another one: IBM Watson's DeepQA. Designed to be a contestant in the Jeopardy! quiz show, the DeepQA system had multiple information sources, the DeepQA system focused on extracting and scoring evidence from unstructured data, although it also used structured an semantic data sources. It was build as a massively probabilistic evidence-based architecture using more than 100 different techniques for analysing natural language. \emph{\textcolor{red}{Add figure or list with the structure?}} It was build using Apache UIMA~\footnote{\url{http://uima.apache.org/}}, an Unstructured Information Management system.
+To the aforementioned systems, we have to add another one: IBM Watson's DeepQA. Designed to be a contestant in the Jeopardy! quiz show, the DeepQA system had multiple information sources, the DeepQA system focused on extracting and scoring evidence from unstructured data, although it also used structured an semantic data sources. It was build as a massively probabilistic evidence-based architecture using more than 100 different techniques for analysing natural language. It was build using Apache UIMA\footnote{\url{http://uima.apache.org/}}, an Unstructured Information Management system.
+
+%\emph{\textcolor{red}{Add figure or list with the structure?}}
 
 \section{Linked Data Systems}
 \label{sec:linkd_sys}
 
 Linked Data consists in a set of rules about publishing data in the web so it can be interlinked and accessed using semantic queries. The term was first used by Tim Berners-Lee while talking about the Semantic Web project. Additionally, Linked Open Data is an extension of the Linked Data concept, requiring that the data provided is open content.
 
-\emph{\textcolor{red}{Add the linked data cloud?}}
+\begin{figure}[!htbp]
+  \begin{minipage}{\linewidth}
+    \centering
+    \includegraphics[width=\textwidth]{img/enabling/lod-cloud.png}
+    \caption[Linked Open Data cloud]{%
+      Linked Open Data cloud%
+      \footnote{\url{http://lod-cloud.net/}}%
+      }
+    \label{fig:arch2}
+  \end{minipage}
+\end{figure}
 
 There are a number of Linked Data Systems publicly available to the public, as long as multiple projects allowing to deploy your own linked data services. Some of them are described in the next sections. 
 
 \subsection{Apache Lucene and Solr}
 \label{sec:statesolr}
 
-Not considered Linked Data Systems on its own, Apache Lucene~\footnote{\url{http://lucene.apache.org/}} is a high-performance full-featured text search engine, that can be used as the foundation of many systems. Apache Solr is built on top of Lucene, providing distributed indexing, replication and querying, with multiple features and functionalities~\footnote{\url{http://lucene.apache.org/solr/}}t:
+Not considered Linked Data Systems on its own, Apache Lucene~\footnote{\url{http://lucene.apache.org/}} is a high-performance full-featured text search engine, that can be used as the foundation of many systems. Apache Solr is built on top of Lucene, providing distributed indexing, replication and querying, with multiple features and functionalities~\footnote{\url{http://lucene.apache.org/solr/}}:
 
-\begin{itemize}[topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex]
+\begin{itemize}%[topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex]
   \item Full-text search, with powerful matching capabilities, powered by Lucene.
   \item Optimized for High Volume traffic.
   \item Standards Based Open interfaces, including json, xml and http.
@@ -184,7 +205,7 @@ Not considered Linked Data Systems on its own, Apache Lucene~\footnote{\url{http
   \item Highly scalable and Fault tolerant, using Apache ZooKeeper, is easy to scale and distribute the load.
 \end{itemize}
 
-Apache Solr is used as a base in many other systems, including some of the described in the following sections.
+Apache Solr is used as a base in many other systems, including some of the described in the following sections, and can also be used as a \ac{QA} system of its own\cite{ingersoll2013taming}.
 
 \begin{figure}[!htbp]
     \centering
@@ -197,15 +218,19 @@ Apache Solr is used as a base in many other systems, including some of the descr
 
 \subsection{Linked Media Framework and Apache Marmotta}
 
-Started as the Linked Media Framework~\footnote{\url{https://bitbucket.org/srfgkmt/lmf/}}, this project aimed to provide an easy to setup server to offer linked media management, publishing linked data and allowing interactions with it. \ac{LMF} is built in modules, some of them optional, allowing the extension of the functionalities in the Linked Media Server. Some of the implemented modules are:
+Started as the Linked Media Framework\footnote{\url{https://bitbucket.org/srfgkmt/lmf/}}, this project aimed to provide an easy to setup server to offer linked media management, publishing linked data and allowing interactions with it. \ac{LMF} is built in modules, some of them optional, allowing the extension of the functionalities in the Linked Media Server. Some of the implemented modules are:
 
-\begin{itemize}[topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex]
+\begin{itemize}%[topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex]
   \item \ac{LMF} Semantic Search allowing for a search service on top of Apache Solr. 
   \item \ac{LMF} Stanbol Integration, using Apache Stanbol for content analysis and interlinking.
   \item \ac{LMF} SKOS editor, to manage SKOS thesauruses imported in the Linked Media Server.
 \end{itemize}
 
 The core functionalities of \ac{LMF} where set aside to incubate Apache Marmotta, an Open Platform for Linked Data within the Apache Software Foundation~\footnote{\url{http://www.apache.org/}} aiming to provide an implementation for Linked Data that can be used to both publish Linked Data and build custom applications for Linked Data.
+
+\subsection{Fuseki and Apache Jena}
+
+Fuseki, build using Apache Jena\footnote{\url{http://jena.apache.org}}, is a \ac{SPARQL} server that provides a REST-style interface for \ac{SPARQL} queries. Its build using Apache Jena, an open source Semantic Web framework for Java. Apache Jena provides an API to extract data and write it to \ac{RDF} graphs, that are represented as an abstract model. A model can be sourced with data from files, databases, URLs or any combination of them. It also provides support for \ac{OWL}, and comes with several internal reasoners, as well as having support to use the Pellet\footnote{\url{https://www.w3.org/2001/sw/wiki/Pellet}} reasoner for \ac{OWL}
 
 % Apache Marmotta / LMF
 % DBpedia / virtuoso?
@@ -268,13 +293,13 @@ _:gsipeople:
   \end{lstlisting}
 \end{center}
 
-An example of data generated with that extractor is shown in listing ~\ref{listing:examplerdf}. It can be seen how the elements matched in the extractor have been converted into properties. We have keep the example simple for clarity and space reasons.
-
-\emph{\textcolor{red}{Complete this section}}
+An example of data generated with that extractor is shown in listing ~\ref{listing:examplerdf}. It can be seen how the elements matched in the extractor have been converted into properties. 
 
 \begin{center}
   \lstinputlisting[language=XML, captionpos=b, caption=Example person extracted with Scrappy, label=listing:examplerdf]{code/enabling/person.rdf}
 \end{center}
+
+Using the appropriate selectors, scrappy can follow the links on a page, automating the scraping of big web sites, and converting all the data into RDF, N-Triples or JSON-LD.
 
 \subsection{Scrapy}
 
@@ -282,8 +307,12 @@ Scrapy\footnote{\url{http://scrapy.org/}} is a fast high level web crawling fram
 
 The crawlers are python classes that extend the Spider class in scrapy.
 
-\emph{\textcolor{red}{Add example code for scrapy. Maybe something for the gsi news?}}
+\definecolor{Strings}{rgb}{0,0.63,0}
+\begin{center}
+  \lstinputlisting[language=Python, stringstyle=\color{Strings}, captionpos=b, caption=Example scrapy spider, label=listing:examplescrapy]{code/enabling/scrapy.py}
+\end{center}
 
+Listing \ref{listing:examplescrapy} shows part of a scrapy spider that will return a json object containing the url of the scrapped page, as well as the title, alternative and concept fields scrapped from the document.
 
 \section{Web technologies}
 
@@ -307,8 +336,6 @@ Web browsers are usually responsible for running the code of a website. Usually,
 
 This technologies are often used with Ajax (\emph{Asynchronous Javascript XML}), a group of web development techniques used to create asynchronous web applications. Using Ajax, web applications can interact with the server in the background, therefore not interfering with the behaviour and graphical display of the rest of the page.
 
-\emph{\textcolor{red}{Rework this section. Talk about jQuery, the evolution of the web to dynamic pages and data, etc}}
-
 % JS/jQuery, HTML5, CSS, etc
 
 \subsection{Server technologies}
@@ -319,19 +346,17 @@ The interactions presented by the web client are the processed in the server sid
 
 For our service, we have used Apache\cite{apacheabout}, an Open Source HTTP-Server. First launched in 1995, it has continued development to this date, with version 2.4.12 being released on January 2015~\footnote{\url{http://httpd.apache.org/}}. It is currently developed and maintained by an open community of developers under the Apache Software Foundation, and made available in a wide variety of operating systems, including GNU/Linux and Microsoft Windows\textregistered. It features a module-based system, allowing the core functionality to be expanded by compiled modules. Some of the most popular modules include:
 
-\begin{itemize}[topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex]
+\begin{itemize}%[topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex]
  \item \textbf{mod\_php} Enabling the use php to execute server side code, this module can be found in many Apache installations, allowing the deployment of services like WordPress or Joomla.
  \item \textbf{mod\_auth\_basic} Handling basic user authentication, this module allows the server administrator to block sections of the server from being accessed by the general public.
  \item \textbf{mod\_proxy} Allows the use of Apache as a proxy, masking other services behind it.
 \end{itemize}
 
-Over the last few years, multiple other server technologies have appeared, focusing on running code to build network applications. Node.js\footnote{\url{https://nodejs.org/}} or uWSGI\footnote{\url{http://uwsgi-docs.readthedocs.org/}} are examples of this philosophy. \emph{\textcolor{red}{This wording is weird}}
+Over the last few years, there has been an important trend in the use of evented web technologies, a vision of the traditional web APIs complemented with other APIs that produce events, and provide with a callback mechanism, make the Web more like a giant network. Node.js\footnote{\url{https://nodejs.org/}} is one of the most popular environments to build this kind of applications.
 
 \subsubsection{WSGI Servers in python}
 
 \ac{WSGI} is a specification for simple interfaces between web servers and web applications for the python programming language. First defined in PEP 333\cite{pep0333}, and updated in PEP 3333\cite{pep3333}, it has been adopted as a standard for python web application development.
-
-\emph{\textcolor{red}{Read the pep3333 and complete this.}}
 
 There are multiple implementations and frameworks of WSGI for python, some of the most popular are:
 
@@ -341,6 +366,19 @@ There are multiple implementations and frameworks of WSGI for python, some of th
  \item \textbf{Flask}, a micro web application framework, based on the jinja2 template engine, and the Werkzeug WSGI toolkit. It focuses on providing a simple interface, whilst still providing multiple features such as RESTfull request dispatching, cookies and request handling and unicode support. It also includes native support for unit testing, as well as a development server and debugger. It also supports extensions for extra functionalities.
 \end{itemize}
 
-In our application, we have chose Apache as the gateway server, using mod\_wsgi, and Flask for the application itself. \emph{\textcolor{red}{Give ``example'' apache config?}}
+In our application, we have chose Apache as the gateway server, using mod\_wsgi, and Flask for the application itself. 
+%\emph{\textcolor{red}{Give ``example'' apache config?}}
 
-% Flask, django, bottle, mod_wsgi
+\section{Summary}
+
+In this section, we have discussed the technologies related to the system we are developing.
+
+First, we took a look at \emph{conversational agent} systems. We saw that AIML and its implementations provide a robust technology, that is still evolving despite its age. It has been widely used, and still has an large community and volume of users, and is working on the new AIML 2.0. We also considered ChatScript characteristics, with better performance and new language for writing bots, with a simpler syntax and features not present in AIML 1.
+
+We then considered \emph{Question Answering} systems and its different approaches, also taking a look at some systems that use each approach.
+
+As for \emph{Linked Data Systems}, we studied the concept of the Semantic Web and Linked Data, to then take a look at multiple systems used for it: Apache Solr, not a linked data system on its own, but used in many of them, the Linked Media Framework, a full fledged linked data servers built around Apache Marmotta, and Fuseki, a SPARQL server with reasoning capabilities build with Apache Jena.
+
+After considering the Data indexing systems, we studied two \emph{Information Retrieval} tools: Scrappy, a ruby web crawler capable of exporting RDF documents from the data extracted from the web, and Scrapy, a python framework for web spiders, with support for multiple functionalities as well as allowing export of the data in personalised formats.
+
+Finally, we took a quick look at \emph{web technologies}, both for client-side applications, as well as server side systems that would allow complex interactions with the user. We focussed specially in the server side, studying different implementations of WSGI modules for python, and considering their characteristics.

@@ -1,4 +1,4 @@
-\chapter{Use case: GSI Bot}
+\chapter{Case study: GSI Bot}
 \label{chap:usecasegsi}
 
 \begin{chapterintro}
@@ -100,9 +100,90 @@ Finally, the information available in the GSI web page about the members of the 
  \end{lstlisting}
 \end{center}
 
-\emph{\textcolor{red}{Using Scrappy}}
+This data was generated using scrappy, running the extractor shown in listing \ref{listing:peoplescrappy}.
 
-\subsection{Merging the data}
+\begin{center} 
+  \begin{lstlisting}[language={}, captionpos=b, caption=Extractor for the GSI people section, label=listing:peoplescrappy]   
+_:gsipeople:
+  rdf:type: sc:Fragment
+  sc:type: foaf:Person
+  sc:selector:
+    *:
+      rdf:type: sc:UriPatternSelector
+      rdf:value: "http://www.gsi.dit.upm.es/index.php?option=com_jresearch&view=staff&layout=positions"
+  sc:identifier:
+    *:
+      rdf:type: sc:BaseUriSelector
+  sc:subfragment:
+    *:
+      sc:type: foaf:Person
+      sc:selector:
+        *:
+          rdf:type: sc:CssSelector
+          rdf:value: ".jrperson"
+      sc:identifier:
+        *:
+          rdf:type: sc:CssSelector
+          rdf:value: "a"
+          sc:attribute: "href"
+      sc:subfragment:
+        *:
+          sc:type: rdf:Literal
+          sc:relation: foaf:givenName
+          sc:selector:
+            *:
+              rdf:type: sc:CssSelector
+              rdf:value: "a"
+_:gsiperson:
+  rdf:type: sc:Fragment
+  sc:type: foaf:Person
+  sc:selector:
+    *:
+      rdf:type: sc:UriPatternSelector
+      rdf:value: "http://www.gsi.dit.upm.es/index.php?option=com_jresearch&view=member&task=show&id=*" 
+  sc:identifier:
+    *:
+      rdf:type: sc:BaseUriSelector
+  sc:subfragment:
+    *:
+      sc:type: rdf:Literal
+      sc:relation: foaf:homepage
+      sc:selector:
+        *:
+          rdf:type: sc:CssSelector
+          rdf:value: ".personalpage a"
+    *:
+      sc:type: rdf:Literal
+      sc:relation: foaf:img
+      sc:selector:
+        *:
+          rdf:type: sc:CssSelector
+          rdf:value: ".persimg"
+          sc:attribute: "href"
+    *:
+      sc:type: rdf:Literal
+      sc:relation: foaf:phone
+      sc:selector:
+        *:
+          rdf:type: sc:CssSelector
+          rdf:value: ".jrpf"
+     *:
+      sc:type: rdf:Literal
+      sc:relation: sioc:Role
+      sc:selector:
+        *:
+          rdf:type: sc:CssSelector
+          rdf:value: ".jrposition"
+     *:
+      sc:type: rdf:Literal
+      sc:relation: foaf:based_near
+      sc:selector:
+        *:
+          rdf:type: sc:CssSelector
+          rdf:value: ".jrlocation"
+
+  \end{lstlisting}
+\end{center}
 
 \section{User interface}
 
@@ -110,11 +191,10 @@ For this system, the user interface is similar to the one described in section \
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.7\textwidth]{img/screens/ask-client.png}
+    \includegraphics[width=0.7\textwidth]{img/screens/gsi-client.png}
     \caption{Web interface for the client.}
     \label{fig:gsichat1}
 \end{figure}
-
 
 \section{Controller}
 \label{sec:controllergsi}
@@ -210,39 +290,18 @@ We have separated our topics across several files, each containing related topic
 
 Finally, the control script used for this bot is very similar to the one provided by default with ChatScript, since we do not have the limitations regarding changing the language in this bot.
 
-\emph{\textcolor{red}{Explain the control script?}}
+This control script will first look for rejoinders in the current topic, to then proceed to offer a gambit if no rejoinder is found and the keyword match. If there is no gambit available for the current interaction, the system will look for standard responders, both in this topic and in any other topic whose keywords match the current volley. If no topic reacts, the systems will then try to match the responders from the keywordless topics, to finally gambit any keyword topic. If there is no response at that point, it forces a gambit from the current topic, to finally offer a generic response, indicating the system does not know how to respond.
+
 
 \subsection{The server}
 
-ChatScript provides two ways of interaction. For debugging purposes, it has a command line interface, and can also be deployed as a service listening in a TCP socket for user input. This server is what we have choose to use to interact with ChatScript. The full deployment instructions can be found in the appendix, and we will proceed to describe here the communication process.
-
-As stated ChatScript listens on a TCP socket, waiting for requests containing three null separated strings, described in table~\ref{tab:cs-reqparamsgsi}
-
-\begin{center}
-  \centering
-  \begin{table}
-  \begin{center}
-    \begin{tabular*}{0.6\textwidth}{@{\extracolsep{\fill}} | c | p{0.5\textwidth} |}
-      \hhline{|-|-|}
-      \textbf{Field} & \textbf{Description} \\ \hhline{|=|=|}
-      user & The string identifying the user performing the question.  \\ \hhline{|-|-|}
-      bot & The bot that the question is directed to, in case there are several bot available in the server. \\ \hhline{|-|-|}
-      question & The user question \\ \hhline{|-|-|}
-      \end{tabular*}
-    \caption{Fields for the request to ChatScript}
-    \label{tab:cs-reqparamsgsi}
-    \end{center}
-  \end{table}
-\end{center}
-
-The server will then return in the same connection the response generated using the process previously explained, and close the connection. If a new interaction is needed, a new socket will be opened, following the same process.
-% \subsubsection{Using Spanish dictionaries}
-
-%\emph{\textcolor{red}{It doesn't look viable to have spanish dicts in a timely manner.}}
+The ChatScript server for this prototype is deployed in the same way than the server in the previous chapter, explained in section \ref{sec:csserver}. However, it is worth mentioning that a single ChatScript instance cannot hold both bots, so if the same physical server is to run both bots, it would be needed to run two ChatScript instances, each one of them in a different port.
 
 \section{Solr instance}
 
-In this section we will describe how the Solr instance has been configured for this system, as well as the search procedure. As in section \ref{sec:solr}, we are using Apache Solr 4.10.2, which will receive the queries from the controller described in section \ref{sec:controllergsi}. The Solr instance will contain a core with the data scrapped from the web page, allowing us to have all the date in a single place. %rephrase this?
+In this section we will describe how the Solr instance has been configured for this system, as well as the search procedure. As in section \ref{sec:solr}, we are using Apache Solr 4.10.2, which will receive the queries from the controller described in section \ref{sec:controllergsi}. The Solr instance will contain a core with the data scrapped from the web page, allowing us to have all the date in a single place.
+
+The data was merged into a single RDF file, to then be imported and uploaded into the Solr instance.
 
 \subsection{Solr Schema}
 
@@ -325,3 +384,17 @@ ChatScript can also identify general questions about the different objects store
 \subsubsection{Gambit queries}
 
 In the event that ChatScript is incapable of identify the question the user is making, the system will perform an \ac{eDisMax} query, looking for a match in the relevant fields for each document type, and offering the answer only if the score of the match is over a predetermined minimum score.
+
+\section{Summary}
+
+In this chapter we have talked about a different prototype for our system, including documents with different structures, indexed into the system.
+
+We first studied the three main sources of data, proposing a RDF mapping to export the scrapped data into semantic data. We also discuss the different techniques and tools used while recovering the data. We recovered the data from the GSI members, their publications and their projects.
+
+Then we analysed the \emph{user interface} for this prototype, very similar to the previous one.
+
+We move on to analyse the new Front-end \emph{controller}, which, although having the same functional model, has a different structural model, to account for the different structure of the documents indexed for this system. We analyse the new \ac{OoB} commands, as well as their parameters.
+
+Like with the controller, the new \emph{conversational agent} is studied in this section, analysing the new file structure and control system.
+
+To finish this chapter, we take a look at the Solr fields and schema built for this system, with the different analysers, accounting for the recovered documents being in English rather than Spanish. We also analyse the different queries that can be performed with this system.

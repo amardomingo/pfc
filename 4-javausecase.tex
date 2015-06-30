@@ -1,4 +1,4 @@
-\chapter{Use case: Java}
+\chapter{Case study: Java elearning platforms}
 \label{chap:usecasejava}
 
 \begin{chapterintro}
@@ -138,7 +138,7 @@ In our prototype, the interaction with the system is done via a web client that 
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.7\textwidth]{img/screens/ask-client.png}
+    \includegraphics[width=0.9\textwidth]{img/screens/ask-client.png}
     \caption{Web interface for the client.}
     \label{fig:chat1}
 \end{figure}
@@ -173,6 +173,15 @@ Upon the user submitting a question through the interface, the client will send 
    }  
   \end{lstlisting}
 \end{center}
+
+Figure \ref{fig:chat2} shows the web interface after a few interactions with the user.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{img/screens/ask-client-asked.png}
+    \caption{Web interface after a question.}
+    \label{fig:chat2}
+\end{figure}
 
 \section{Front end controller}
 \label{sec:frontendcon}
@@ -331,6 +340,7 @@ All this files need to be compiled into binary data to be used by the ChatScript
 % Explain how chatscript works.
 
 \subsection{The server}
+\label{sec:csserver}
 
 ChatScript provides two ways of interaction. For debugging purposes, it has a command line interface, and can also be deployed as a service listening in a TCP socket for user input. This server is what we have choose to use to interact with ChatScript. The full deployment instructions can be found in the appendix, and we will proceed to describe here the communication process.
 
@@ -495,3 +505,17 @@ The significance of each in the query is as follows:
 \end{itemize}
 
 This search will provide a broader match than the faceted query, finding matches when the topic of the question is not clear, and offering the answer to the user. To prevent completely unrelated topics to be offered to the user, the score is retrieved and only the answers with a minimum score will be returned.
+
+\section{Summary}
+
+In this Chapter, we have described a prototype of the proposed architecture for a system focussing on supporting lessons about the Java Programming Language. 
+
+First, we talked about the \emph{information retrieval} module, and how the information about the Java programming language was recovered from the Java Vademecum, using scrapy, and how we mapped it to a RDF tauxonomy. We then studied the JSON format that would be used to upload the data to Solr.
+
+We moved onto the \emph{web interface} that presents the system to the final user, explaining the user the interface and how the system works. We also explained the interactions of the client with the server. 
+
+The client connects with the \emph{Fron end controller}, and we studied its implementation after that. We showed how the controller connects with the other modules, as well as analysing the Out of Band commands the different modules use to communicate with each other, and the workflow of the controller.
+
+Taking a look at the \emph{conversational agent}, we studied ChatScript and the rules used in our system, as well as how they were triggered and the output they produce.
+
+Finally, we analysed the \emph{Solr instance} configuration, taking a close look at the schema and the fields for the stored documents. We then proceeded to discuss the types of queries the system, the regular faceted query for user questions, and the eDisMax queries for gambits.
