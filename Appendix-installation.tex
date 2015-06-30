@@ -1,0 +1,115 @@
+\chapter{Installation Manual}
+
+This chapter aims to provide a general walk-trough on how to deploy our prototypes bot on a fresh system. It assumes basic knowledge on both the system and the tools used, and the required tools.
+
+\section{Order of deployment}
+
+Our system is composed of several submodules, and it is reccomended that they are started in a specific order:
+\begin{enumerate}
+ \item Chatscript
+ \item Apache Solr
+ \item Front-end controller
+ \item Front-end client
+\end{enumerate}
+
+\section{Chatscript}
+
+Before being able to launch ChatScript, if you are using a 64 bit system, you need to install several 32-bit libraries, as shown in \ref{listing:cslibs}:
+
+\begin{center} 
+  \begin{lstlisting}[language=bash, captionpos=b, caption=Libraries for ChatScript, label=listing:cslibs]
+  :~/$ sudo dpkg --add-architecture i386
+  :~/$ sudo apt-get update
+  :~/$ sudo apt-get install lib32gcc1 lib32stdc++6
+  \end{lstlisting}
+\end{center}
+
+
+For the first launch of Chatscript, you need to compile the corpus. Therefore, you have to launch chatscript on localmode first, issue the build commands, and then launch it as a server. The commands are shown in \ref{listing:csbuild} for the build, and, once de process is complete, exit the local interface with ``:quit'', and launch it as a server, as shown in \ref{listing:csserver}:
+
+\begin{center} 
+  \begin{lstlisting}[language=bash, captionpos=b, caption=ChatScript build command, label=listing:csbuild]
+  :~/calista-bot/ChatScript$ ./LinuxChatSscript64 local
+  [...]
+  Enter user name: username
+  username: > :build Dent
+  [...]
+  username: > :quit
+  \end{lstlisting}
+\end{center}
+
+\begin{center} 
+  \begin{lstlisting}[language=bash, captionpos=b, caption=ChatScript Server running, label=listing:csserver]
+  :~/calista-bot/ChatScript$ ./LinuxChatScript64 port=1025
+arg[1] = port=1025
+evserver child fork requests: 0
+  evserver: running
+Server EVSERVER ChatScript Version 5.1  64 bit LINUX compiled Feb  1 2015 23:00:53
+EVSERVER ChatScript Version 5.1  64 bit LINUX compiled Feb  1 2015 23:00:53
+Params:   dict:720895 fact:800000 text:35000kb hash:50000 
+          buffer:22x80kb cache:1x50kb userfacts:100
+WordNet: dict=190271  fact=84865  stext=12742900 Jan31'15-15:26:50
+Build0:  dict=68775  fact=130830  dtext=1162676 stext=0 Feb01'15-15:07:58 0.txt
+Build1:  dict=8  fact=7  dtext=356 stext=3664 Jun27'15-22:42:15 Niko.txt
+Error(2) opening LIVEDATA/ENGLISH
+Used 49MB: dict 259,059 (24869kb) hashdepth 17/3 fact 215,702 (8628kb) text 13910kb
+           buffer (1760kb) cache (50kb) POS: 0 (0kb)
+Free 44MB: dict 461,836 hash 1136 fact 584,298 text 21,089KB 
+
+    Dictionary building disabled.
+    Postgres disabled.
+
+
+
+======== Began EV server 5.1 compiled Feb  1 2015 23:00:53 on port 1025 at Tue Jun 30 23:41:37 2015 serverlog:1 userlog: 0
+
+
+======== Began EV server 5.1 compiled Feb  1 2015 23:00:53 on port 1025 at Tue Jun 30 23:41:37 2015 serverlog:1 userlog: 0
+evserver: parent ready (pid = 12435), fork=0
+EVServer ready: LOGS/serverlog1025.txt
+
+  \end{lstlisting}
+\end{center}
+
+Keep in mind it will bind to the 1025 port.
+
+\section{Front-end controller}
+
+The controller need two libraries to be installed with pip. It is recommended to do it in a virtualenvironment, as shown in \ref{listing:askbotlibs}.
+
+\begin{center} 
+  \begin{lstlisting}[language=bash, captionpos=b, caption=Libraries for the front end controller, label=listing:askbotlibs]
+  :~/$ mkvirtualenv askbot
+  (askbot):~/$ pip install websocket-client unidecode
+  \end{lstlisting}
+\end{center}
+
+The askbot controller binds, by default, to the 4242 port, although it can be changed in the askbot.py file. Once the changes have been made, it can just be run with python as in \ref{listing:askbotrun}
+\begin{center} 
+  \begin{lstlisting}[language=bash, captionpos=b, caption=Running the front end controller, label=listing:askbotrun]
+  (askbot):~/calista-bot/FE-Controller$ python askbot.py
+  \end{lstlisting}
+\end{center}
+
+\subsection{Using apache mod\_wsgi}
+
+Using the provided askbot.wsgi, the system can be run using Apache and mod\_wsgi. After installing and enabling the mod, set the virtualenvironment in the configuration files, as well as the appropriate Aliases, as shown in \ref{listing:apachewsgi}
+\begin{center} 
+  \begin{lstlisting}[language={}, captionpos=b, caption=Apache WSGI configuration, label=listing:apachewsgi]
+  TODO
+  \end{lstlisting}
+\end{center}
+
+\section{Front-end client}
+
+The client for the bot is a web application. You just need to place the Ask-client files on a webserver (like Apache or Nginx) html folder, and edit the index.html file, so the action attribute in the form points to the host and port from the previous step, or to the Apache alias is set up with mos\_wsgi.
+
+\section{Apache Solr}
+
+Apache Solr can be run in a Tomcat installation. You will need to indicate the solr.home in a context specific for solr, where the schemas and the Solr libraries are located. An example context is shown in \ref{listing:tomcatsolr}
+
+\begin{center} 
+  \begin{lstlisting}[language={}, captionpos=b, caption=Tomcat context for solr, label=listing:tomcatsolr]
+  TODO
+  \end{lstlisting}
+\end{center}
