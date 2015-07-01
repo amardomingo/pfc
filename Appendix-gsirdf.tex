@@ -1,0 +1,38 @@
+\chapter{Solr Uploader}
+
+The complete RDF scrapped for this document is avaliable in \url{http://github.com/gsi-upm/calista-bot}, since the files are too long to be included here. We will show, however, the uploader developed to index the files in solr:
+
+\section{Command syntaxes}
+
+The uploader can handle rdf and json files, and takes the arguments explained in table . And example usage is shown in listing \ref{listing:rdfupload}
+
+\begin{table}
+  \centering
+  \begin{tabular*}{0.7\textwidth}{| c | c | c | p{0.7\textwidth} |}
+    \hhline{|-|-|-|-|}
+    \textbf{Argument} & \textbf{Short argument} & \textbf{Parameter}& \textbf{Explanation} \\ \hhline{|=|=|=|=|}
+    --help & -h &  & Shows the help\\ \hhline{|-|-|-|-|} 
+    --url & -u & URL & Sets URL as the Solr endpoint \\ \hhline{|-|-|-|-|} 
+    --core & -c & CORE & Uses CORE as the Solr core to upload the data to\\ \hhline{|-|-|-|-|} 
+    --data & -d & JSONFILE & Reads the json data in the JSONFILE file to upload it to solr\\ \hhline{|-|-|-|-|} 
+    --rdf & -r & RDFFILE & Reads the rdf data in the RDFFILE file to upload it to solr \\ \hhline{|-|-|-|-|} 
+    --verbose & -v & & Prints debug information \\ \hhline{|-|-|-|-|} 
+    --empty & -e & & Clears all the data in solr before uploading any document \\ \hhline{|-|-|-|-|} 
+    --output & -o & & Logfile to output to \\ \hhline{|-|-|-|-|} 
+    \end{tabular*}
+  \caption{Memory and CPU usage for each system under low load}
+  \label{tab:loadmeasures}
+\end{table}
+
+
+\begin{center} 
+  \begin{lstlisting}[language=bash, captionpos=b, caption=Example command to upload the vademecum data into Solr, label=listing:rdfupload]
+  :~/calista-bot/RDF$ ./uploader.py -u http://localhost:8080/solr -c elearning -r vademecum.rdf -e
+  \end{lstlisting}
+\end{center}
+
+\section{Uploader code}
+
+\begin{center}
+  \lstinputlisting[language=python, captionpos=b, stringstyle=\color{Strings}, caption=Uploader to index the scrapped data in solr, label=listing:vademecumrdf]{code/anex/uploader.py}
+\end{center}

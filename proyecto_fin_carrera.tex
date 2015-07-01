@@ -120,7 +120,8 @@
 \definecolor{delim}{RGB}{20,105,176}
 \colorlet{numb}{magenta!60!black}
 
-\usepackage{listings}
+%\usepackage{listings}
+\usepackage{listingsutf8}
 \lstset{escapeinside=||}
 
 
@@ -211,7 +212,10 @@
   stringstyle=\color{black},
   identifierstyle=\color{lightblue},
   keywordstyle=\color{red},
-  morekeywords={xmlns,xsi,field,type,fieldType,copyField,analyzer,tokenizer,filter,foaf,rdf,sc}% list your attributes here
+  %extendedchars=true,
+  %literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {{ú}}{{\'u}}1 {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {{Ú}}{{\'U}}1 {ñ}{{~n}}1 {Ñ}{{~N}}1 {¿}{{?'}}1, 
+  morekeywords={xmlns,xsi,field,type,fieldType,copyField,analyzer,tokenizer,filter,foaf,rdf,sc},
+  otherkeywords={\&, \|, \%, \}, \{}% list your attributes here
 } 
 
 
@@ -294,6 +298,8 @@ morekeywords={xmlns, version, type, field, copyField, fieldType}
 \usepackage{fancybox} 
 \setlength{\fboxrule}{1 pt} \setlength{\fboxsep}{10pt} \setlength{\shadowsize}{3pt}
 
+\makeindex
+
 \begin{document}
 \newcommand\litem[1]{\item{\bfseries #1 }}
 \renewcommand{\arraystretch}{1.5} %Makes tables less crammed
@@ -309,7 +315,6 @@ morekeywords={xmlns, version, type, field, copyField, fieldType}
 \include{B-abstract}
 \include{C-acknowledgment}
 \include{D-contents}
-
 
 %Header style
 \pagestyle{fancy}
@@ -330,7 +335,7 @@ morekeywords={xmlns, version, type, field, copyField, fieldType}
 
 \appendix
 \include{Appendix-installation}
-\include{Appendix-scrappy}
+%\include{Appendix-scrappy}
 \include{Appendix-gsirdf}
 
 \phantomsection
