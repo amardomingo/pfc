@@ -5,21 +5,19 @@
 
 In this chapter, a brief introduction of the state of the art for conversational agents and Question Answering is presented. Likewise, we will take a short look at some Linked Open Data systems, and the ways to recover data for them.
 
-
 \end{chapterintro}
 
 \cleardoublepage
 
 \section{Overview}
 
-Conversational agents, presented in section \ref{sec:conv_agents} are systems that allow an user to interact with using natural language, the same way they will interact will another humar being. This is achieved by using engines that analyse the user input, process it, and provide the best possible answer given the knowledge of the system.
+Conversational agents, presented in section \ref{sec:conv_agents} are systems that allow users to interact with using natural language, the same way they will interact will another human being. This is achieved by using engines that analyse the user input, process it, and provide the best possible answer given the knowledge of the system.
 
 Question answering systems work in a similar way, but rather than provide a response in natural language, they present the user the resource where the answer to their question is located, usually by translating the question to a specialised query for a given database.
 
-The aforementioned database is usually a Linked Open Data System. This systems allow the publication of Semantic data, connecting it to the world and making therefore easily accesible and linkable.
+The aforementioned database is usually a Linked Open Data System. This systems allow the publication of Semantic data, connecting it to the world and making therefore easily accessible and linkable.
 
 Finally, we will study the way of populating the system, using web scrapping techniques in order to recover the information when it is not presented as Linked Open Data.
-
 
 \section{Conversational Agents}
 \label{sec:conv_agents}
@@ -34,7 +32,7 @@ The winner of the 2010, 2011 and 2014 contests was Bruce WillCox, using differen
 
 \subsection{\ac{AIML}}
 
-\ac{AIML}~\cite{aimlprimer} is a widely use XML dialect for creating conversational language. It was developed between 1995 and 2002 by Richard S. Wallace and the free software community, and has remained relevant to this date, including the draft for a major upgrade, AIML 2.0, released in the early 2013, and currently being working on. The original version of AIML had seven design goals, stated in its primer:
+\ac{AIML}~\cite{aimlprimer} is a widely used XML dialect for creating conversational language. It was developed between 1995 and 2002 by Richard S. Wallace and the free software community, and has remained relevant to this date, including the draft for a major upgrade, AIML 2.0, released in the early 2013, and currently being working on. The original version of AIML had seven design goals, stated in its primer:
 \begin{enumerate}%[topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex]
   \item Shall be easy to learn.
   \item Shall encode the miniaml concept set necessary to enable a stimulus-response knowledge system modelled on that of the original A.L.I.C.E.
@@ -75,7 +73,7 @@ In January 2013 the ALICE A.I. Foundation released a draft specification for a m
 
 \begin{enumerate}
  \item \textbf{Program D} is a Java implementation, open source, implementing the \ac{AIML} specification. It supports multiple bots per instance, and provides multiple ways to interfaces to interact with the service, providing a J2EE release allowing deployment as a webservice. However, the development of this project has been stagnated for years, with its last release in 2006.
- \item \textbf{ChatterBean} is another Java implementation, aiming to be \ac{AIML} 1.0.1 compliant, using a JavaBeans plugin architecture, and released under a GPL license. However, the last version was released on 2006 and the development since then seems to have stopped.
+ \item \textbf{ChatterBean} is another Java implementation, aiming to be \ac{AIML} 1.0.1 compliant, using a JavaBeans plug-in architecture, and released under a GPL license. However, the last version was released on 2006 and the development since then seems to have stopped.
  \item \textbf{Program O}, written in PHP with MySQL, is an \ac{AIML} engine with a web interface providing a number of remarkable features, including an administration panel, with configuration, teaching an testing interfaces. It stores the \ac{AIML} files in a MySQl database in order to improve its performance, and can assign different personalities to each bot. It is under active development by Ellizabeth Perreau and Dave Morton, with it latest version released in May 2014. 
 \end{enumerate}
 
@@ -96,7 +94,7 @@ ChatScript, written in C++ by Bruce Willcox, is a chatbot engine aiming to overc
 Since then, ChatScript has been updating and introducing improvements, up to version 5.4~\cite{ChatScriptSourceForge}. Some of the features in ChatScript include:
 \begin{itemize}
  \item Efficient, easily readable output rules
- \item Zero-length wildcards
+ \item Zero-length wild-cards
  \item Concise pattern matching through the use of concepts
  \item Built-in data covering multiple subjects and topics
 \end{itemize}
@@ -105,7 +103,7 @@ By matching in meaning, ChatScript claims to be able to provide a better user ex
 
 \subsubsection{Basic syntax, topics and rules}
 
-In Chatscript, rules are grouped in topics, and stored in ``.top'' files, allowing the designer to map the point of the conversation, therefore making a better response for the user. And example topic file can be found in listing~\ref{listing:exampletop}. In this example, the topic will be triggered when the user writes an input containing the words ``name'', ``here'', ``what'', or any other word specified in the system dictionaries ``emogoodbye'', ``emohello'' or ``emohowzit''. Then, it will attempt to match the user input with the patterns ``what is your name'' and ``what ~be''. If no pattern matches, it will output the gambit ``Have you been here before?''.
+In Chatscript, rules are grouped in topics, and stored in ``.top'' files, allowing the designer to map the point of the conversation, therefore making a better response for the user. An example topic file can be found in listing~\ref{listing:exampletop}. In this example, the topic will be triggered when the user writes an input containing the words ``name'', ``here'', ``what'', or any other word specified in the system dictionaries ``emogoodbye'', ``emohello'' or ``emohowzit''. Then, it will attempt to match the user input with the patterns ``what is your name'' and ``what ~be''. If no pattern matches, it will output the gambit ``Have you been here before?''.
 
 \begin{center} 
   \begin{lstlisting}[language={}, captionpos=b, caption=Example topic file, label=listing:exampletop]   
@@ -130,15 +128,15 @@ In this simple example, we find some of ChatScript syntaxes elements. We can see
 \begin{itemize}
  \item \textbf{Input matching:} The pattern can start with either ``s:'', ``?:'' or ``u:'', indicating they are supposed to respond to statements, questions or both. The parenthesis then indicate the pattern itself, which can have multiple elements:
     \subitem \emph{General words:} A simple word to look for on the sentence. ChatScript handles plurals and verb conjugations.
-    \subitem \emph{Concepts:} Starting with \~ , a concept is a set of words with a common general meaning.
-    \subitem \emph{Wildcards:} Allowing to match any word, or using a cardinal, can specify the number of words to match with the wildcard.
-    \subitem \emph{Start and end of sentence:} Using > and <, its possible to indicate whether the pattern should match the start or the end of the sentence.
-    \subitem \emph{Variables: } Starting the pattern element, whether is a wildcard, a concept or a word, using ``\_'', will store the matched word in a variable for future use, be it in the response or somewhere else.
+    \subitem \emph{Concepts:} Starting with $\sim$ , a concept is a set of words with a common general meaning.
+    \subitem \emph{Wild-cards:} Allowing to match any word, or using a cardinal, can specify the number of words to match with the wild-card.
+    \subitem \emph{Start and end of sentence:} Using $>$ and $<$, its possible to indicate whether the pattern should match the start or the end of the sentence.
+    \subitem \emph{Variables: } Starting the pattern element, whether is a wild-card, a concept or a word, using ``\_'', will store the matched word in a variable for future use, be it in the response or somewhere else.
   \item \textbf{Gambit:} Lines starting with ``t:'' indicate a gambit, that will be triggered when the bot cannot find an appropriate response.
-  \item \textbf{Bot Response:} Immediately after the pattern, the following lines until the next chatscript syntax element indicate how the bot response is formed.
+  \item \textbf{Bot Response:} Immediately after the pattern, the following lines until the next ChatScript syntax element indicate how the bot response is formed.
   \item \textbf{Variables:} Not shown in the previous example, any word starting with ``\$'' is a global variable, and can be assigned a value that will be remembered for the user. If the variable starts with ``\$\$'', the variable will be local, only lasting until the end of the current answer.
   \item \textbf{Rejoinders} Starting with single letters from ``a:'' through ``q:'' to indicate nesting depth, this indicate patterns that will trigger when the user responds to a specific bot output.
-  \item \textbf{Concepts:} Sets of word with a specific meaning, when referring to a concept in a pattern, it will match if any word in the set matches the input. ChatScript includes a large set of concepts by default, but the user can define its own sets.
+  \item \textbf{Concepts:} Sets of words with a specific meaning, when referring to a concept in a pattern, it will match if any word in the set matches the input. ChatScript includes a large set of concepts by default, but the user can define its own sets.
   \item \textbf{Topics:} rules are grouped in topics. Rules inside the topic will only be tested against the input when the input itself contains any of the words specified while defining the topic.
 \end{itemize}
 
@@ -146,7 +144,7 @@ A more detailed approach to ChatScript rules, matching and functions can be foun
 
 \subsubsection{Deploying a bot with ChatScript}
 
-By default, ChatScript can be run in local or server mode. Local mode allows for direct interaction from the command line, using the standard input and output to communicate with the user. This mode is specially usefull for debugging the rules when developing bots, since it gives access to debugging commands build with the system.
+By default, ChatScript can be run in local or server mode. Local mode allows for direct interaction from the command line, using the standard input and output to communicate with the user. This mode is specially useful for debugging the rules when developing bots, since it gives access to debugging commands build with the system.
 
 For production environments, ChatScript can be run in server mode, where it listens it offers a TCP interface. This interface will receive messages containing the bot name, the user name and the user input, and return the bot response for the given input.
 
@@ -159,9 +157,9 @@ In general, we can differentiate six major general approaches~\cite{unger2014an}
 
 \begin{itemize}
   \item \textbf{Controlled natural languages:} The system only takes into account a well-defined subset of a given natural language that can be unambiguously interpreted.
-  \item \textbf{Formal grammars processing:} Relaying on linguistics to assign syntactic and semantic representations to lexical units, as well as compositional semantics, this systems compute a representation of the question. Two examples of this systems could be ORAKEL~\cite{cimiano2008towards} and Pythia~\cite{unger2011pythia}
+  \item \textbf{Formal grammars processing:} Relaying on linguistics to assign syntactic and semantic representations to lexical units, as well as compositional semantics, these systems compute a representation of the question. Two examples of this systems could be ORAKEL~\cite{cimiano2008towards} and Pythia~\cite{unger2011pythia}
   \item \textbf{Mapping linguistics to semantic structures:} Systems designed under this principle rely on a measure of similarity between elements in the query and the predicates, subjects or objects in the knowledge base. PowerAqua~\cite{lopez2011poweraqua} and Aqualog~\cite{lopez2007aqualog} are two examples of this approach.
-  \item \textbf{Template-based:} Taking two stages, this approach first construct a query based on the linguistic analysis of the input question, and the matchs the expressions in the question with elements from the dataset. TBSL~\cite{unger2012template} implements this approach.
+  \item \textbf{Template-based:} Taking two stages, this approach first constructs a query based on the linguistic analysis of the input question, and the matches the expressions in the question with elements from the dataset. TBSL~\cite{unger2012template} implements this approach.
   \item \textbf{Graph exploration:} This approach maps elements of the question to entities in the knowledge base, and proceeds navigation from these pivot elements to navigate the graph, seeking to connect the entities to yield a connected query. This example is taken by the TREO~\cite{freitas2011querying} system
   \item \textbf{Machine learning:} question answering has been considered a machine learning problem, with either models for joint query interpretation and response ranking, aiming at learning semantic parsers given a knowledge base and a set of questions and answers, or systems with an algorithm for matching natural language expressions and ontology concepts, as well as an algorithm for storing matches in a parse lexicon.
 \end{itemize}
@@ -199,13 +197,13 @@ Not considered Linked Data Systems on its own, Apache Lucene~\footnote{\url{http
 \begin{itemize}%[topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex]
   \item Full-text search, with powerful matching capabilities, powered by Lucene.
   \item Optimized for High Volume traffic.
-  \item Standards Based Open interfaces, including json, xml and http.
+  \item Standards Based Open interfaces, including JSON, xml and http.
   \item Comprehensive Administration Interfaces, making it easy to handle Solr instances.
   \item Easy Monitoring, publishing relevant data via JMX
   \item Highly scalable and Fault tolerant, using Apache ZooKeeper, is easy to scale and distribute the load.
 \end{itemize}
 
-Apache Solr is used as a base in many other systems, including some of the described in the following sections, and can also be used as a \ac{QA} system of its own\cite{ingersoll2013taming}.
+Apache Solr is used as a base in many other systems, including some of the described in the following sections, and can also be used as a \ac{QA} system of its own~\cite{ingersoll2013taming}.
 
 \begin{figure}[!htbp]
     \centering
@@ -226,11 +224,11 @@ Started as the Linked Media Framework\footnote{\url{https://bitbucket.org/srfgkm
   \item \ac{LMF} SKOS editor, to manage SKOS thesauruses imported in the Linked Media Server.
 \end{itemize}
 
-The core functionalities of \ac{LMF} where set aside to incubate Apache Marmotta, an Open Platform for Linked Data within the Apache Software Foundation~\footnote{\url{http://www.apache.org/}} aiming to provide an implementation for Linked Data that can be used to both publish Linked Data and build custom applications for Linked Data.
+The core functionalities of \ac{LMF} were set aside to incubate Apache Marmotta, an Open Platform for Linked Data within the Apache Software Foundation~\footnote{\url{http://www.apache.org/}} aiming to provide an implementation for Linked Data that can be used to both publish Linked Data and build custom applications for Linked Data.
 
 \subsection{Fuseki and Apache Jena}
 
-Fuseki, build using Apache Jena\footnote{\url{http://jena.apache.org}}, is a \ac{SPARQL} server that provides a REST-style interface for \ac{SPARQL} queries. Its build using Apache Jena, an open source Semantic Web framework for Java. Apache Jena provides an API to extract data and write it to \ac{RDF} graphs, that are represented as an abstract model. A model can be sourced with data from files, databases, URLs or any combination of them. It also provides support for \ac{OWL}, and comes with several internal reasoners, as well as having support to use the Pellet\footnote{\url{https://www.w3.org/2001/sw/wiki/Pellet}} reasoner for \ac{OWL}
+Fuseki, built using Apache Jena\footnote{\url{http://jena.apache.org}}, is a \ac{SPARQL} server that provides a REST-style interface for \ac{SPARQL} queries. Its build using Apache Jena, an open source Semantic Web framework for Java. Apache Jena provides an API to extract data and write it to \ac{RDF} graphs, that are represented as an abstract model. A model can be sourced with data from files, databases, URLs or any combination of them. It also provides support for \ac{OWL}, and comes with several internal reasoners, as well as having support to use the Pellet\footnote{\url{https://www.w3.org/2001/sw/wiki/Pellet}} reasoner for \ac{OWL}
 
 % Apache Marmotta / LMF
 % DBpedia / virtuoso?
@@ -242,14 +240,14 @@ Fuseki, build using Apache Jena\footnote{\url{http://jena.apache.org}}, is a \ac
 
 \section{Information retrieval}
 
-The amount of information available in the web has grown exponentially over the last years, with standards such as Linked Data helping exchange data among heterogeneous systems. However, many times these standards are not used, and so it becomes necessary to recover and convert the data into compatible formats. There are multiple frameworks capable of crawling the web and recovering the relevant pieces of information, but we will focus here in Scrappy, a framework in ruby that allows extracting information from web pages and producing RDF data, and Scrapy, a python tool that allows extracting data from websites into any format, with powerful capabilities.
+The amount of information available in the web has grown exponentially over the last years, with standards such as Linked Data helping exchange data among heterogeneous systems. However, many times these standards are not used, and so it becomes necessary to recover and convert the data into compatible formats. There are multiple frameworks capable of crawling the web and recovering the relevant pieces of information, but we will focus here in Scrappy, a framework in ruby that allows extracting information from web pages and producing RDF data, and Scrapy, a Python tool that allows extracting data from websites into any format, with powerful capabilities.
 
 % Scrappy and scrapy
 
 \subsection{Scrappy}
 \label{subsec:scrappy}
 
-Scrappy\cite{villamor13} is a ruby framework with multiple functionalities, including web and REST interface, storing the scrapped data in a RDF repository, and outputing in multiple formats. For our system, we will discuss the web scrapping and RDF output capabilities.
+Scrappy~\cite{villamor13} is a ruby framework with multiple functionalities, including web and REST interface, storing the scrapped data in a RDF repository, and outputing in multiple formats. For our system, we will discuss the web scrapping and RDF output capabilities.
 
 To recover data from a web page, Scrappy utilizes an ontology\footnote{http://www.gsi.dit.upm.es/ontologies/scraping/} to define the mapping between the web data and the semantic web resources. An example extractor can be found in listing \ref{listing:examplescrappy} will take the link to the GSI's staff page and return a foaf object with the name of each member. As seen in the extractor, it matches CSS elements in the page to semantic properties. Although not shown in this particular example, it can also use Xpath and regular expressions as selectors.
 
@@ -303,24 +301,22 @@ Using the appropriate selectors, scrappy can follow the links on a page, automat
 
 \subsection{Scrapy}
 
-Scrapy\footnote{\url{http://scrapy.org/}} is a fast high level web crawling framework, used to extract structured data from websites. It is written in python, and by default outputs data to json, although it accepts custom exporters, giving the user the ability to export into any format it requires.
+Scrapy\footnote{\url{http://scrapy.org/}} is a fast high level web crawling framework, used to extract structured data from websites. It is written in Python, and by default outputs data to JSON, although it accepts custom exporters, giving the user the ability to export into any format it requires.
 
-The crawlers are python classes that extend the Spider class in scrapy.
+The crawlers are Python classes that extend the Spider class in scrapy.
 
 \definecolor{Strings}{rgb}{0,0.63,0}
 \begin{center}
   \lstinputlisting[language=Python, stringstyle=\color{Strings}, captionpos=b, caption=Example scrapy spider, label=listing:examplescrapy]{code/enabling/scrapy.py}
 \end{center}
 
-Listing \ref{listing:examplescrapy} shows part of a scrapy spider that will return a json object containing the url of the scrapped page, as well as the title, alternative and concept fields scrapped from the document.
+Listing \ref{listing:examplescrapy} shows part of a scrapy spider that will return a JSON object containing the url of the scrapped page, as well as the title, alternative and concept fields scrapped from the document.
 
 \section{Web technologies}
 
 % Talk about all-web movement? JavaScript & JQuery? 
 
-% This is mostly bullshit. Rewrite it.
-
-Known simply as ``The web'', the World Wide Web is an information system where hypertext documents are accessed via the internet. First proposed by Tim Berners Lee in 1989\cite{berners1989information}, it has grown to be used by two in five people around the world\footnote{\url{http://webfoundation.org/about/vision/history-of-the-web/}}.
+Known simply as ``The web'', the World Wide Web is an information system where hypertext documents are accessed via the internet. First proposed by Tim Berners Lee in 1989~\cite{berners1989information}, it has grown to be used by two out of five people around the world\footnote{\url{http://webfoundation.org/about/vision/history-of-the-web/}}.
 
 The technologies used in web services can be divided in Client technologies, executed in the user's computer, and Server technologies, executed in the server side of the service. We will provide a short description of some of the technologies available for each side, focussing on those used in this project.
 
@@ -334,7 +330,7 @@ Web browsers are usually responsible for running the code of a website. Usually,
  \item \textbf{JavaScript} is a programming language used to run scripts to interact with the user inside the browser window. Along with JavaScript, its most used library\footnote{\url{http://libscore.com/\#libs}} is jQuery, which is designed to simplify many of the usual tasks performed with JavaScript.
 \end{itemize}
 
-This technologies are often used with Ajax (\emph{Asynchronous Javascript XML}), a group of web development techniques used to create asynchronous web applications. Using Ajax, web applications can interact with the server in the background, therefore not interfering with the behaviour and graphical display of the rest of the page.
+These technologies are often used with Ajax (\emph{Asynchronous Javascript XML}), a group of web development techniques used to create asynchronous web applications. Using Ajax, web applications can interact with the server in the background, therefore not interfering with the behaviour and graphical display of the rest of the page.
 
 % JS/jQuery, HTML5, CSS, etc
 
@@ -344,7 +340,7 @@ This technologies are often used with Ajax (\emph{Asynchronous Javascript XML}),
 
 The interactions presented by the web client are the processed in the server side, usually communicating using HTTP. There are multiple applications capable of handling this interaction, known as http servers. Apache, NginX or Microsoft Windows Server\textregistered~are some of the most popular servers\footnote{\url{http://news.netcraft.com/archives/2015/05/19/may-2015-web-server-survey.html}}. 
 
-For our service, we have used Apache\cite{apacheabout}, an Open Source HTTP-Server. First launched in 1995, it has continued development to this date, with version 2.4.12 being released on January 2015~\footnote{\url{http://httpd.apache.org/}}. It is currently developed and maintained by an open community of developers under the Apache Software Foundation, and made available in a wide variety of operating systems, including GNU/Linux and Microsoft Windows\textregistered. It features a module-based system, allowing the core functionality to be expanded by compiled modules. Some of the most popular modules include:
+For our service, we have used Apache~\cite{apacheabout}, an Open Source HTTP-Server. First launched in 1995, it has continued development to this date, with version 2.4.12 being released on January 2015~\footnote{\url{http://httpd.apache.org/}}. It is currently developed and maintained by an open community of developers under the Apache Software Foundation, and made available in a wide variety of operating systems, including GNU/Linux and Microsoft Windows\textregistered. It features a module-based system, allowing the core functionality to be expanded by compiled modules. Some of the most popular modules include:
 
 \begin{itemize}%[topsep=0pt,itemsep=-1ex,partopsep=1ex,parsep=1ex]
  \item \textbf{mod\_php} Enabling the use php to execute server side code, this module can be found in many Apache installations, allowing the deployment of services like WordPress or Joomla.
@@ -354,15 +350,15 @@ For our service, we have used Apache\cite{apacheabout}, an Open Source HTTP-Serv
 
 Over the last few years, there has been an important trend in the use of evented web technologies, a vision of the traditional web APIs complemented with other APIs that produce events, and provide with a callback mechanism, make the Web more like a giant network. Node.js\footnote{\url{https://nodejs.org/}} is one of the most popular environments to build this kind of applications.
 
-\subsubsection{WSGI Servers in python}
+\subsubsection{WSGI Servers in Python}
 
-\ac{WSGI} is a specification for simple interfaces between web servers and web applications for the python programming language. First defined in PEP 333\cite{pep0333}, and updated in PEP 3333\cite{pep3333}, it has been adopted as a standard for python web application development.
+\ac{WSGI} is a specification for simple interfaces between web servers and web applications for the Python programming language. First defined in PEP 333~\cite{pep0333}, and updated in PEP 3333~\cite{pep3333}, it has been adopted as a standard for Python web application development.
 
-There are multiple implementations and frameworks of WSGI for python, some of the most popular are:
+There are multiple implementations and frameworks of WSGI for Python, some of the most popular are:
 
 \begin{itemize}
- \item \textbf{Bottle} is a simple lightweight WSGI framework, focusing on simplicity. It is distributed as a single file module, with no other dependencies than the python standard library. However, it has capabilities to handle routing, easy access to web data such as cookies and http headers, and includes a built-in server for development. It also has support for templates, both with a built-in engine, and using external modules such as mako or jinja2.
- \item \textbf{Django} is a full-fledged python web framework, offering fast and scalable services, with multiple built-in options, such as security, administration tools. It is slightly higher level than other frameworks, and emphasizes reusability of components and plugins, as well as rapid development. % complete?
+ \item \textbf{Bottle} is a simple lightweight WSGI framework, focusing on simplicity. It is distributed as a single file module, with no other dependencies than the Python standard library. However, it has capabilities to handle routing, easy access to web data such as cookies and http headers, and includes a built-in server for development. It also has support for templates, both with a built-in engine, and using external modules such as mako or jinja2.
+ \item \textbf{Django} is a full-fledged Python web framework, offering fast and scalable services, with multiple built-in options, such as security, administration tools. It is slightly higher level than other frameworks, and emphasizes reusability of components and plugins, as well as rapid development. % complete?
  \item \textbf{Flask}, a micro web application framework, based on the jinja2 template engine, and the Werkzeug WSGI toolkit. It focuses on providing a simple interface, whilst still providing multiple features such as RESTfull request dispatching, cookies and request handling and unicode support. It also includes native support for unit testing, as well as a development server and debugger. It also supports extensions for extra functionalities.
 \end{itemize}
 
@@ -379,6 +375,6 @@ We then considered \emph{Question Answering} systems and its different approache
 
 As for \emph{Linked Data Systems}, we studied the concept of the Semantic Web and Linked Data, to then take a look at multiple systems used for it: Apache Solr, not a linked data system on its own, but used in many of them, the Linked Media Framework, a full fledged linked data servers built around Apache Marmotta, and Fuseki, a SPARQL server with reasoning capabilities build with Apache Jena.
 
-After considering the Data indexing systems, we studied two \emph{Information Retrieval} tools: Scrappy, a ruby web crawler capable of exporting RDF documents from the data extracted from the web, and Scrapy, a python framework for web spiders, with support for multiple functionalities as well as allowing export of the data in personalised formats.
+After considering the Data indexing systems, we studied two \emph{Information Retrieval} tools: Scrappy, a ruby web crawler capable of exporting RDF documents from the data extracted from the web, and Scrapy, a Python framework for web spiders, with support for multiple functionalities as well as allowing export of the data in personalised formats.
 
-Finally, we took a quick look at \emph{web technologies}, both for client-side applications, as well as server side systems that would allow complex interactions with the user. We focussed specially in the server side, studying different implementations of WSGI modules for python, and considering their characteristics.
+Finally, we took a quick look at \emph{web technologies}, both for client-side applications, as well as server side systems that would allow complex interactions with the user. We focussed specially in the server side, studying different implementations of WSGI modules for Python, and considering their characteristics.

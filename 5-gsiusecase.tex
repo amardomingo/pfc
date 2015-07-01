@@ -24,7 +24,7 @@ In this case, the data was recovered using a mix of techniques, and integrated i
 
 \section{Recovering and storing the data}
 
-Similarly to the previous chapter, the data for this prototype has been recovered and converted into RDF and json formats, 
+Similarly to the previous chapter, the data for this prototype has been recovered and converted into RDF and JSON formats, 
 
 \subsection{Webpage categories}
 
@@ -45,7 +45,7 @@ For the projects information, the data is available in different formats in the 
 \subsubsection{Publications}
 \label{subsec:bibtexrdf}
 
-Each publication listed in the GSI webpage has an attached bibtex citation. Therefore, it is possible to use a bibtex ontology\footnote{\url{http://purl.oclc.org/NET/nknouf/ns/bibtex}} to map the elements in the bibtex files to semantic data. The mapping for the classes is shown in table \ref{tab:bibtex-classes}.
+Each publication listed in the GSI web page has an attached bibtex citation. Therefore, it is possible to use a bibtex ontology\footnote{\url{http://purl.oclc.org/NET/nknouf/ns/bibtex}} to map the elements in the bibtex files to semantic data. The mapping for the classes is shown in table \ref{tab:bibtex-classes}.
 
 \begin{center}
   \begin{table}
@@ -233,15 +233,15 @@ The function for each of those methods is described next:
 Finally, we will describe the \ac{OoB} commands that the system will be able to process.
 
 \begin{itemize}
- \item \textbf{¬solrPublication} and \textbf{¬solrResponsePublication} this commands handle the interactions when the user question is about the publications.
- \item \textbf{¬solrProject} and \textbf{¬solrResponseProjects} are issued for the query and response when performing lookups about the projects.
- \item \textbf{¬solrPerson} and \textbf{¬solrResponsePerson} handle the queries for the lookups related with the GSI members.
- \item \textbf{¬solrCount} and \textbf{¬solrcounted} perform the query for the number of documents relevant to a given filter.
- \item \textbf{¬solrLinks} a special Solr search, looking for related topics in Solr. 
- \item \textbf{¬gambit} performs an \ac{eDisMax} search in Solr, with the user query.
- \item \textbf{¬gambitResponse} returns the response of the gambit \ac{eDisMax} query.
- \item \textbf{¬gambitUnknown} issued when the gambit does not return any relevant document.
- \item \textbf{¬resource} sets the URL to be shown to the user in the client.
+ \item \textbf{solrPublication} and \textbf{solrResponsePublication} this commands handle the interactions when the user question is about the publications.
+ \item \textbf{solrProject} and \textbf{solrResponseProjects} are issued for the query and response when performing lookups about the projects.
+ \item \textbf{solrPerson} and \textbf{solrResponsePerson} handle the queries for the lookups related with the GSI members.
+ \item \textbf{solrCount} and \textbf{solrcounted} perform the query for the number of documents relevant to a given filter.
+ \item \textbf{solrLinks} a special Solr search, looking for related topics in Solr. 
+ \item \textbf{gambit} performs an \ac{eDisMax} search in Solr, with the user query.
+ \item \textbf{gambitResponse} returns the response of the gambit \ac{eDisMax} query.
+ \item \textbf{gambitUnknown} issued when the gambit does not return any relevant document.
+ \item \textbf{resource} sets the URL to be shown to the user in the client.
 \end{itemize}
 
 %The syntaxes of the commands is specified in table \ref{tab:gsi-commands}. \emph{\textcolor{red}{Update this table}}
@@ -251,16 +251,16 @@ Finally, we will describe the \ac{OoB} commands that the system will be able to 
 %    \begin{tabular*}{0.7\textwidth}{@{\extracolsep{\fill}} | c | c | p{0.35\textwidth} |}
 %      \hhline{|-|-|-|}
 %      \textbf{Command} & \textbf{Syntaxes} & \textbf{Description} \\ \hhline{|=|=|=|}
-%      ¬solrPublication & ¬sendSolr \textit{reqfield} \textit{doctitle} & Searchs in solr for the \textit{doctitle} and returns the \textit{reqfield} field.  \\ \hhline{|-|-|-|}
-%      \multirow{2}{*}{¬solrResponse} & ¬solrResponse \textit{unknown} & The requested document was not found in Solr. \\ \cline{2-3}
-%				     & ¬solrResponse \textit{reqfield} \textit{response} & Returns as \textit{response} the data of the field \textit{reqfield}. \\ \hhline{|-|-|-|}
-%      ¬solrLinks & ¬solrLinks \textit{linklist} & Asks for a search in Solr for the name of the topics given as an uri in the linklist \\ \hhline{|-|-|-|}
-%      ¬solrLinksResponse & ¬solrLinksResponse \textit{nameslist} & Sets the response for the ¬solrLinks command, returning the first name of the links. \\ \hhline{|-|-|-|}
-%      ¬gambit & ¬gambit \textit{topic}& Asks for a \ac{eDisMax} search on Solr, passing the full question. \\ \hhline{|-|-|-|}
-%      ¬gambitResponse & ¬gambitResponse \textit{gambittopic} & After performing an \ac{eDisMax} search, returns \textit{gambittopic} as the suggested topic. \\ \hhline{|-|-|-|}
-%      ¬gambitUnknown & ¬gambitUnknown & After performing an \ac{eDisMax} search, indicates that no relevant document has been found. \\ \hhline{|-|-|-|}
-%      ¬resource & ¬resource \textit{URL} & Sets \textit{URL} as the resource to be displayed in the client \\ \hhline{|-|-|-|}
-%      ¬label & ¬label \textit{topic} & Sets \textit{topic} as the concept of the response \\ \hhline{|-|-|-|}
+%      solrPublication & sendSolr \textit{reqfield} \textit{doctitle} & Searchs in solr for the \textit{doctitle} and returns the \textit{reqfield} field.  \\ \hhline{|-|-|-|}
+%      \multirow{2}{*}{solrResponse} & solrResponse \textit{unknown} & The requested document was not found in Solr. \\ \cline{2-3}
+%				     & solrResponse \textit{reqfield} \textit{response} & Returns as \textit{response} the data of the field \textit{reqfield}. \\ \hhline{|-|-|-|}
+%      solrLinks & solrLinks \textit{linklist} & Asks for a search in Solr for the name of the topics given as an uri in the linklist \\ \hhline{|-|-|-|}
+%      solrLinksResponse & solrLinksResponse \textit{nameslist} & Sets the response for the solrLinks command, returning the first name of the links. \\ \hhline{|-|-|-|}
+%      gambit & gambit \textit{topic}& Asks for a \ac{eDisMax} search on Solr, passing the full question. \\ \hhline{|-|-|-|}
+%      gambitResponse & gambitResponse \textit{gambittopic} & After performing an \ac{eDisMax} search, returns \textit{gambittopic} as the suggested topic. \\ \hhline{|-|-|-|}
+%      gambitUnknown & gambitUnknown & After performing an \ac{eDisMax} search, indicates that no relevant document has been found. \\ \hhline{|-|-|-|}
+%      resource & resource \textit{URL} & Sets \textit{URL} as the resource to be displayed in the client \\ \hhline{|-|-|-|}
+%      label & label \textit{topic} & Sets \textit{topic} as the concept of the response \\ \hhline{|-|-|-|}
 %      \end{tabular*}
 %    \caption{Parameters in the query sent back to the client.}
 %    \label{tab:gsi-commands}
@@ -305,7 +305,7 @@ The data was merged into a single RDF file, to then be imported and uploaded int
 
 \subsection{Solr Schema}
 
-For this system, we have stored all the scrapped data in the same Solr core. Therefore, we can classify the fields according to the type of document they are associated with. Therefore, we will look at the fields grouping them according to said type of document:
+For this system, we have stored all the scrapped data in the same Solr core. Therefore, we can classify the fields according to the type of document they are associated with. We will consequently look at the fields grouping them according to said type of document:
 
 \begin{itemize}
  \item \textbf{Stock solr fields:} Fields internal for Solr, we will not describe them here.
@@ -415,7 +415,7 @@ For this system, we have considered several types of queries. We have considered
 This query is perform when ChatScript identifies a question about the about of some type of document. This query will recover the number of documents in Solr matching the required criteria, and return it in an \ac{OoB} command. For example, for a question about the number of publications in 2014, the query will be as shown in listing \ref{listing:solrgsi1}. The meaning of each field is described next:
 
 \begin{center} 
-  \begin{lstlisting}[language=json, caption=Example json query for Solr, label=listing:solrgsi1]
+  \begin{lstlisting}[language=json, caption=Example JSON query for Solr, label=listing:solrgsi1]
    {
      "q" : "type:*bibtex* AND year:2014",
      "wt" : "json",
@@ -426,15 +426,51 @@ This query is perform when ChatScript identifies a question about the about of s
 
 \begin{itemize}
   \item \textbf{q} contains the actual query sent to the server, specifying the fields we are filtering with. In the example, we are searching for documents for year 2014. Since ``year'' is a field unique to publications, there is no real need to add the type filter.
-  \item \textbf{wt} the format the data will be returned in. In the example, we want the data in json format.
+  \item \textbf{wt} the format the data will be returned in. In the example, we want the data in JSON format.
   \item \textbf{rows} the number of documents to return. Since we only want the actual result count, rather than the documents, in the example it is set to 0
 \end{itemize}
 
-This search will return a json with the number of documents matching the criteria, which in turn will be pass to ChatScript, generating the appropriate \ac{NL} response.
+This search will return a JSON with the number of documents matching the criteria, which in turn will be pass to ChatScript, generating the appropriate \ac{NL} response.
 
 \subsubsection{General questions}
 
 ChatScript can also identify general questions about the different objects stored in Solr. In those cases, Solr will perform a regular search, returning the document with the highest score, which will them offered to the user as a response.
+
+For example, if ChatScript identifies a question about the work the research group does about Linked Open Data, the query send to Solr will be as shown in \ref{listing:solrgsi2]}. and will return the document with the highest score regarding the question, whether it is a publication or a project.
+
+\begin{center} 
+  \begin{lstlisting}[language=json, caption=Example query asking for Linked Open Data, label=listing:solrgsi2]
+   {
+     "q" : "searchfield:linked\\ open\\ data",
+     "wt" : "json",
+     "rows" : "1"
+   }  
+  \end{lstlisting}
+\end{center}
+
+A different search could be performed for people in the group. For example, if ChatScript receives a question asking for the publications of an user, two queries will be sent. The first one to identify the user, as shown in listing \ref{listing:solrgsi3}, which will return the ``about'' field with the identifier for the user, and then will use that identifier to search for publications that match that author, as shown in listing \ref{listing:solrgsi4}.
+
+\begin{center} 
+  \begin{lstlisting}[language=json, caption=Query asking for the data about an user, label=listing:solrgsi3]
+   {
+     "q" : "givenname:mardomingo",
+     "wt" : "json",
+     "fl": "about",
+     "rows" : "1"
+   }  
+  \end{lstlisting}
+\end{center}
+
+\begin{center} 
+  \begin{lstlisting}[language=json, caption=Query asking for the data about an user, label=listing:solrgsi4]
+   {
+     "q" : "author:gsi\:amardomingo",
+     "wt" : "json",
+     "fl": "about",
+     "rows" : "10"
+   }  
+  \end{lstlisting}
+\end{center}
 
 \emph{\textcolor{red}{Add example query for this}}
 

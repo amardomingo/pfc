@@ -15,17 +15,39 @@ For this system, we developed a prototype utilising the architecture explained i
 
 \begin{enumerate}
  \item A Javascript client, that will connect to the system and act as an user interface.
- \item A Front-end controller, written in python, that will handle the interaction between the different modules.
+ \item A Front-end controller, written in Python, that will handle the interaction between the different modules.
  \item A chatbot using chatscript, to handle question analysis and chit-chat interaction.
  \item An Apache Solr instance, where all the semantic data will be loaded.
 \end{enumerate}
 
 In parallel to all this, both a web scraper using scrapy to recover the relevant data, and an uploader to post the data to Solr.
 
+%\emph{\textcolor{red}{Add here a description of the process}} %http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6595093
+
+\section{Overall process}
+
+In this section we will give a short explanation on how each module of the system interact with each other. Image \ref{fig:lifecycle} shows a schematic view of the process the system follows, first for the retrieval of the information and, when the system if fully deployed, facing a query from an user.
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=1.1\textwidth]{img/prot/lifecycle.png}
+    \caption{Overall cycle for the system.}
+    \label{fig:lifecycle}
+\end{figure}
+
+First, the data from the Vademecum need to be scrapped into RDF documents, in an automatic process that can be supervised but a human administrator, but can also be fully automated. More details on this process can be found on section \ref{sec:javascrapping}. The generated RDF data is then stored into our Knowledge base, so it can be easily be queried. The process of scrapping the data and indexing it can be performed periodically to include new data as it appears.
+
+Once the system is deployed, users can input questions using the interface explained in section \ref{sec:chatclient}. Questions from the users will be packaged in a JSON request and then sent to the controller, that will process the query.
+
+The controller, described in section \ref{sec:frontendcon}, will start the process sending the question to the ChatBot (section \ref{sec:chatbot}). The Chatbot will process the Natural Language input from the user, and classify it, attending on whether the question is simple chit-chat or requires a knowledge base lookup. In the former case, the ChatBot will simply generate a Natural Language response and send it to the controller, which will process it and sent it back to the chat client and the user. 
+
+For the questions requiring Knowledge Base lookup, the ChatBot will identify the topic of the question and will send an Out of Band command to the controller, asking for the lookup. The controller will then form the query to retrieve the requested data, and perform the query. With the retrieved information, the controller will form a new out of band command, and send it back to the ChatBot. It will then process the data, and form a natural language response, sending it back to the controller for its final processing before being returned to the user in the chat client. The detailed information about the Knowledge Base can be found in section \ref{sec:solr}.
+
 \section{Scrapping process}
+\label{sec:javascrapping}
 % \emph{\textcolor{red}{Add a section describing the scrapped documents, and the rdf data?}}
 
-The data for this prototype comes from Professor Jose A. Mañas' Java Vademcum\footnote{\url{http://dit.upm.es/~pepe/libros/vademecum/}}, converted into RDF and json format using scrapy to be uploaded to a Solr instance. In this process, we will study the structure of a Vademecum document and match it to the schema described in section \ref{subsec:solrschema}. An example of that conversion is shown in figure \ref{fig:vademecum1}.
+The data for this prototype comes from Professor Jose A. Mañas' Java Vademecum\footnote{\url{http://dit.upm.es/~pepe/libros/vademecum/}}, converted into RDF and JSON format using scrapy to be uploaded to a Solr instance. In this process, we will study the structure of a Vademecum document and match it to the schema described in section \ref{subsec:solrschema}. An example of that conversion is shown in figure \ref{fig:vademecum1}.
 
 \begin{figure}[!htbp]
     \centering
@@ -34,7 +56,7 @@ The data for this prototype comes from Professor Jose A. Mañas' Java Vademcum\f
     \label{fig:vademecum1}
 \end{figure}
 
-The process for that document is automated using python, xpath and regular expressions, using jinja2\footnote{\url{jinja.pocoo.org}} templates to generate the data. The scrapy spider will go through every entry in the vademecum and create a list of items, which will in turn be exported in the required format. We have considered two formats for the export, json and RDF. Both of them are based on a tauxonomy using SKOS and Dublin Core. However, is worth to note that we are using json rather than json-ld, so we also provide the RDF as Linked Data.
+The process for that document is automated using Python, xpath and regular expressions, using jinja2\footnote{\url{jinja.pocoo.org}} templates to generate the data. The scrapy spider will go through every entry in the vademecum and create a list of items, which will in turn be exported in the required format. We have considered two formats for the export, JSON and RDF. Both of them are based on a tauxonomy using SKOS and Dublin Core. However, is worth to note that we are using JSON rather than JSON-LD, so we also provide the RDF as Linked Data.
 
 \subsection{RDF for Java}
 
@@ -79,7 +101,7 @@ The data will be exported in RDF/XML format. An example of an object can be show
 
 \subsection{JSON data}
 
-Aside from the generated RDF, the scrapper has also de ability to generate json. However, this format comes with some limitations, such as not including the concept scheme, and not keeping the source of the fields. As can be seen in listing \ref{listing:examplejsonvademecum}, a single json document will take the URL as identifier, and have similar fields than the rdf. The correspondence between the RDF and the JSON fields is shown in table \ref{tab:rdfjsonfields}
+Aside from the generated RDF, the scrapper has also de ability to generate JSON. However, this format comes with some limitations, such as not including the concept scheme, and not keeping the source of the fields. As can be seen in listing \ref{listing:examplejsonvademecum}, a single JSON document will take the URL as identifier, and have similar fields than the rdf. The correspondence between the RDF and the JSON fields is shown in table \ref{tab:rdfjsonfields}
 
 
 \begin{center}
@@ -151,7 +173,7 @@ The client is made using web technologies: HTML, CSS and Javascript, and uses Aj
   \lstinputlisting[language=JavaScript, caption=Ajax performing the request to the controller, label=listing:formclient, firstline=77, lastline=118]{code/prot/ask.js}
 \end{center}
 
-Upon the user submitting a question through the interface, the client will send a GET request to the controller, as described in section~\ref{sec:frontendcon}, and will receive a json response, containing the answer and the page to be shown to the user, if existent. An example response to que question ``¿Qué es un for?'' is shown in listing~\ref{listing:jsonchatresponse}.
+Upon the user submitting a question through the interface, the client will send a GET request to the controller, as described in section~\ref{sec:frontendcon}, and will receive a JSON response, containing the answer and the page to be shown to the user, if existent. An example response to que question ``¿Qué es un for?'' is shown in listing~\ref{listing:jsonchatresponse}.
 
 \begin{center} 
   \begin{lstlisting}[language=json, caption=Example response for the chat client, label=listing:jsonchatresponse]
@@ -200,7 +222,7 @@ The function of this module is returning the answer to the user, formed as JSON,
 \end{figure}
 
 \begin{itemize}
- \item \textbf{Request parsing:} The client sends the query as JSON using a HTTP request to the front-end controller. This JSON is recovered and processed into a python dictionary.
+ \item \textbf{Request parsing:} The client sends the query as JSON using a HTTP request to the front-end controller. This JSON is recovered and processed into a Python dictionary.
  \item \textbf{Send to ChatBot:} The user query is sent to the ChatBot so it's processes and a response, either \ac{NL} or \ac{OoB}, is generated.
  \item \textbf{Split \ac{NL} response and \ac{OoB} commands} The response in the previous step is split in \ac{NL} and {OoB} commands, to process each one appropriately.
  \item \textbf{\ac{OoB} command processing:} Read the \ac{OoB} commands and take the appropriate steps for each one of them.
@@ -266,15 +288,15 @@ Now we will proceed to describe each of the methods shown in the figure.
 Finally, we will describe the \ac{OoB} commands that the system will be able to process.
 
 \begin{itemize}
- \item \textbf{¬sendSolr} this command is issued whenever a question matches the pattern specified to request information about a Java topic.
- \item \textbf{¬solrResponse} after a search is performed in Solr, this command is issued to indicate whether or not a response has been found, and returning said response.
- \item \textbf{¬solrLinks} a special Solr search, looking for related topics in Solr.
- \item \textbf{¬solrLinksResponse} as a response to the solrLinks command, returns a list with the related topics.
- \item \textbf{¬gambit} perform an \ac{eDisMax} search in Solr, using the full user question.
- \item \textbf{¬gambitResponse} returns the title of the most relevant document found in the \ac{eDisMax} search.
- \item \textbf{¬gambitUnknown} issued when no document with a high enough score is found in Solr.
- \item \textbf{¬resource} sets the url to be displayed in the final response returned to the client.
- \item \textbf{¬label} sets the title of the found document as the label for the response.
+ \item \textbf{sendSolr} this command is issued whenever a question matches the pattern specified to request information about a Java topic.
+ \item \textbf{solrResponse} after a search is performed in Solr, this command is issued to indicate whether or not a response has been found, and returning said response.
+ \item \textbf{solrLinks} a special Solr search, looking for related topics in Solr.
+ \item \textbf{solrLinksResponse} as a response to the solrLinks command, returns a list with the related topics.
+ \item \textbf{gambit} perform an \ac{eDisMax} search in Solr, using the full user question.
+ \item \textbf{gambitResponse} returns the title of the most relevant document found in the \ac{eDisMax} search.
+ \item \textbf{gambitUnknown} issued when no document with a high enough score is found in Solr.
+ \item \textbf{resource} sets the url to be displayed in the final response returned to the client.
+ \item \textbf{label} sets the title of the found document as the label for the response.
 \end{itemize}
 
 The syntaxes of the commands is specified in table \ref{tab:oob-commands}.
@@ -284,16 +306,16 @@ The syntaxes of the commands is specified in table \ref{tab:oob-commands}.
     \begin{tabular*}{0.7\textwidth}{@{\extracolsep{\fill}} | c | c | p{0.35\textwidth} |}
       \hhline{|-|-|-|}
       \textbf{Command} & \textbf{Syntaxes} & \textbf{Description} \\ \hhline{|=|=|=|}
-      ¬sendSolr & ¬sendSolr \textit{reqfield} \textit{doctitle} & Searchs in solr for the \textit{doctitle} and returns the \textit{reqfield} field.  \\ \hhline{|-|-|-|}
-      \multirow{2}{*}{¬solrResponse} & ¬solrResponse \textit{unknown} & The requested document was not found in Solr. \\ \cline{2-3}
-				     & ¬solrResponse \textit{reqfield} \textit{response} & Returns as \textit{response} the data of the field \textit{reqfield}. \\ \hhline{|-|-|-|}
-      ¬solrLinks & ¬solrLinks \textit{linklist} & Asks for a search in Solr for the name of the topics given as an uri in the linklist \\ \hhline{|-|-|-|}
-      ¬solrLinksResponse & ¬solrLinksResponse \textit{nameslist} & Sets the response for the ¬solrLinks command, returning the first name of the links. \\ \hhline{|-|-|-|}
-      ¬gambit & ¬gambit \textit{topic}& Asks for a \ac{eDisMax} search on Solr, passing the full question. \\ \hhline{|-|-|-|}
-      ¬gambitResponse & ¬gambitResponse \textit{gambittopic} & After performing an \ac{eDisMax} search, returns \textit{gambittopic} as the suggested topic. \\ \hhline{|-|-|-|}
-      ¬gambitUnknown & ¬gambitUnknown & After performing an \ac{eDisMax} search, indicates that no relevant document has been found. \\ \hhline{|-|-|-|}
-      ¬resource & ¬resource \textit{URL} & Sets \textit{URL} as the resource to be displayed in the client \\ \hhline{|-|-|-|}
-      ¬label & ¬label \textit{topic} & Sets \textit{topic} as the concept of the response \\ \hhline{|-|-|-|}
+      sendSolr & sendSolr \textit{reqfield} \textit{doctitle} & Searchs in solr for the \textit{doctitle} and returns the \textit{reqfield} field.  \\ \hhline{|-|-|-|}
+      \multirow{2}{*}{solrResponse} & solrResponse \textit{unknown} & The requested document was not found in Solr. \\ \cline{2-3}
+				     & solrResponse \textit{reqfield} \textit{response} & Returns as \textit{response} the data of the field \textit{reqfield}. \\ \hhline{|-|-|-|}
+      solrLinks & solrLinks \textit{linklist} & Asks for a search in Solr for the name of the topics given as an uri in the linklist \\ \hhline{|-|-|-|}
+      solrLinksResponse & solrLinksResponse \textit{nameslist} & Sets the response for the solrLinks command, returning the first name of the links. \\ \hhline{|-|-|-|}
+      gambit & gambit \textit{topic}& Asks for a \ac{eDisMax} search on Solr, passing the full question. \\ \hhline{|-|-|-|}
+      gambitResponse & gambitResponse \textit{gambittopic} & After performing an \ac{eDisMax} search, returns \textit{gambittopic} as the suggested topic. \\ \hhline{|-|-|-|}
+      gambitUnknown & gambitUnknown & After performing an \ac{eDisMax} search, indicates that no relevant document has been found. \\ \hhline{|-|-|-|}
+      resource & resource \textit{URL} & Sets \textit{URL} as the resource to be displayed in the client \\ \hhline{|-|-|-|}
+      label & label \textit{topic} & Sets \textit{topic} as the concept of the response \\ \hhline{|-|-|-|}
       \end{tabular*}
     \caption{Parameters in the query sent back to the client.}
     \label{tab:oob-commands}
@@ -322,7 +344,7 @@ As we have just mentioned, there are several topics, both with and without keywo
 \begin{itemize}
  \item \textbf{topic.top} This file has most of the concepts used in the other files, as well as three generic topics:
  \begin{itemize}
-  \item \emph{TENCUESTA} to answer questions regarding the poll that will be presented to the user.
+  \item \emph{TENCUESTA}\footnote{Since we had a concept defined as ``encuesta'', we needed to differentiate this topic} to answer questions regarding the poll that will be presented to the user.
   \item \emph{EXAMENES} containing generic responses to questions about the exams.
   \item \emph{INTRO} with information that will allow the bot to identify himself.
  \end{itemize}
@@ -386,12 +408,12 @@ In this section we will describe how the Solr instance is set up, as well as the
 The scrapped data is stored using a Solr core containing every relevant document. This is done by describing the structure of said documents in the schema.xml for Solr. In this file, we can consider three main groups of fields:
 
 \begin{itemize}
- \item \textbf{Stock solr fields: } This fields are internal for solr, and we will not describe them here.
+ \item \textbf{Stock solr fields: } These fields are internal for solr, and we will not describe them here.
  \item \textbf{Document fields: } the fields scrapped from the Vademecum, they are described in table \ref{tab:schema-docfields}.
- \item \textbf{titleDefinition field: } this fields is generated concatenating the definition and title fields, to facilitate general search. %\emph{\textcolor{red}{Describe the copy process?}}
+ \item \textbf{titleDefinition field: } these fields is generated concatenating the definition and title fields, to facilitate general search. %\emph{\textcolor{red}{Describe the copy process?}}
 \end{itemize}
 
-The xml for this fields is as in listing \ref{listing:solr-schema1}
+The xml for these fields is as in listing \ref{listing:solr-schema1}
 \begin{center}
   \lstinputlisting[language=XML, captionpos=b, caption=fields defined for the java documents in the schema, label=listing:solr-schema1, firstline=125, lastline=148]{code/prot/schema.xml}
 \end{center}
@@ -446,10 +468,10 @@ With this configuration we will be able to do the queries described in the follo
 \subsection{Faceted query}
 % Maybe change the title?
 
-In the event that ChatScript identifies the question and the topic the user is asking for, we will perform a faceted search in Solr, looking for the fields requested in the \ac{OoB} command. The query will be done in json format. An example of a query is shown in listing \ref{listing:solrquery1}, and the meaning of each field is described next:
+In the event that ChatScript identifies the question and the topic the user is asking for, we will perform a faceted search in Solr, looking for the fields requested in the \ac{OoB} command. The query will be done in JSON format. An example of a query is shown in listing \ref{listing:solrquery1}, and the meaning of each field is described next:
 
 \begin{center} 
-  \begin{lstlisting}[language=json, caption=Example json query for Solr, label=listing:solrquery1]
+  \begin{lstlisting}[language=json, caption=Example JSON query for Solr, label=listing:solrquery1]
    {
      "q" : "title:for~0",
      "wt" : "json",
@@ -461,7 +483,7 @@ In the event that ChatScript identifies the question and the topic the user is a
 
 \begin{itemize}
  \item \textbf{q} contains the actual query sent to the server, with the filter for the query and the fuzziness. In the example, we are searching for documents containing the given string in the title, with a fuzziness of 0 (an exact match).
- \item \textbf{wt} the format the data will be returned in. In the example, we want the data in json format.
+ \item \textbf{wt} the format the data will be returned in. In the example, we want the data in JSON format.
  \item \textbf{fl} the list of fields we want for the documents in the response. In the example, this is set to all the fields in the document, specified in the query as a wild card ``*'', as well as the score for the match.
  \item \textbf{rows} the number of documents to return.
 \end{itemize}
@@ -474,7 +496,7 @@ With this search, we will try to look up the documents when the ChatScript modul
 
 When ChatScript identifies a sentence talking about a java concept, but does not recognize a question, we will perform a search in Solr using the entire question, treating it as a \ac{QA} system. To do so, we will perform an \ac{eDisMax} query, taking advantage of the stemmers and tokenizers we have configured in section~\ref{subsec:solrschema}. This type of query is designed to process user input directly, searching for the keyword across multiple fields, with different boosts based on the significance of each field, and allowing multiple options to influence the score on a case to case basis.
 
-Like the regular Solr query, this query is perform using a json format, and sent to the Solr service as the payload to a GET request. An example of an \ac{eDisMax} query is shown in listing \ref{listing:solrqueryeDisMax}
+Like the regular Solr query, this query is perform using a JSON format, and sent to the Solr service as the payload to a GET request. An example of an \ac{eDisMax} query is shown in listing \ref{listing:solrqueryeDisMax}
 
 \begin{center} 
   \begin{lstlisting}[language=json, caption=Example \ac{eDisMax} query for Solr, label=listing:solrqueryeDisMax]
@@ -510,11 +532,11 @@ This search will provide a broader match than the faceted query, finding matches
 
 In this Chapter, we have described a prototype of the proposed architecture for a system focussing on supporting lessons about the Java Programming Language. 
 
-First, we talked about the \emph{information retrieval} module, and how the information about the Java programming language was recovered from the Java Vademecum, using scrapy, and how we mapped it to a RDF tauxonomy. We then studied the JSON format that would be used to upload the data to Solr.
+First, we talked about the \emph{information retrieval} module, and how the information about the Java programming language was recovered from the Java Vademecum, using scrapy, and how we mapped it to a RDF taxonomy. We then studied the JSON format that would be used to upload the data to Solr.
 
 We moved onto the \emph{web interface} that presents the system to the final user, explaining the user the interface and how the system works. We also explained the interactions of the client with the server. 
 
-The client connects with the \emph{Fron end controller}, and we studied its implementation after that. We showed how the controller connects with the other modules, as well as analysing the Out of Band commands the different modules use to communicate with each other, and the workflow of the controller.
+The client connects with the \emph{Front end controller}, and we studied its implementation after that. We showed how the controller connects with the other modules, as well as analysing the Out of Band commands the different modules use to communicate with each other, and the workflow of the controller.
 
 Taking a look at the \emph{conversational agent}, we studied ChatScript and the rules used in our system, as well as how they were triggered and the output they produce.
 

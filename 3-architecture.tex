@@ -3,7 +3,7 @@
 
 \begin{chapterintro}
 
-In this section, we describe the overall architecture of a QA system that features social dialogue in a learning environment. First, we will summarize the requirements for the system, and discuss the global architecture, to then explain in detail each of the modules for the system. Finally, we will follow the process of two use cases, and describe the process for each case.
+In this section, we describe the overall architecture of a Question Answering system that features social dialogue in a learning environment. First, we will summarize the requirements for the system, and discuss the global architecture, to then explain in detail each of the modules for the system. Finally, we will follow the process of two use cases, and describe the process for each case.
  
 \end{chapterintro}
 
@@ -13,7 +13,7 @@ In this section, we describe the overall architecture of a QA system that featur
 
 In this section we will describe the architecture of our system, starting with the modules identified in the requirements. These requirements are:
 \begin{enumerate}[label=(\roman*)]
- \item Present the user with a simple interface for their questions, and to present them with the answers.
+ \item Present users with a simple interface for their questions, and to present them with the answers.
  \item Classify each input  and handle it to the appropriate module.
  \item Track dialogue options according to the speech.
  \item Implement a QA system being able to search the document library and extract a short answer.
@@ -43,7 +43,6 @@ However, the \ac{QA} can also instruct the Answer Generator to send a response t
 In that case, the Conversational Agent generates the answer according to the topic and former utterances, giving it a particular touch when needed.
 Besides the textual response that is presented to the user, the answer is decorated with meta-data to provide further information about the state of the Conversational Agent. Typically, they indicate the mood of the agent, its facial expressions and gestures (possible implemented using \ac{BML}), etc.
 
-
 \subsection{Question Answering}
 
 The {\em Question Answering} takes part with those user queries where he/she asks for a particular piece of information, i.e. as with a regular \ac{QA} system. 
@@ -52,11 +51,11 @@ This is, it is classifies the type of query, extracts the relevant concepts, and
 
 As with regular \ac{QA} systems, the \ac{IR} is consulted to obtain the relevant documents where the answer is contained. The \ac{IR} works with a set of documents that has been previously indexed.
 % Once the user query is analyzed the system decides whether the system needs to query the available document in order to retrieve the information to generate the results. 
-In this case, given the semantic nature of the \ac{IR} system, it also acts as a SPARQL endpoint that may be queried for precise pieces of information. Thus, it supports a dual working mode depending on the nature of the query. 
+In this case, given the semantic nature of the \ac{IR} system, it also acts as a \ac{SPARQL} endpoint that may be queried for precise pieces of information. Thus, it supports a dual working mode depending on the nature of the query.
 With semantic queries the results are more precise and the information returned has better structure, the better categorization of the fields returns the more accurate results. 
 Semantic queries also enable the use of linked data not only for enhancing results but for query expansion.
 % {\bf search som QueryExpansion papers or review those at mendeley}. 
-When the semantic \ac{IR} is not available --either because the incoming query is too general, or because there is no relevant structured documents--, the \ac{IR} module will do its best to return a piece of information as accurate as possible. At least, it retrieves a set of documents that are related to the query. It will try to categorize the nature of the documents, which bring the category of the concept searched, that can be used to expand the query and reformulate the query.
+When the semantic \ac{IR} is not available --either because the incoming query is too general, or because there is no relevant structured documents--, the \ac{IR} module will do its best to return a piece of information as accurate as possible. At least, it retrieves a set of documents that are related to the query. It will try to categorize the nature of the documents, which brings the category of the concept searched, that can be used to expand the query and reformulate the query.
 %  The main advantage of including semantic IR is that it will provide a result, depending on the quality of the documents, the quality of the result may vary, but in most cases (but when there is no relevant document at all) it will produce a result.
 If no relevant document is returned by the \ac{IR}, the \ac{QA} is not capable to give a response, and thus the Answer Generator will inform the user. 
 
@@ -132,7 +131,7 @@ Figure \ref{fig:arch3} shows the process graphically.
 
 In this chapter, we presented the proposed architecture for our system.
 
-We stared by taking a look at the \emph{requirements} that any proposed system should accomplish, and taking a look at the module structure we propose, as well as a short description for the function of each module.
+We started by taking a look at the \emph{requirements} that any proposed system should accomplish, and taking a look at the module structure we propose, as well as a short description for the function of each module.
 
 We then proceeded to take a look at each module in detail, analysing its functionality, as well as how each module interacts with each other.
 
