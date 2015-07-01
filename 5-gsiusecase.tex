@@ -244,29 +244,29 @@ Finally, we will describe the \ac{OoB} commands that the system will be able to 
  \item \textbf{¬resource} sets the URL to be shown to the user in the client.
 \end{itemize}
 
-The syntaxes of the commands is specified in table \ref{tab:gsi-commands}. \emph{\textcolor{red}{Update this table}}
-\begin{center}
-  \centering
-  \begin{table}
-    \begin{tabular*}{0.7\textwidth}{@{\extracolsep{\fill}} | c | c | p{0.35\textwidth} |}
-      \hhline{|-|-|-|}
-      \textbf{Command} & \textbf{Syntaxes} & \textbf{Description} \\ \hhline{|=|=|=|}
-      ¬sendSolr & ¬sendSolr \textit{reqfield} \textit{doctitle} & Searchs in solr for the \textit{doctitle} and returns the \textit{reqfield} field.  \\ \hhline{|-|-|-|}
-      \multirow{2}{*}{¬solrResponse} & ¬solrResponse \textit{unknown} & The requested document was not found in Solr. \\ \cline{2-3}
-				     & ¬solrResponse \textit{reqfield} \textit{response} & Returns as \textit{response} the data of the field \textit{reqfield}. \\ \hhline{|-|-|-|}
-      ¬solrLinks & ¬solrLinks \textit{linklist} & Asks for a search in Solr for the name of the topics given as an uri in the linklist \\ \hhline{|-|-|-|}
-      ¬solrLinksResponse & ¬solrLinksResponse \textit{nameslist} & Sets the response for the ¬solrLinks command, returning the first name of the links. \\ \hhline{|-|-|-|}
-      ¬gambit & ¬gambit \textit{topic}& Asks for a \ac{eDisMax} search on Solr, passing the full question. \\ \hhline{|-|-|-|}
-      ¬gambitResponse & ¬gambitResponse \textit{gambittopic} & After performing an \ac{eDisMax} search, returns \textit{gambittopic} as the suggested topic. \\ \hhline{|-|-|-|}
-      ¬gambitUnknown & ¬gambitUnknown & After performing an \ac{eDisMax} search, indicates that no relevant document has been found. \\ \hhline{|-|-|-|}
-      ¬resource & ¬resource \textit{URL} & Sets \textit{URL} as the resource to be displayed in the client \\ \hhline{|-|-|-|}
-      ¬label & ¬label \textit{topic} & Sets \textit{topic} as the concept of the response \\ \hhline{|-|-|-|}
-      \end{tabular*}
-    \caption{Parameters in the query sent back to the client.}
-    \label{tab:gsi-commands}
-  \end{table}
-\end{center}
-
+%The syntaxes of the commands is specified in table \ref{tab:gsi-commands}. \emph{\textcolor{red}{Update this table}}
+%\begin{center}
+%  \centering
+%  \begin{table}
+%    \begin{tabular*}{0.7\textwidth}{@{\extracolsep{\fill}} | c | c | p{0.35\textwidth} |}
+%      \hhline{|-|-|-|}
+%      \textbf{Command} & \textbf{Syntaxes} & \textbf{Description} \\ \hhline{|=|=|=|}
+%      ¬solrPublication & ¬sendSolr \textit{reqfield} \textit{doctitle} & Searchs in solr for the \textit{doctitle} and returns the \textit{reqfield} field.  \\ \hhline{|-|-|-|}
+%      \multirow{2}{*}{¬solrResponse} & ¬solrResponse \textit{unknown} & The requested document was not found in Solr. \\ \cline{2-3}
+%				     & ¬solrResponse \textit{reqfield} \textit{response} & Returns as \textit{response} the data of the field \textit{reqfield}. \\ \hhline{|-|-|-|}
+%      ¬solrLinks & ¬solrLinks \textit{linklist} & Asks for a search in Solr for the name of the topics given as an uri in the linklist \\ \hhline{|-|-|-|}
+%      ¬solrLinksResponse & ¬solrLinksResponse \textit{nameslist} & Sets the response for the ¬solrLinks command, returning the first name of the links. \\ \hhline{|-|-|-|}
+%      ¬gambit & ¬gambit \textit{topic}& Asks for a \ac{eDisMax} search on Solr, passing the full question. \\ \hhline{|-|-|-|}
+%      ¬gambitResponse & ¬gambitResponse \textit{gambittopic} & After performing an \ac{eDisMax} search, returns \textit{gambittopic} as the suggested topic. \\ \hhline{|-|-|-|}
+%      ¬gambitUnknown & ¬gambitUnknown & After performing an \ac{eDisMax} search, indicates that no relevant document has been found. \\ \hhline{|-|-|-|}
+%      ¬resource & ¬resource \textit{URL} & Sets \textit{URL} as the resource to be displayed in the client \\ \hhline{|-|-|-|}
+%      ¬label & ¬label \textit{topic} & Sets \textit{topic} as the concept of the response \\ \hhline{|-|-|-|}
+%      \end{tabular*}
+%    \caption{Parameters in the query sent back to the client.}
+%    \label{tab:gsi-commands}
+%  \end{table}
+%\end{center}
+%
 
 \section{Chatbot}
 \label{sec:chatbotgsi}
@@ -316,30 +316,87 @@ For this system, we have stored all the scrapped data in the same Solr core. The
  \item \textbf{searchField field:} this fields is generated concatenating fields from all three types of fields, to allow a default search with a single field.
 \end{itemize}
 
-A short description of each field, as well as the field types is shown in table \ref{tab:schema-gsifields}
+A short description of each field and the associated field types can be seen in table \ref{tab:schema-gsifields-core} for the common general purpose fields, table \ref{tab:schema-gsifields-staff} for the members of the group, table \ref{tab:schema-gsifields-projects} for the projects and \ref{tab:schema-gsifields-pubs} for the publications.
 
-\emph{\textcolor{red}{Fill this table. Maybe move it to an appendix?}}
+\begin{table}
+  \centering
+    \begin{tabular*}{0.6\textwidth}{@{\extracolsep{\fill}} | c | c | p{0.3\textwidth} |}
+      \hhline{|-|-|-|}
+      \textbf{Field} & \textbf{Field Type} &  \textbf{Description} \\ \hhline{|=|=|=|}
+      About & lowercase & URI for the document being described \\ \hhline{|-|-|-|}
+      Type & lowercase & RDF Class of the document \\ \hhline{|-|-|-|}
+      url & string & URL for associated filed for this document, like a personal page or the full text of a publication \\ \hhline{|-|-|-|}
+      searchField & text\_search & A field with information from all the document types, to perform regular searchs \\ \hhline{|-|-|-|}
+      \end{tabular*}
+    \caption{Common fields for different types of documents.}
+    \label{tab:schema-gsifields-core}
+\end{table}
+
 \begin{center}
   \centering
   \begin{table}
   \begin{center}
-    \begin{tabular*}{0.8\textwidth}{@{\extracolsep{\fill}} | c | c | c | p{0.3\textwidth} |}
-      \hhline{|-|-|-|-|}
-      \textbf{Field} & \textbf{Field Type} & \textbf{Type of document} & \textbf{Description} \\ \hhline{|=|=|=|=|}
-      about & string & all & The object this document is describing. \\ \hhline{|-|-|-|-|}
-      type & string & all & The object class for this document. \\ \hhline{|-|-|-|-|}
-      journal & lowercase & Publication & The Journal associated with the publication. \\ \hhline{|-|-|-|-|}
-      volume & string & Publication & The volume number \\ \hhline{|-|-|-|-|}
-      year & string & Publication & The year for the publication \\ \hhline{|-|-|-|-|}
-      month & lowercase & Publication & The month for the publication \\ \hhline{|-|-|-|-|}
-      booktitle & text\_search & Publication & The title of the book the publication is associated with. \\ \hhline{|-|-|-|-|}
-      --- & --- & --- & -- \\ \hhline{|-|-|-|-|}
+    \begin{tabular*}{0.6\textwidth}{@{\extracolsep{\fill}} | c | c | p{0.3\textwidth} |}
+      \hhline{|-|-|-|}
+      \textbf{Field} & \textbf{Field Type} & \textbf{Description} \\ \hhline{|=|=|=|}
+      givenname & text\_search & The name of the person being described \\ \hhline{|-|-|-|}
+      homepage & string & The personal page for this person \\ \hhline{|-|-|-|}
+      img & string & A link to an image of this person \\ \hhline{|-|-|-|}
+      based\_near & lowercase & The location for the person described \\ \hhline{|-|-|-|}
+      phone & string & Their phone number \\ \hhline{|-|-|-|}
+      workinfohome & string & The page in their workplace describing this person \\ \hhline{|-|-|-|}
+      role & text\_search & The position for this person \\ \hhline{|-|-|-|}
       \end{tabular*}
-    \caption{Fields in the Solr schema for the gsidata core.}
-    \label{tab:schema-gsifields}
+    \caption{Fields associated with personal data}
+    \label{tab:schema-gsifields-staff}
     \end{center}
   \end{table}
 \end{center}
+
+\begin{table}
+    \centering
+    \begin{tabular*}{0.9\textwidth}{@{\extracolsep{\fill}} | c | c | c | p{0.3\textwidth} |}
+      \hhline{|-|-|-|-|}
+      \textbf{Field} & \textbf{Field Type} & \textbf{Type of document} & \textbf{Description} \\ \hhline{|=|=|=|}
+      Journal & lowercase &  Journal for the described publication \\ \hhline{|-|-|-|}
+      volume & string & The volume this document appeared in \\ \hhline{|-|-|-|}
+      year & string & The year the document was published \\ \hhline{|-|-|-|}
+      month & lowercase & The month the document was published \\ \hhline{|-|-|-|}
+      title & text\_search & The title for this document \\ \hhline{|-|-|-|}
+      note & text\_search & A comment associated with the bibliographic citation \\ \hhline{|-|-|-|}
+      school & text\_search & The name of the School where the document was written \\ \hhline{|-|-|-|}
+      series & string & The series for the publication this document appeared in \\ \hhline{|-|-|-|}
+      publisher & text\_search & The publisher for the Journal of the document \\ \hhline{|-|-|-|}
+      number & string & The number of a work in a series \\ \hhline{|-|-|-|}
+      abstract & text\_search & An abstract about the document described \\ \hhline{|-|-|-|}
+      address & lowercase & The address for the publisher or the school \\ \hhline{|-|-|-|}
+      editor & text\_search & The editor for this document \\ \hhline{|-|-|-|}
+      author & text\_search & The list of authors of this document \\ \hhline{|-|-|-|}
+      pages & string & The page numbers of the Journal in which this publication appeared \\ \hhline{|-|-|-|}
+      chapter & string & The chapter of a book for this publication \\ \hhline{|-|-|-|}
+      source & string & The bibtex original file \\ \hhline{|-|-|-|}
+      \end{tabular*}
+    \caption{Fields for the publications.}
+    \label{tab:schema-gsifields-pubs}
+\end{table}
+
+\begin{table}
+  \centering
+  \begin{tabular*}{0.8\textwidth}{@{\extracolsep{\fill}} | c | c | c | p{0.3\textwidth} |}
+      \hhline{|-|-|-|}
+      \textbf{Field} & \textbf{Field Type} & \textbf{Description} \\ \hhline{|=|=|=|}
+      label & text\_search & The tittle for this project \\ \hhline{|-|-|-|}
+      status & lowercase &  Whether the project is active or not \\ \hhline{|-|-|-|}
+      startdate & string & The date the project is supposed to start \\ \hhline{|-|-|-|}
+      enddate & string & The date project finished \\ \hhline{|-|-|-|}
+      funding & text\_search & The origin of the funding for the project \\ \hhline{|-|-|-|}
+      imageurl & string & A link to an image associated with the project \\ \hhline{|-|-|-|}
+      researcharea & lowercase & The field this project is associated with \\ \hhline{|-|-|-|}
+      origin & lowercase & A document with all the info about this project \\ \hhline{|-|-|-|}
+      \end{tabular*}
+    \caption{Fields for the projects.}
+    \label{tab:schema-gsifields-projects}
+\end{table}
 
 The ``text\_search'' field is based on the default English fields, and is defined as shown in listing \ref{listing:schemagsisearch}
 
