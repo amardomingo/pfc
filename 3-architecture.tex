@@ -3,7 +3,7 @@
 
 \begin{chapterintro}
 
-In this section, we describe the overall architecture of a Question Answering system that features social dialogue in a learning environment. First, we will summarize the requirements for the system, and discuss the global architecture, to then explain in detail each of the modules for the system. Finally, we will follow the process of two use cases, and describe the process for each case.
+In this section, we describe the overall architecture of a Question Answering system that features social dialogue in a learning environment. First, we will summarize the requirements for the system, and discuss the global architecture, to then explain in detail each of the modules for the system. Finally, we will follow the process of two use cases, and describe the process for each of them.
  
 \end{chapterintro}
 
@@ -16,7 +16,7 @@ In this section we will describe the architecture of our system, starting with t
  \item Present users with a simple interface for their questions, and to present them with the answers.
  \item Classify each input  and handle it to the appropriate module.
  \item Track dialogue options according to the speech.
- \item Implement a QA system being able to search the document library and extract a short answer.
+ \item Implement a \ac{QA} system that would be able to search the document library and extract a short answer.
  \item Extend the documents library, scrapping external documents and producing semi-structured indexes.
  \item Follow up the learning process, and use it to improve the learning experience. 
 \end{enumerate}
@@ -34,51 +34,40 @@ The classifier receives the user queries. It provides an endpoint that the user-
 
 \subsection{Conversational Agent}
 
-The {\em Conversational Agent} is responsible for handling the social dialogue of the conversation (also referred by other authors as small talk or chit chat). It also traces the topic of the conversation that stores in the fact \ac{KB}, along with the former utterances and pills of information learned or devised from the user. It is responsible for understanding the whole meaning of the user query when he/she omits information already provided in previous utterances. 
+The \emph{Conversational Agent} is responsible for handling the social dialogue of the conversation (also referred by other authors as small talk or chit chat). It also traces the topic of the conversation that stores in the fact \ac{KB}, along with the former utterances and pills of information learned or devised from the user. It is responsible for understanding the whole meaning of the user query when he/she omits information already provided in previous utterances. 
 The Input Analyser inside the Conversational Agent, performs a script based analysis of the input by matching regular expressions against the input. Some advanced implementations of script based analysers also use dictionaries and perform \ac{PoS} tagging and parsing.
 
-The Conversational Agent, by means of the Answer Generator, is also in change of generating the answers that will be sent to the users. These are also stored in the dialogue scripts. 
-In the most common scenario, the small talk input is analysed by the Input Analyser and tells the Answer Generator to given a particular answer in response.
-However, the \ac{QA} can also instruct the Answer Generator to send a response to the user.
-In that case, the Conversational Agent generates the answer according to the topic and former utterances, giving it a particular touch when needed.
-Besides the textual response that is presented to the user, the answer is decorated with meta-data to provide further information about the state of the Conversational Agent. Typically, they indicate the mood of the agent, its facial expressions and gestures (possible implemented using \ac{BML}), etc.
+The Conversational Agent, by means of the Answer Generator, is also in change of generating the answers that will be sent to the users. These are also stored in the dialogue scripts. In the most common scenario, the small talk input is analysed by the Input Analyser and tells the Answer Generator to given a particular answer in response. However, the \ac{QA} can also instruct the Answer Generator to send a response to the user. In that case, the Conversational Agent generates the answer according to the topic and former utterances, giving it a particular touch when needed. Besides the textual response that is presented to the user, the answer is decorated with meta-data to provide further information about the state of the Conversational Agent. Typically, they indicate the mood of the agent, its facial expressions and gestures (possible implemented using \ac{BML}), etc.
 
 \subsection{Question Answering}
 
-The {\em Question Answering} takes part with those user queries where he/she asks for a particular piece of information, i.e. as with a regular \ac{QA} system. 
-The QA Analyser uses domain-specific grammars to extract the precise meaning of the query.
-This is, it is classifies the type of query, extracts the relevant concepts, and categorize them according to the ontologies considered. The effectiveness of the process depends of the accuracy and degree of detail of the grammars applied, which includes the precision of the concept categorization. The QA Analyser combines general-scope dictionaries with domain-specific ones to enhance its effectiveness. If there is no grammar that can be applied to the query, the analysis simply does not return any outcome.
+The \emph{Question Answering} takes part with those user queries where he/she asks for a particular piece of information, i.e. as with a regular \ac{QA} system. The \ac{QA} Analyser uses domain-specific grammars to extract the precise meaning of the query. This is, it classifies the type of query, extracts the relevant concepts, and categorize them according to the ontologies considered. The effectiveness of the process depends of the accuracy and degree of detail of the grammars applied, which includes the precision of the concept categorization. The \ac{QA} Analyser combines general-scope dictionaries with domain-specific ones to enhance its effectiveness. If there is no grammar that can be applied to the query, the analysis simply does not return any outcome.
 
 As with regular \ac{QA} systems, the \ac{IR} is consulted to obtain the relevant documents where the answer is contained. The \ac{IR} works with a set of documents that has been previously indexed.
 % Once the user query is analyzed the system decides whether the system needs to query the available document in order to retrieve the information to generate the results. 
-In this case, given the semantic nature of the \ac{IR} system, it also acts as a \ac{SPARQL} endpoint that may be queried for precise pieces of information. Thus, it supports a dual working mode depending on the nature of the query.
-With semantic queries the results are more precise and the information returned has better structure, the better categorization of the fields returns the more accurate results. 
-Semantic queries also enable the use of linked data not only for enhancing results but for query expansion.
+In this case, given the semantic nature of the \ac{IR} system, it also acts as a \ac{SPARQL} endpoint that may be queried for precise pieces of information. Thus, it supports a dual working mode depending on the nature of the query. With semantic queries the results are more precise and the information returned has better structure, the better categorization of the fields returns the more accurate results.  Semantic queries also enable the use of linked data not only for enhancing results but for query expansion.
 % {\bf search som QueryExpansion papers or review those at mendeley}. 
 When the semantic \ac{IR} is not available --either because the incoming query is too general, or because there is no relevant structured documents--, the \ac{IR} module will do its best to return a piece of information as accurate as possible. At least, it retrieves a set of documents that are related to the query. It will try to categorize the nature of the documents, which brings the category of the concept searched, that can be used to expand the query and reformulate the query.
 %  The main advantage of including semantic IR is that it will provide a result, depending on the quality of the documents, the quality of the result may vary, but in most cases (but when there is no relevant document at all) it will produce a result.
 If no relevant document is returned by the \ac{IR}, the \ac{QA} is not capable to give a response, and thus the Answer Generator will inform the user. 
 
-Moreover, the Semantic \ac{IR} may also be queried by external modules. The treatment given to the query is the same as when it comes from the QA Analyser.
-Finally, the conversational agent may derive a query to the \ac{QA} in those cases where the Classifier miss-classifies the query, and more frequently with those utterances where the user	 asks for more information. In this case, the \ac{QA} system needs further information to perform the document retrieval. Thus, the conversational agent will expand the query and route it to the \ac{QA}.
+Moreover, the Semantic \ac{IR} may also be queried by external modules. The treatment given to the query is the same as when it comes from the \ac{QA} Analyser. Finally, the conversational agent may derive a query to the \ac{QA} in those cases where the Classifier miss-classifies the query, and more frequently with those utterances where the user	 asks for more information. In this case, the \ac{QA} system needs further information to perform the document retrieval. Thus, the conversational agent will expand the query and route it to the \ac{QA}.
 
 
 \subsection{Information Extractor}
 
-In case there is no relevant document for the query performed, the system will try update the KB. The {\em Information Extractor Agent}'s main function consists on analysing unstructured documents in order to extract fields, categorize them and generating a semi-structured document. 
+In case there is no relevant document for the query performed, the system will try update the KB. The \emph{Information Extractor Agent}'s main function consists on analysing unstructured documents in order to extract fields, categorize them and generating a semi-structured document. 
 
-This is a slow process, so it cannot be performed in near real-time; instead, unresolved query may trigger its execution, that will be available for future queries. 
-This automatic information extraction mechanism is a best-effort process that relies on the information on the sources, and the ontologies used to map that information. Semantic scrappers such as Scrappy~\cite{villamor13} may boost this process.
-Alternatively, a system administrator may also manually include documents on the \ac{IR} index, but also mark them to be processed by the Information Extractor Agent and index them afterwards.
+This is a slow process, so it cannot be performed in near real-time; instead, unresolved query may trigger its execution, that will be available for future queries. This automatic information extraction mechanism is a best-effort process that relies on the information on the sources, and the ontologies used to map that information. Semantic scrappers such as Scrappy~\cite{villamor13} may boost this process. Alternatively, a system administrator may also manually include documents on the \ac{IR} index, but also mark them to be processed by the Information Extractor Agent and index them afterwards.
 
 %
 \section{Work process} % Revise this title
 
-In this section we will describe the process a question introduced into the system will follow. Depending on the user input, the aforementioned process may differ. Here, we will consider two types of user input, the first one being a simple chit chat sentence, that won't require a look up in the \ac{KB}. The other type of input to be considered is an actual question, requiring a lookup in the \ac{KB}.
+In this section we will describe the process a question introduced into the system will follow. Depending on the user input, the aforementioned process may differ. Here, we will consider two types of user input, the first one being a simple social dialogue sentence, that won't require a look up in the \ac{KB}. The other type of input to be considered is an actual question, requiring a lookup in the \ac{KB}.
 
 % Add UML figure?
 
-The classifier will differentiate between the different types of input, and trigger the appropriate processes.
+The classifier will differentiate between the distinct types of input, and trigger the appropriate processes.
 
 \subsection{Simple sentence}
 
@@ -86,7 +75,7 @@ Our system is ready to handle social chat, which aims to provide a richer experi
 
 \begin{enumerate}
  \item The user inputs the sentence into the system.
- \item The classifier tags the input as chit-chat.
+ \item The classifier tags the input as social dialogue.
  \item The input analyser decides which type of social interaction we are facing, such as a greeting, a identifying question (``Are you the teacher? `` ) or an insult, among others.
  \item The answer generator provides an appropriate response and returns it to the user.
 \end{enumerate}
@@ -102,13 +91,13 @@ This process is shown graphically in Figure \ref{fig:arch2}.
 
 \subsection{Question with \ac{KB} lookup}
 
-In this process, the question input into the system does require a lookup in the \ac{KB}, via the \ac{QA} system. The process followed to produce the output will be the following:
+In this process, the question input into the system does require a lookup in the \ac{KB}, via the \ac{QA} system. The process to produce the output will be the following:
 
 \begin{enumerate}
  \item The user inputs the question into the system.
  \item The classifier tags the input as an actual question.
- \item The QA Analyser process the question and performs a search in the \ac{KB}.
- \item The QA Analyser returns the response for the question to the Answer generator.
+ \item The \ac{QA} Analyser process the question and performs a search in the \ac{KB}.
+ \item The \ac{QA} Analyser returns the response for the question to the Answer generator.
  \item The answer generator process the response and returns a natural question, as well as the required \ac{OoB} command with the data.
 \end{enumerate}
 

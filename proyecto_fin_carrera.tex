@@ -11,7 +11,8 @@
 \setlength{\voffset}{-0.25in}
 \setlength{\parskip}{0.1in}
 
-\usepackage[notbib,nottoc]{tocbibind}
+%\usepackage[notbib,nottoc]{tocbibind}
+\usepackage[notbib]{tocbibind}
 
 %\includeonly{5-architecture}
 %\includeonly{6-use-case}
@@ -66,42 +67,13 @@
 \usepackage{multirow}
 
 % Define the acronyms
-\usepackage{acronym}
+\usepackage[printonlyused]{acronym}
 
 %acronym
-\acrodef{BDI}{Belief Desire Intention}
-\acrodef{BB}{Belief Base}
-\acrodef{BML}{Behavior Markup Language}
-\acrodef{ECA}{Embodied Conversational Agents}
-\acrodef{IE}{Information Extraction}
-\acrodef{ITS}{Intelligent Tutoring System}
-\acrodef{IR}{Information Retrieval}
-\acrodef{JLOO}{Java Learning Objects Ontology}
-\acrodef{KB}{Knowledge-Base}
-\acrodef{LOD}{Linked Open Data}
-\acrodef{NL}{Natural Language}
-\acrodef{NLI}{Natural Language Interface}
-\acrodef{NLP}{Natural Language Processing}
-\acrodef{NLU}{Natural Language Understanding}
-\acrodef{MAS}{Multi Agent System}
-\acrodef{PoS}{Part of Speech}
-\acrodef{QA}{Question Answering}
-\acrodef{SKOS}{Simple Knowledge Organization System}
-\acrodef{SPARQL}{SPARQL Protocol and RDF Query Language}
-\acrodef{OWL}{Web Ontology Language}
-\acrodef{SW}{Semantic Web}
-\acrodef{OoB}{Out of Band}
-\acrodef{eDisMax}{Extended Disjunction Max}
-\acrodef{RDF}{Resource Description Framework}
-\acrodef{AIML}{Artifcial Intelligence Markup Language}
-\acrodef{LMF}{Linked Media Framework}
-\acrodef{WSGI}{Web Server Gateway Interface}
-\acrodef{FOAF}{Friend of a Friend}
-\acrodef{SIOC}{Semantically-Interlinked Online Communities}
 
 % Reset the acronyms at the beginning of each chapter
 \usepackage{etoolbox}
-\preto\section\acresetall
+\preto\section\acrosetall
 
 \usepackage[pdftex,
             pdfauthor={Alberto Mardomingo Mardomingo},
