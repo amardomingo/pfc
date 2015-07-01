@@ -4,11 +4,11 @@ The complete RDF scrapped for this document is avaliable in \url{http://github.c
 
 \section{Command syntaxes}
 
-The uploader can handle rdf and json files, and takes the arguments explained in table . And example usage is shown in listing \ref{listing:rdfupload}
+The uploader can handle rdf and json files, and takes the arguments explained in table \ref{tab:uploaderparams} . And example usage is shown in listing \ref{listing:rdfupload}
 
 \begin{table}
   \centering
-  \begin{tabular*}{0.7\textwidth}{| c | c | c | p{0.7\textwidth} |}
+  \begin{tabular*}{0.9\textwidth}{| c | c | c | p{0.5\textwidth} |}
     \hhline{|-|-|-|-|}
     \textbf{Argument} & \textbf{Short argument} & \textbf{Parameter}& \textbf{Explanation} \\ \hhline{|=|=|=|=|}
     --help & -h &  & Shows the help\\ \hhline{|-|-|-|-|} 
@@ -20,8 +20,8 @@ The uploader can handle rdf and json files, and takes the arguments explained in
     --empty & -e & & Clears all the data in solr before uploading any document \\ \hhline{|-|-|-|-|} 
     --output & -o & & Logfile to output to \\ \hhline{|-|-|-|-|} 
     \end{tabular*}
-  \caption{Memory and CPU usage for each system under low load}
-  \label{tab:loadmeasures}
+  \caption{Parameters for the uploader to Solr.}
+  \label{tab:uploaderparams}
 \end{table}
 
 
