@@ -133,7 +133,7 @@ In this simple example, we find some of ChatScript syntaxes elements. We can see
   \item \textbf{Gambit:} Lines starting with ``t:'' indicate a gambit, that will be triggered when the bot cannot find an appropriate response.
   \item \textbf{Bot Response:} Immediately after the pattern, the following lines until the next ChatScript syntax element indicate how the bot response is formed.
   \item \textbf{Variables:} Not shown in the previous example, any word starting with ``\$'' is a global variable, and can be assigned a value that will be remembered for the user. If the variable starts with ``\$\$'', the variable will be local, only lasting until the end of the current answer.
-  \item \textbf{Rejoinders} Starting with single letters from ``a:'' through ``q:'' to indicate nesting depth, this indicate patterns that will trigger when the user responds to a specific bot output.
+  \item \textbf{Rejoinders} Starting with single letters from ``a:'' through ``q:'' to indicate nesting depth, these indicate patterns that will trigger when the user responds to a specific bot output.
   \item \textbf{Concepts:} Sets of words with a specific meaning, when referring to a concept in a pattern, it will match if any word in the set matches the input. ChatScript includes a large set of concepts by default, but the user can define its own sets.
   \item \textbf{Topics:} rules are grouped in topics. Rules inside the topic will only be tested against the input when the input itself contains any of the words specified while defining the topic.
 \end{itemize}
@@ -155,7 +155,7 @@ In general, we can differentiate six major general approaches~\cite{unger2014an}
 
 \begin{itemize}
   \item \textbf{Controlled natural languages:} The system only takes into account a well-defined subset of a given natural language that can be unambiguously interpreted.
-  \item \textbf{Formal grammars processing:} Relaying on linguistics to assign syntactic and semantic representations to lexical units, as well as compositional semantics, these systems compute a representation of the question. Two examples of this systems could be ORAKEL~\cite{cimiano2008towards} and Pythia~\cite{unger2011pythia}
+  \item \textbf{Formal grammars processing:} Relaying on linguistics to assign syntactic and semantic representations to lexical units, as well as compositional semantics, these systems compute a representation of the question. Two examples of this approach could be ORAKEL~\cite{cimiano2008towards} and Pythia~\cite{unger2011pythia}
   \item \textbf{Mapping linguistics to semantic structures:} Systems designed under this principle rely on a measure of similarity between elements in the query and the predicates, subjects or objects in the knowledge base. PowerAqua~\cite{lopez2011poweraqua} and Aqualog~\cite{lopez2007aqualog} are two examples of this approach.
   \item \textbf{Template-based:} Taking two stages, this approach first constructs a query based on the linguistic analysis of the input question, and the matches the expressions in the question with elements from the dataset. TBSL~\cite{unger2012template} implements this approach.
   \item \textbf{Graph exploration:} This approach maps elements of the question to entities in the knowledge base, and proceeds navigation from these pivot elements to navigate the graph, seeking to connect the entities to yield a connected query. This example is taken by the TREO~\cite{freitas2011querying} system

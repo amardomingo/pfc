@@ -3,7 +3,7 @@
 
 \begin{chapterintro}
 
-In this chapter, we will describe the prototype we developed for a bot for the GSI web page following the architecture described in chapter \ref{chap:architecture}. We will start with the process to recover the data as Linked Data, to them describe the interface and the modules of the system.
+In this chapter, we will describe the prototype of a bot we developed for the GSI web page following the architecture described in chapter \ref{chap:architecture}. We will first present the process to recover the data as Linked Data, to them describe the interface and the modules of the system.
  
 \end{chapterintro}
 
@@ -11,7 +11,7 @@ In this chapter, we will describe the prototype we developed for a bot for the G
 
 \section{Overview of the system}
 
-Along with the prototype described in chapter \ref{chap:usecasejava}, we have also developed a system with the data from the GSI webpage, including data from the projects, publications and staff. For this, we have similar modules:
+Along with the prototype described in chapter \ref{chap:usecasejava}, we have also developed a system with the data from the GSI web page, including data from the projects, publications and staff. For this, we have similar modules:
 
 \begin{enumerate}
  \item A Javascript client acting as the user interface.
@@ -20,29 +20,29 @@ Along with the prototype described in chapter \ref{chap:usecasejava}, we have al
  \item An Apache Solr core, with all the data.
 \end{enumerate}
 
-In this case, the data was recovered using a mix of techniques, and integrated into a single core in Solr.
+In this prototype, the data was recovered using a mix of techniques, and integrated into a single core in Solr.
 
 \section{Recovering and storing the data}
 
-Similarly to the previous chapter, the data for this prototype has been recovered and converted into RDF and JSON formats, 
+Similarly to the previous chapter, the data for this prototype has been recovered and converted into \ac{RDF} and JSON formats, 
 
-\subsection{Webpage categories}
+%\subsection{Web page categories}
 
-We considered three types of data from the GSI web page: the information about the members of the groups, their publications and the projects the groups has taken part of. Each type comes from a different part of the website, and therefore will be considered independently. 
+We considered three types of data from the GSI web page: the information about the members of the group, their publications and the projects the group has taken part of. Each type comes from a different part of the website, and therefore will be considered independently. 
 
-\subsubsection{Projects}
+\subsection{Projects}
 
-For the projects information, the data is available in different formats in the webpage itself, including RDF/XML, as shown in figure \ref{fig:gsiprojects}
+For the projects information, the data is available in different formats in the web page itself, including RDF/XML, as shown in figure \ref{fig:gsiprojects}
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{img/screens/gsi-projects.png}
-    \caption{RDF exporter for the projects.}
+    \includegraphics[width=\textwidth]{img/screens/gsi-projects.png}
+    \caption{\ac{RDF} exporter for the projects.}
     \label{fig:gsiprojects}
 \end{figure}
 
 
-\subsubsection{Publications}
+\subsection{Publications}
 \label{subsec:bibtexrdf}
 
 Each publication listed in the GSI web page has an attached bibtex citation. Therefore, it is possible to use a bibtex ontology\footnote{\url{http://purl.oclc.org/NET/nknouf/ns/bibtex}} to map the elements in the bibtex files to semantic data. The mapping for the classes is shown in table \ref{tab:bibtex-classes}.
@@ -51,7 +51,7 @@ Each publication listed in the GSI web page has an attached bibtex citation. The
   \begin{table}
     \begin{tabular*}{0.7\textwidth}{@{\extracolsep{\fill}} | c | c | p{0.5\textwidth} |}
       \hhline{|-|-|-|}
-      \textbf{Bibtex tag} & \textbf{Ontolgoy mapping} & \textbf{Description} \\ \hhline{|=|=|=|}
+      \textbf{Bibtex tag} & \textbf{Ontology mapping} & \textbf{Description} \\ \hhline{|=|=|=|}
       article & bibtex:Article & An article from a journal or magazine. \\ \hhline{|-|-|-|}
       book & bibtex:Book & A book with an explicit publisher. \\ \hhline{|-|-|-|}
       conference & bibtex:Conference & An article in a conference proceedings. \\ \hhline{|-|-|-|}
@@ -67,10 +67,10 @@ Each publication listed in the GSI web page has an attached bibtex citation. The
   \end{table}
 \end{center}
 
-As seen in listing \ref{listing:examplerdfbibtex}, the mapping for the properties follows a simple pattern, similar to the clases' mapping. To this mapping we have added the source of the document using Dublin Core, so the original bibtex can be referenced as needed.
+As seen in listing \ref{listing:examplerdfbibtex}, the mapping for the properties follows a simple pattern, similar to the mapping of the classes. To this mapping we have added the source of the document using Dublin Core, so the original bibtex can be referenced as needed.
 
 \begin{center} 
-  \begin{lstlisting}[language=XML, captionpos=b, caption=Example bibtex document converted to RDF, label=listing:examplerdfbibtex]   
+  \begin{lstlisting}[language=XML, captionpos=b, caption=Example bibtex document converted to \ac{RDF}, label=listing:examplerdfbibtex]   
    <bibtex:Conference rdf:about="gsi:serranoTwitter2015">
        <bibtex:hasTitle>A survey of Twitter Rumor Spreading Simulations</bibtex:hasTitle>
        <bibtex:hasAuthor>gsi:eserrano</bibtex:hasAuthor>
@@ -84,7 +84,7 @@ As seen in listing \ref{listing:examplerdfbibtex}, the mapping for the propertie
  \end{lstlisting}
 \end{center}
 
-\subsubsection{People}
+\subsection{People}
 
 Finally, the information available in the GSI web page about the members of the group cannot be exported in any format, so we have used scrappy, described in section \ref{subsec:scrappy} to crawl the data and export it into an appropriate format. In order to do so, we used the \ac{FOAF}\footnote{\url{http://xmlns.com/foaf/spec/}} ontology as well as some elements from the \ac{SIOC} ontology\footnote{\url{http://rdfs.org/sioc/spec/}} to represent each person in the group. An example mapping can be found in listing \ref{listing:examplerdfperson}
 
@@ -191,7 +191,7 @@ For this system, the user interface is similar to the one described in section \
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.7\textwidth]{img/screens/gsi-client.png}
+    \includegraphics[width=0.9\textwidth]{img/screens/gsi-client.png}
     \caption{Web interface for the client.}
     \label{fig:gsichat1}
 \end{figure}
@@ -199,7 +199,7 @@ For this system, the user interface is similar to the one described in section \
 \section{Controller}
 \label{sec:controllergsi}
 
-The controller handles the requests received from the client described in the previous section, interacting with the required modules as needed, and interpreting the \ac{OoB} commands generated by each module. This module is very similar to the one described in section \ref{sec:frontendcon} of the previous chapter, and is developed using the same technologies. It follows the same functional model described in section \ref{subsec:functmodel}.
+The controller handles the requests received from the client described in the previous section, interacting with the required modules as needed, and interpreting the Out of Band commands generated by each module. This module is very similar to the one described in section \ref{sec:frontendcon} of the previous chapter, and is developed using the same technologies. It follows the same functional model described in section \ref{subsec:functmodel}.
 
 \subsection{Structural Model}
 
@@ -217,23 +217,23 @@ The function for each of those methods is described next:
 \begin{itemize}
   \item \textbf{rootURL()} triggered when the base URL for the controller is requested, it acts in the same way as the qa() method.
   \item \textbf{qa()} Parsing the request parameters shown in table \ref{tab:fe-qparams}, this method will start the process to process the user question, and return the response once said process is complete, following the structure on table on table \ref{tab:fe-rparams}. 
-  \item \textbf{runQuestion()} Send the question to ChatScript once, to generate the first \ac{OoB} commands and start processing them.
-  \item \textbf{runCommands()} Parse the response from ChatScript and split the \ac{OoB} commands, in order to start processing each one of them, as well as their responses, adding commands to the queue as needed.
+  \item \textbf{runQuestion()} Send the question to ChatScript once, to generate the first Out of Band commands and start processing them.
+  \item \textbf{runCommands()} Parse the response from ChatScript and split the Out of Band commands, in order to start processing each one of them, as well as their responses, adding commands to the queue as needed.
   \item \textbf{solrPublication()} When the user is asking about a publication, parse the parameters and perform the relevant Solr lookup.
   \item \textbf{solrProject()} Parse handle the queries to Solr when the question involves projects.
   \item \textbf{solrPerson()} Handle requests regarding members of the GSI.
-  \item \textbf{solrCount()} When the user ask about quantities rather than about the documents themselves, perform the appropiate Solr lookup.
+  \item \textbf{solrCount()} When the user ask about quantities rather than about the documents themselves, perform the appropriate Solr lookup.
   \item \textbf{processGambit()} As a last resource, perform a broad search in Solr with the user query. This is further explained in section \ref{sec:solr}.
   \item \textbf{sendChatScript()} This function will process the interaction with ChatScript, both sending the questions and handling the responses. For more details, see section \ref{sec:chatbot}.
   \item \textbf{sendSolrDefault()} Given a question and no other parameters or information, this function will send said question to Solr, so it will go through the default processing. This is mainly unused.
   \item \textbf{sendSolrEDisMax()} Send the question to Solr using an \ac{eDisMax} query, usually for a gambit. 
-  \item \textbf{sendSolr()} Send a direct query to solr. Mainly used by the rest of the solr lookup methods.
+  \item \textbf{sendSolr()} Send a direct query to Solr. Mainly used by the rest of the Solr lookup methods.
 \end{itemize}
 
-Finally, we will describe the \ac{OoB} commands that the system will be able to process.
+Finally, we will describe the Out of Band commands that the system will be able to process.
 
 \begin{itemize}
- \item \textbf{solrPublication} and \textbf{solrResponsePublication} this commands handle the interactions when the user question is about the publications.
+ \item \textbf{solrPublication} and \textbf{solrResponsePublication} handle the interactions when the user question is about the publications.
  \item \textbf{solrProject} and \textbf{solrResponseProjects} are issued for the query and response when performing lookups about the projects.
  \item \textbf{solrPerson} and \textbf{solrResponsePerson} handle the queries for the lookups related with the GSI members.
  \item \textbf{solrCount} and \textbf{solrcounted} perform the query for the number of documents relevant to a given filter.
@@ -244,7 +244,7 @@ Finally, we will describe the \ac{OoB} commands that the system will be able to 
  \item \textbf{resource} sets the URL to be shown to the user in the client.
 \end{itemize}
 
-%The syntaxes of the commands is specified in table \ref{tab:gsi-commands}. \emph{\textcolor{red}{Update this table}}
+%The syntax of the commands is specified in table \ref{tab:gsi-commands}. \emph{\textcolor{red}{Update this table}}
 %\begin{center}
 %  \centering
 %  \begin{table}
@@ -277,11 +277,8 @@ Using the ChatScript chat engine, the Chatbot handles the conversation and proce
 
 We have separated the rules regarding different types of documents in one topic file per type, and therefore, we will have the following files and topics:
 
-We have separated our topics across several files, each containing related topics, as well as the control script for the bot. We will start describing the control process, shown in listing~\ref{listing:cs-control}
-
-
 \begin{itemize}
- \item \textbf{people.top} This file has the interactions regarding the members of the group, in the PEOPLE topic.
+ \item \textbf{people.top} This file has the interactions regarding the members of the group.
  \item \textbf{projects.top} with the topics regarding the projects.
  \item \textbf{publications.top} contains the topics relevant to the publications.
  \item \textbf{introductions.top} contains simple chat about the bot, as well as greetings and farewells.
@@ -295,13 +292,13 @@ This control script will first look for rejoinders in the current topic, to then
 
 \subsection{The server}
 
-The ChatScript server for this prototype is deployed in the same way than the server in the previous chapter, explained in section \ref{sec:csserver}. However, it is worth mentioning that a single ChatScript instance cannot hold both bots, so if the same physical server is to run both bots, it would be needed to run two ChatScript instances, each one of them in a different port.
+The ChatScript server for this prototype is deployed in the same way than the server in the previous chapter, explained in section \ref{sec:csserver}. However, it is worth mentioning that a single ChatScript instance cannot hold both bots, so if the same physical (or virtual) server is to run both bots, it would be needed to run two ChatScript instances, each one of them in a different port.
 
 \section{Solr instance}
 
-In this section we will describe how the Solr instance has been configured for this system, as well as the search procedure. As in section \ref{sec:solr}, we are using Apache Solr 4.10.2, which will receive the queries from the controller described in section \ref{sec:controllergsi}. The Solr instance will contain a core with the data scrapped from the web page, allowing us to have all the date in a single place.
+In this section we will describe how the Solr instance has been configured for this system, as well as the search procedure. As in section \ref{sec:solr}, we are using Apache Solr 4.10.2, which will receive the queries from the controller described in section \ref{sec:controllergsi}. The Solr instance will contain a core with the data scrapped from the web page, allowing us to have all the data in a single place.
 
-The data was merged into a single RDF file, to then be imported and uploaded into the Solr instance.
+The data was merged into a single \ac{RDF} file, to then be imported and uploaded into the Solr instance.
 
 \subsection{Solr Schema}
 
@@ -311,9 +308,9 @@ For this system, we have stored all the scrapped data in the same Solr core. The
  \item \textbf{Stock solr fields:} Fields internal for Solr, we will not describe them here.
  \item \textbf{Document fields:} the fields scrapped from the web.
     \subitem \emph{Fields for the projects:} These fields are derived from the project exported structure.
-    \subitem \emph{Fields for the members of the GSI}: Describing the people at the GSI, this fields are based on \ac{FOAF} fields.
+    \subitem \emph{Fields for the members of the GSI}: Describing the people at the GSI, these fields are based on \ac{FOAF} fields.
     \subitem \emph{Fields for the publications:} Based on the bibtex ontology described in section \ref{subsec:bibtexrdf}.
- \item \textbf{searchField field:} this fields is generated concatenating fields from all three types of fields, to allow a default search with a single field.
+ \item \textbf{searchField field:} this field is generated concatenating fields from all three types of fields, to allow a default search with a single field.
 \end{itemize}
 
 A short description of each field and the associated field types can be seen in table \ref{tab:schema-gsifields-core} for the common general purpose fields, table \ref{tab:schema-gsifields-staff} for the members of the group, table \ref{tab:schema-gsifields-projects} for the projects and \ref{tab:schema-gsifields-pubs} for the publications.
@@ -323,10 +320,10 @@ A short description of each field and the associated field types can be seen in 
     \begin{tabular*}{0.6\textwidth}{@{\extracolsep{\fill}} | c | c | p{0.3\textwidth} |}
       \hhline{|-|-|-|}
       \textbf{Field} & \textbf{Field Type} &  \textbf{Description} \\ \hhline{|=|=|=|}
-      About & lowercase & URI for the document being described \\ \hhline{|-|-|-|}
-      Type & lowercase & RDF Class of the document \\ \hhline{|-|-|-|}
+      about & lowercase & URI for the document being described \\ \hhline{|-|-|-|}
+      type & lowercase & \ac{RDF} Class of the document \\ \hhline{|-|-|-|}
       url & string & URL for associated filed for this document, like a personal page or the full text of a publication \\ \hhline{|-|-|-|}
-      searchField & text\_search & A field with information from all the document types, to perform regular searchs \\ \hhline{|-|-|-|}
+      searchField & text\_search & A field with information from all the document types, to perform regular searches \\ \hhline{|-|-|-|}
       \end{tabular*}
     \caption{Common fields for different types of documents.}
     \label{tab:schema-gsifields-core}
@@ -355,9 +352,9 @@ A short description of each field and the associated field types can be seen in 
 
 \begin{table}
     \centering
-    \begin{tabular*}{0.9\textwidth}{@{\extracolsep{\fill}} | c | c | c | p{0.3\textwidth} |}
-      \hhline{|-|-|-|-|}
-      \textbf{Field} & \textbf{Field Type} & \textbf{Type of document} & \textbf{Description} \\ \hhline{|=|=|=|}
+    \begin{tabular*}{0.8\textwidth}{@{\extracolsep{\fill}} | c | c | p{0.6\textwidth} |}
+      \hhline{|-|-|-|}
+      \textbf{Field} & \textbf{Field Type} & \textbf{Description} \\ \hhline{|=|=|=|}
       Journal & lowercase &  Journal for the described publication \\ \hhline{|-|-|-|}
       volume & string & The volume this document appeared in \\ \hhline{|-|-|-|}
       year & string & The year the document was published \\ \hhline{|-|-|-|}
@@ -412,7 +409,7 @@ For this system, we have considered several types of queries. We have considered
 
 \subsubsection{Questions about quantities}
 
-This query is perform when ChatScript identifies a question about the about of some type of document. This query will recover the number of documents in Solr matching the required criteria, and return it in an \ac{OoB} command. For example, for a question about the number of publications in 2014, the query will be as shown in listing \ref{listing:solrgsi1}. The meaning of each field is described next:
+This query is performed when ChatScript identifies a question about the about of some type of document. This query will recover the number of documents in Solr matching the required criteria, and return it in an Out of Band command. For example, for a question about the number of publications in 2014, the query will be as shown in listing \ref{listing:solrgsi1}. The meaning of each field is described next:
 
 \begin{center} 
   \begin{lstlisting}[language=json, caption=Example JSON query for Solr, label=listing:solrgsi1]
@@ -425,9 +422,9 @@ This query is perform when ChatScript identifies a question about the about of s
 \end{center}
 
 \begin{itemize}
-  \item \textbf{q} contains the actual query sent to the server, specifying the fields we are filtering with. In the example, we are searching for documents for year 2014. Since ``year'' is a field unique to publications, there is no real need to add the type filter.
+  \item \textbf{q} contains the actual query sent to the server, specifying the fields we are filtering with. In the example, we are searching for documents for year 2014. Since ``year'' is a field unique to publications, there is no real need to add the type filter, and is added only for clarity purposes.
   \item \textbf{wt} the format the data will be returned in. In the example, we want the data in JSON format.
-  \item \textbf{rows} the number of documents to return. Since we only want the actual result count, rather than the documents, in the example it is set to 0
+  \item \textbf{rows} the number of documents to return. Since we only want the actual result count, rather than the documents, in the example it is set to 0.
 \end{itemize}
 
 This search will return a JSON with the number of documents matching the criteria, which in turn will be pass to ChatScript, generating the appropriate \ac{NL} response.
@@ -448,14 +445,14 @@ For example, if ChatScript identifies a question about the work the research gro
   \end{lstlisting}
 \end{center}
 
-A different search could be performed for people in the group. For example, if ChatScript receives a question asking for the publications of an user, two queries will be sent. The first one to identify the user, as shown in listing \ref{listing:solrgsi3}, which will return the ``about'' field with the identifier for the user, and then will use that identifier to search for publications that match that author, as shown in listing \ref{listing:solrgsi4}.
+A different search could be performed for people in the group. For example, if ChatScript receives a question asking for the publications of an user, two queries will be sent. The first one to identify the user, as shown in listing \ref{listing:solrgsi3}, which will return the ``about'' field with the identifier for the user, as well as the page with the list of publications for this user. The controller will then use the recovered identifier to search for publications that match the author, as shown in listing \ref{listing:solrgsi4}.
 
 \begin{center} 
   \begin{lstlisting}[language=json, caption=Query asking for the data about an user, label=listing:solrgsi3]
    {
      "q" : "givenname:mardomingo",
      "wt" : "json",
-     "fl": "about",
+     "fl": "about,workinfohomepage",
      "rows" : "1"
    }  
   \end{lstlisting}
@@ -472,21 +469,20 @@ A different search could be performed for people in the group. For example, if C
   \end{lstlisting}
 \end{center}
 
-\emph{\textcolor{red}{Add example query for this}}
-
 \subsubsection{Gambit queries}
 
-In the event that ChatScript is incapable of identify the question the user is making, the system will perform an \ac{eDisMax} query, looking for a match in the relevant fields for each document type, and offering the answer only if the score of the match is over a predetermined minimum score.
+In the event that ChatScript is incapable of identifying the question the user is making, the system will perform an \ac{eDisMax} query, looking for a match in the relevant fields for each document type, and offering the answer only if the score of the match is over a predetermined minimum score. The process is quite similar to the previous prototype, described in section \ref{subsec:solrgambit}.
+
 
 \section{Summary}
 
 In this chapter we have talked about a different prototype for our system, including documents with different structures, indexed into the system.
 
-We first studied the three main sources of data, proposing a RDF mapping to export the scrapped data into semantic data. We also discuss the different techniques and tools used while recovering the data. We recovered the data from the GSI members, their publications and their projects.
+We first studied the three main sources of data, proposing a \ac{RDF} mapping to export the scrapped data into semantic data. We also discussed the different techniques and tools used while recovering the data. We recovered the data from the GSI members, their publications and their projects.
 
 Then we analysed the \emph{user interface} for this prototype, very similar to the previous one.
 
-We move on to analyse the new Front-end \emph{controller}, which, although having the same functional model, has a different structural model, to account for the different structure of the documents indexed for this system. We analyse the new \ac{OoB} commands, as well as their parameters.
+We move on to analyse the new Front-end \emph{controller}, which, although having the same functional model, has a different structural model, in order to account for the different structure of the documents indexed for this system. We analyse the new Out of Band commands, as well as their parameters.
 
 Like with the controller, the new \emph{conversational agent} is studied in this section, analysing the new file structure and control system.
 

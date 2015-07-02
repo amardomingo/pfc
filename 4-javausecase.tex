@@ -30,7 +30,7 @@ In this section we will provide a short explanation on how each module of the sy
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=1.1\textwidth]{img/prot/lifecycle.png}
+    \includegraphics[width=\textwidth]{img/prot/lifecycle.png}
     \caption{Overall cycle for the system.}
     \label{fig:lifecycle}
 \end{figure}
@@ -51,7 +51,7 @@ The data for this prototype comes from Professor Jose A. Mañas' Java Vademecum\
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=1.1\textwidth]{img/screens/vademecum-ex.png}
+    \includegraphics[width=\textwidth]{img/screens/vademecum-ex.png}
     \caption{Example mapping for the vademecum.}
     \label{fig:vademecum1}
 \end{figure}
@@ -106,7 +106,7 @@ Aside from the generated \ac{RDF}, the scrapper has also de ability to generate 
 
 \begin{center}
   \begin{table}
-    \begin{tabular*}{0.7\textwidth}{@{\extracolsep{\fill}} | c | c | p{0.7\textwidth} |}
+    \begin{tabular*}{0.7\textwidth}{@{\extracolsep{\fill}} | c | c | p{0.5\textwidth} |}
       \hhline{|-|-|-|}
       \textbf{Json field} & \textbf{RDF equivalent} & \textbf{Description} \\ \hhline{|=|=|=|}
       title & dcterms:title &  The name of the document, in Spanish. \\ \hhline{|-|-|-|}
@@ -305,7 +305,7 @@ The syntax of the commands is specified in table \ref{tab:oob-commands}.
   \begin{table}
     \begin{tabular*}{0.7\textwidth}{@{\extracolsep{\fill}} | c | c | p{0.35\textwidth} |}
       \hhline{|-|-|-|}
-      \textbf{Command} & \textbf{Syntaxes} & \textbf{Description} \\ \hhline{|=|=|=|}
+      \textbf{Command} & \textbf{Syntax} & \textbf{Description} \\ \hhline{|=|=|=|}
       sendSolr & sendSolr \textit{reqfield} \textit{doctitle} & Searchs in solr for the \textit{doctitle} and returns the \textit{reqfield} field.  \\ \hhline{|-|-|-|}
       \multirow{2}{*}{solrResponse} & solrResponse \textit{unknown} & The requested document was not found in Solr. \\ \cline{2-3}
 				     & solrResponse \textit{reqfield} \textit{response} & Returns as \textit{response} the data of the field \textit{reqfield}. \\ \hhline{|-|-|-|}
@@ -329,7 +329,7 @@ The Chatbot handles the processing of the natural language input from the user, 
 
 \subsection{The rules}
 
-Chatscript responds to a series of rules, specified in its topic files. This rules will match the user input and produce an appropriate response, or output a rejoinder if no rule is matched. A more in depth description of how Chatscript rules work can be found in section \ref{subsec:chatscript}.
+Chatscript responds to a series of rules, specified in its topic files. These rules will match the user input and produce an appropriate response, or output a rejoinder if no rule is matched. A more in depth description of how Chatscript rules work can be found in section \ref{subsec:chatscript}.
 
 We have separated our topics across several files, each containing related topics, as well as the control script for the bot. We will start describing the control process, shown in listing \ref{listing:cs-control}
 
@@ -339,12 +339,12 @@ We have separated our topics across several files, each containing related topic
 
 In this process, we first check if we are currently in any conversation and have any pending rejoinders ready to match the output. Then proceed to check for rules looking for matches in the JAVA and EJEMPLOS topics. If no answer is provided, we will look for gambits and proper responses in the current topic, and then in the rest of the topics with keywords associated. In the case no match have been found yet, the user input will be test against the keywordless topic, looking for both responses and gambits, and, finally, if there is still no response, a generic answer will be provided, asking the user to modify its question.
 
-As we have just mentioned, there are several topics, both with and without keyword, spread across several files, containing both said topics and the sets of concepts used in the bot. This files and the topics contained in them are:
+As we have just mentioned, there are several topics, both with and without keyword, spread across several files, containing both said topics and the sets of concepts used in the bot. These files and the topics contained in them are:
 
 \begin{itemize}
  \item \textbf{topic.top} This file has most of the concepts used in the other files, as well as three generic topics:
  \begin{itemize}
-  \item \emph{TENCUESTA}\footnote{Since we had a concept defined as ``encuesta'', we needed to differentiate this topic} to answer questions regarding the poll that will be presented to the user.
+  \item \emph{TENCUESTA}\footnote{Since we had a concept defined as ``encuesta'', we needed to differentiate this topic, thus the starting ``T''} to answer questions regarding the poll that will be presented to the user.
   \item \emph{EXAMENES} containing generic responses to questions about the exams.
   \item \emph{INTRO} with information that will allow the bot to identify himself.
  \end{itemize}
@@ -358,7 +358,7 @@ As we have just mentioned, there are several topics, both with and without keywo
  \item \textbf{estado.top} a single topic file, responsible of responding when the user enters information about himself, or asks the bot about its status.
 \end{itemize}
 
-All this files need to be compiled into binary data to be used by the ChatScript server.
+All these files need to be compiled into binary data to be used by the ChatScript server.
 % Explain how chatscript works.
 
 \subsection{The server}

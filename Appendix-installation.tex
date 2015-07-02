@@ -38,6 +38,8 @@ For the first launch of Chatscript, you need to compile the corpus. Therefore, y
   \end{lstlisting}
 \end{center}
 
+Keep in mind that, even though we refer to our bot as ``Duke'', the files for this project are the ones from the ``Dent'' folder, since the existing ``Duke'' files are related to a previous iteration and where keep independent.
+
 \begin{center} 
   \begin{lstlisting}[language=bash, captionpos=b, caption=ChatScript Server running, label=listing:csserver]
   :~/calista-bot/ChatScript$ ./LinuxChatScript64 port=1025
@@ -93,10 +95,27 @@ The askbot controller binds, by default, to the 4242 port, although it can be ch
 
 \subsection{Using apache mod\_wsgi}
 
-Using the provided askbot.wsgi, the system can be run using Apache and mod\_wsgi. After installing and enabling the mod, set the virtualenvironment in the configuration files, as well as the appropriate Aliases, as shown in \ref{listing:apachewsgi}
+Using the provided askbot.wsgi, the system can be run using Apache and mod\_wsgi. After installing and enabling the mod (in Debian systems, see listing \ref{listing:wsgiinstall}, set the virtualenvironment in the configuration files, as well as the appropriate Aliases, as shown in \ref{listing:apachewsgi}
+\begin{center} 
+  \begin{lstlisting}[language=bash, captionpos=b, caption=Installing mod\_wsgi, label=listing:wsgiinstall]
+  (askbot):~/$ sudo apt-get install libapache2-mod-wsgi
+  (askbot):~/$ sudo a2enmod wsgi
+  (askbot):~/$ sudo apache2ctl restart
+  \end{lstlisting}
+\end{center}
+
 \begin{center} 
   \begin{lstlisting}[language={}, captionpos=b, caption=Apache WSGI configuration, label=listing:apachewsgi]
-  TODO
+    # Run with the virtual environment
+    WSGIDaemonProcess talkbot python-path=/path/to/virtualenvsfolder/VEnvs/talkbot/lib/python2.7/site-packages
+    
+    # The path for the .wsgi
+    WSGIScriptAlias /AskBot /path/to/calista-bot/FE-Controller/askbot.wsgi
+    <Location /AskBot>
+        WSGIProcessGroup talkbot
+        Order deny,allow
+        Allow from all
+    </Location>
   \end{lstlisting}
 \end{center}
 
@@ -106,10 +125,16 @@ The client for the bot is a web application. You just need to place the Ask-clie
 
 \section{Apache Solr}
 
-Apache Solr can be run in a Tomcat installation. You will need to indicate the solr.home in a context specific for solr, where the schemas and the Solr libraries are located. An example context is shown in \ref{listing:tomcatsolr}
-
+Apache Solr can be run in a Tomcat installation. You will need to indicate the solr.home in a context specific for Solr, where the schemas and the Solr libraries are located. An example context is shown in \ref{listing:tomcatsolr}. This file should be stored inside the ``conf/Catalina/localhost'' folder, and with the same base name as the .war. For example, for an application solr.war, the appropriate context file will be solr.xml
 \begin{center} 
-  \begin{lstlisting}[language={}, captionpos=b, caption=Tomcat context for solr, label=listing:tomcatsolr]
-  TODO
+  \begin{lstlisting}[language=XML, captionpos=b, caption=Tomcat context for solr, label=listing:tomcatsolr]
+  <Context docBase="/Path/to/tomcat/Tomcat/webapps/solr.war" debug="0" crossContext="true">
+    <!-- The path to the folder where the solr installation is located 
+         Production environments should avoid using the example Solr instance -->
+    <Environment name="solr/home" type="java.lang.String" value="/home/amardomingo/PFC/Solr/example/solr" override="true"/>
+    
+    <!-- Allow access to Solr only from localhost -->
+    <Valve className="org.apache.catalina.valves.RemoteHostValve" allow="localhost"/>
+  </Context>
   \end{lstlisting}
 \end{center}
