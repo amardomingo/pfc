@@ -445,10 +445,10 @@ For example, if ChatScript identifies a question about the work the research gro
   \end{lstlisting}
 \end{center}
 
-A different search could be performed for people in the group. For example, if ChatScript receives a question asking for the publications of an user, two queries will be sent. The first one to identify the user, as shown in listing \ref{listing:solrgsi3}, which will return the ``about'' field with the identifier for the user, as well as the page with the list of publications for this user. The controller will then use the recovered identifier to search for publications that match the author, as shown in listing \ref{listing:solrgsi4}.
+A different search could be performed for people in the group. For example, if ChatScript receives a question asking for the publications of a user, two queries will be sent. The first one to identify the user, as shown in listing \ref{listing:solrgsi3}, which will return the ``about'' field with the identifier for the user, as well as the page with the list of publications for this user. The controller will then use the recovered identifier to search for publications that match the author, as shown in listing \ref{listing:solrgsi4}.
 
 \begin{center} 
-  \begin{lstlisting}[language=json, caption=Query asking for the data about an user, label=listing:solrgsi3]
+  \begin{lstlisting}[language=json, caption=Query asking for the data about a user, label=listing:solrgsi3]
    {
      "q" : "givenname:mardomingo",
      "wt" : "json",
@@ -459,7 +459,7 @@ A different search could be performed for people in the group. For example, if C
 \end{center}
 
 \begin{center} 
-  \begin{lstlisting}[language=json, caption=Query asking for the data about an user, label=listing:solrgsi4]
+  \begin{lstlisting}[language=json, caption=Query asking for the data about a user, label=listing:solrgsi4]
    {
      "q" : "author:gsi\:amardomingo",
      "wt" : "json",
